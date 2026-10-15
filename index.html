@@ -73,7 +73,7 @@ section#journey{margin-top:68px}
 #journey .jn-lh span{white-space:normal;text-transform:none;letter-spacing:.02em;font-size:14px;text-align:center}
 #journey .jn-ban,#journey .jn-tgp,#journey .jn-legend,#journey .jn-lgh,#journey .jn-gleg,#journey .jn-sk,#journey .jn-sn,#journey .jn-mlab,#journey .jn-mfl,#journey .jn-mtx,#journey .jn-kick,#journey .jn-ev,#journey .jn-sw small,#journey .jn-tbl thead th,#journey .jn-band,#journey .jn-tokb,#journey .jn-tbl td::before{font-size:14px}
 #journey:not(.jn-narrow) .jn-f2,#journey:not(.jn-narrow) .jn-g2,#journey:not(.jn-narrow) .jn-f3,#journey:not(.jn-narrow) .jn-g3{min-height:84px}
-#journey:not(.jn-narrow) .jn-m{min-height:176px}
+#journey:not(.jn-narrow) .jn-m{min-height:188px}
 #journey:not(.jn-narrow) .jn-r{min-height:104px}
 #journey:not(.jn-narrow) .jn-dock{position:sticky;bottom:0;z-index:30;box-shadow:0 -8px 22px rgba(0,0,0,.14);display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px 28px;align-items:start;padding:12px 16px 14px}
 #journey:not(.jn-narrow) .jn-bar{flex-direction:column;align-items:flex-start;gap:10px}
@@ -352,7 +352,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
   <ul class="plain">
     <li><b>One fact, shown two ways.</b> For each audience, Google’s API sends a number (0) and a size bucket (Under 500). Google Ads shows 0, as reported by the customer. The Factors app shows the bucket.</li>
     <li><b>Why the number is 0.</b> Google shows a number only once a list has 100 members. Below that it shows 0. The “500” in “Under 500” is only the top of the lowest bucket, not a minimum. Our estimate is 13 and 66 matched people on the two audiences that hold people and report a match rate (the other five that hold people report none yet), both under the 100 line. A 0 does not mean nobody matched.</li>
-    <li><b>Why the number is small.</b> Few visitor IDs reach Google: on this site the cookie banner denies ad consent by default. In one clean-browser test on the home page the cookie was set at about 1.25 s and the banner’s own script removed it within about 85 ms (a measurement, not a setting). And four of the eleven audiences are empty right now. They are built on the “Hot” level, which needs 60 points, and the highest score any account has today is 30. Audience 2 also accepts “Warm”. One account is Warm (score 30), but it has no country or industry in Factors’ company data, and Audience 2 also requires Canada or the United States and one of 11 listed industries, so it does not qualify.</li>
+    <li><b>Why the number is small.</b> Few visitor IDs reach Google: on this site the cookie banner denies ad consent by default. For visitors who do accept, the ID does reach Google (tested once). In two clean-browser runs on the home page, the banner’s own script removed the visitor-ID cookie 85 ms and 127 ms after it was set (measurements that vary, not a setting). And four of the eleven audiences are empty right now. They are built on the “Hot” level, which needs 60 points, and the highest score any account has today is 30. Audience 2 also accepts “Warm”. One account is Warm (score 30), but it has no country or industry in Factors’ company data, and Audience 2 also requires Canada or the United States and one of 11 listed industries, so it does not qualify.</li>
   </ul>
   <p class="hood"><b>Under the hood</b><span class="tag">API</span>Every one of the 11 audiences returns sizeForSearch "0", sizeForDisplay "0" and both size ranges LESS_THAN_FIVE_HUNDRED. Read live on 15 Oct 2026 at 12:13 UTC (API v23). <span class="tag">DB</span>Our stored copy equals the live API field for field. All 678 upload jobs to Google for these audiences finished SUCCESS, with an error count of 0. <span class="tag">DOCS</span>The 100-member rule is Google’s own (see “What Google’s documentation says”). <span class="tag">REPORTED</span>The 0 on the Google Ads screen is what the customer reports; we could not see that screen.</p>
   <details class="more"><summary>What the evidence tags mean</summary>
@@ -643,7 +643,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
     <p class="jn-lede">Each night Factors uploads visitor IDs to a Google Ads audience. By design, Google can match an ID only if the same ID reached Google earlier through the site&rsquo;s Google tag. Google&rsquo;s public pages do not spell out the matching.</p>
     <div class="jn-switch" role="group" aria-label="Choose what the visitor does">
       <button type="button" class="jn-sw" data-jn-scn="def" aria-pressed="true"><span><b>Visitor ignores the cookie banner</b><small>(what happens by default)</small></span></button>
-      <button type="button" class="jn-sw" data-jn-scn="acc" aria-pressed="false"><span><b>Visitor clicks Accept all</b><small>(expected, not yet tested on this site)</small></span></button>
+      <button type="button" class="jn-sw" data-jn-scn="acc" aria-pressed="false"><span><b>Visitor clicks Accept all</b><small>(tested once on this site)</small></span></button>
     </div>
   </header>
 
@@ -674,7 +674,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
             <li><span class="jn-lk jn-lk-ok" aria-hidden="true"></span>A visitor ID that gets through</li>
             <li><span class="jn-lk jn-lk-bad" aria-hidden="true"></span>An ID that is blocked, with the reason</li>
             <li><span class="jn-lk jn-lk-gh" aria-hidden="true"></span>A ping with no ID attached</li>
-            <li><span class="jn-lk jn-lk-ex" aria-hidden="true"></span>Expected, not tested on this site</li>
+            <li><span class="jn-lk jn-lk-ex" aria-hidden="true"></span>Expected, not tested yet</li>
           </ul>
         </aside>
 
@@ -761,13 +761,13 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
 
   <div class="jn-block">
     <h3 class="jn-h3">Why Factors events load but Google&rsquo;s call carries no ID</h3>
-    <p class="jn-sub">Clean-browser test, 15 Oct 2026: three pages, no clicks.</p>
+    <p class="jn-sub">Two clean-browser runs, 15 Oct 2026: one with three pages and no clicks, one with the home page plus one other page and an Accept all click.</p>
     <table class="jn-tbl">
       <thead><tr><th scope="col">Script</th><th scope="col">What it does</th><th scope="col">Depends on Google ad consent?</th><th scope="col">What we saw</th></tr></thead>
       <tbody>
         <tr><th scope="row">Factors tag</th><td data-l="What it does">Records the page view on Factors&rsquo; side and sets the visitor-ID cookie.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">No.</span> It ran with ad consent off.</td><td data-l="What we saw">Present and working on the 3 pages tested.</td></tr>
-        <tr><th scope="row">Google tag</th><td data-l="What it does">Sends page-view pings to Google. It is set up to attach the visitor ID.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">Yes.</span> With ad consent denied, Google&rsquo;s consent rules make it send an anonymous ping.</td><td data-l="What we saw">The Google Ads requests carried the consent flags gcs=G100 and npa=1 (ads storage denied) and no visitor ID.</td></tr>
-        <tr><th scope="row">Cookie banner</th><td data-l="What it does">Asks the visitor for consent. It is opt-in: everything except &ldquo;necessary&rdquo; is off until the visitor chooses.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">It sets the consent state</span> that the Google tag follows.</td><td data-l="What we saw">In one clean-browser test on the home page the cookie was set at about 1.25 s and the banner’s own script removed it within about 85 ms (a measurement, not a setting).</td></tr>
+        <tr><th scope="row">Google tag</th><td data-l="What it does">Sends page-view pings to Google. It is set up to attach the visitor ID.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">Yes.</span> With ad consent denied, Google&rsquo;s consent rules make it send an anonymous ping.</td><td data-l="What we saw">Before consent, the Google Ads requests carried the consent flags gcs=G100 and npa=1 (ads storage denied) and no visitor ID. After Accept all, they carried the visitor ID, with ad consent shown as granted and no denied flags (one visit).</td></tr>
+        <tr><th scope="row">Cookie banner</th><td data-l="What it does">Asks the visitor for consent. It is opt-in: everything except &ldquo;necessary&rdquo; is off until the visitor chooses.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">It sets the consent state</span> that the Google tag follows.</td><td data-l="What we saw">In two clean-browser runs on the home page, the banner’s own script removed the visitor-ID cookie 85 ms and 127 ms after it was set (measurements that vary, not a setting). After Accept all, it pushed a Google consent update about 56 ms after the click (one visit).</td></tr>
       </tbody>
     </table>
     <p class="jn-note">How each script is treated by the banner is the site owner&rsquo;s decision.</p>
@@ -776,9 +776,9 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
   <aside class="jn-untested" aria-labelledby="jn-untested-h">
     <h3 class="jn-h3" id="jn-untested-h">What we have not tested</h3>
     <ul>
-      <li>A visit where Accept all is clicked. That path is Expected, not Observed.</li>
       <li>The share of visitors who accept.</li>
       <li>The site&rsquo;s tag-manager setup.</li>
+      <li>Whether Google then matches the uploaded ID (per-person matches are never shown).</li>
     </ul>
   </aside>
 </section>
@@ -819,7 +819,8 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
   /* ------------------------------------------------------------------ story data
      st: node state (i idle, n active, o done, x blocked, w caution, e expected). Entries carry forward to later steps. */
   var ORIG = 'Seen in a clean-browser test, 15 Oct 2026';
-  var EXPT = 'Not tested on this site';
+  var EXPT = 'Not tested yet';
+  var ACCOBS = 'in a clean-browser test, 15 Oct 2026 (one visit, one browser)';
   var DESIGN = 'How the integration is designed. Google’s public docs don’t detail ID matching';
   var UPLOAD_WHY = 'The upload itself works: all 678 upload jobs to Google finished with no errors.';
   var UPLOAD_EV = [['data', 'From Factors’ data and Google’s API, read 15 Oct 2026']];
@@ -836,9 +837,9 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
         big: 'Factors’ tag loads and records the page view. It also sets a visitor-ID cookie.',
         why: 'Factors’ tag does not wait for Google ad consent, so the page view is recorded either way.',
         ev: [['obs', ORIG + ': 3 of 3 pages'], ['data', 'From Factors’ data: 13,313 page views in the last 30 days']] },
-      { now: ['f3'], d: { f3: 0.3 }, st: { f3: 'x' }, sub: { f3: 'Removed within about 85 ms by the banner’s own script (one measurement).', f2: 'Still saved, with its ID.' }, ui: { chip: 1 }, ed: {},
+      { now: ['f3'], d: { f3: 0.3 }, st: { f3: 'x' }, sub: { f3: 'Removed 85 to 127 ms after it was set, by the banner’s own script (two runs).', f2: 'Still saved, with its ID.' }, ui: { chip: 1 }, ed: {},
         tok: [{ id: 'a', end: 'bad' }],
-        big: 'In one clean-browser test on the home page the cookie was set at about 1.25 s and the banner’s own script removed it within about 85 ms (a measurement, not a setting).',
+        big: 'In two clean-browser runs on the home page, the banner’s own script removed the visitor-ID cookie 85 ms and 127 ms after it was set (measurements that vary, not a setting).',
         why: 'A cookie that doesn’t last means every page view looks like a new visitor. The banner holds back cookies it does not allow until the visitor consents; how the banner classifies this cookie is set in the site’s banner settings, which we have not seen.',
         ev: [['obs', ORIG + ' (home page)']] },
       { now: ['g1', 'g2', 'g3', 'r'], d: { g1: 0.35, g2: 0.8, g3: 1.25, r: 1.7 }, st: { g1: 'o', g2: 'w', g3: 'x', r: 'x' },
@@ -865,41 +866,41 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
     ],
     acc: [
       { now: ['visit'], st: { visit: 'n' }, sub: { visit: 'The cookie banner appears. The visitor clicks Accept all.' }, ui: { ad: 1, press: 1, chip: 0 }, ed: {}, tok: [],
-        big: 'A visitor opens the site and clicks Accept all. Ad consent is now on.',
-        why: 'Accepting is what turns Google ad consent on for this visitor.',
-        ev: [['exp', EXPT]] },
-      { now: ['f1', 'f2', 'f3'], d: { f1: 0.45, f2: 0.85, f3: 1.25 }, st: { f1: 'e', f2: 'e', f3: 'e' },
-        sub: { f1: 'Loaded and running.', f2: 'Saved with a visitor ID.', f3: 'Set in the browser.' }, ed: { e1: 'e', e3: 'e', e4: 'e' },
+        big: 'A visitor opens the site and clicks Accept all. The banner then tells Google that ad consent is granted.',
+        why: 'The banner pushed a Google consent update granting all three ad-consent signals (ad storage, ad user data and the ad-targeting signal) about 56 ms after the click. One visit: a measurement, not a guarantee.',
+        ev: [['obs', ACCOBS]] },
+      { now: ['f1', 'f2', 'f3'], d: { f1: 0.45, f2: 0.85, f3: 1.25 }, st: { f1: 'o', f2: 'o', f3: 'o' },
+        sub: { f1: 'Loaded and running.', f2: 'Saved with a visitor ID.', f3: 'Set in the browser.' }, ed: { e1: 'o', e3: 'o', e4: 'o' },
         tok: [{ id: 'a', sp: 1, r: ['e1', 'e3', 'e4'], end: 'ok' }],
         big: 'Factors’ tag loads and records the page view. It also sets a visitor-ID cookie.',
-        why: 'Same as the default path: Factors’ tag does not wait for Google ad consent.',
-        ev: [['exp', EXPT], ['obs', 'Default path: ' + ORIG]] },
-      { now: ['f3'], d: { f3: 0.3 }, st: { f3: 'e' }, sub: { f3: 'Stays in the browser. Expected.' }, ed: {},
+        why: 'Factors’ tag does not wait for Google ad consent, and its own calls (config and event tracking) returned success. On the first page the cookie had already been removed before consent, so the ID in use was the in-memory one.',
+        ev: [['obs', ACCOBS]] },
+      { now: ['f3'], d: { f3: 0.3 }, st: { f3: 'o' }, sub: { f3: 'Stays in the browser (about 400 days).' }, ed: {},
         tok: [{ id: 'a', end: 'ok' }],
-        big: 'The ID cookie stays in place.',
-        why: 'Expected: once the visitor accepts, the banner no longer blocks the cookie, so the next page view is the same visitor.',
-        ev: [['exp', EXPT]] },
-      { now: ['g1', 'g2', 'g3', 'r'], d: { g1: 0.35, g2: 0.8, g3: 1.25, r: 1.7 }, st: { g1: 'e', g2: 'e', g3: 'e', r: 'e' },
-        sub: { g1: 'Loaded and running.', g2: 'Ad consent: granted. Expected.', g3: 'Sent WITH the visitor ID. Expected.', r: 'Includes this visitor’s ID. Expected.' },
-        ed: { e2: 'e', e5: 'e', e6: 'e', e7: 'e' },
+        big: 'On the next page the ID cookie is still there.',
+        why: 'The visitor-ID cookie persisted (about 400 days, domain-wide) and the banner did not remove it, so the next page view is the same visitor.',
+        ev: [['obs', ACCOBS]] },
+      { now: ['g1', 'g2', 'g3', 'r'], d: { g1: 0.35, g2: 0.8, g3: 1.25, r: 1.7 }, st: { g1: 'o', g2: 'o', g3: 'o', r: 'o' },
+        sub: { g1: 'Loaded and running.', g2: 'Ad consent: granted.', g3: 'Sent WITH the visitor ID.', r: 'Includes this visitor’s ID.' },
+        ed: { e2: 'o', e5: 'o', e6: 'o', e7: 'o' },
         tok: [{ id: 'a', sp: 1, r: ['e2', 'e5', 'e6', 'e7'], end: 'ok' }],
         big: 'Google’s tag runs. Ad consent is on, so the visitor ID goes to Google with the page view.',
-        why: 'The tag is set up to pass the ID, and consent no longer holds it back. On a different site where consent is granted by default, the visitor ID does reach Google.',
-        ev: [['exp', EXPT], ['obs', 'Seen on a different site where consent is granted by default']] },
+        why: 'Google Ads requests started carrying the visitor ID about 55 ms after the click. On the next page they carried the same ID within about 12 ms of the cookie being set, with ad consent shown as granted and no denied flags. The ID sent to Google always equalled the Factors visitor ID. These are measurements from one visit, not guarantees.',
+        ev: [['obs', ACCOBS]] },
       { now: ['c1'], d: { c1: 0.9 }, st: { c1: 'o' }, sub: { c1: '1,714 IDs sent now.' }, ed: { e8: 'o' },
         tok: [{ id: 'a', sp: 1, r: ['e8'], pill: '1,714 IDs', end: 'ok' }],
         big: 'Overnight, Factors uploads its visitor IDs to the Google Ads audience.',
         why: UPLOAD_WHY, ev: UPLOAD_EV },
-      { now: ['m', 'r'], d: { m: 0.9 }, st: { m: 'e' }, sub: { m: 'This visitor’s ID: found. Expected. Visitors who ignored the banner: still mostly not found.' }, ed: { e9: 'o', e10: 'e' },
+      { now: ['m', 'r'], d: { m: 0.9 }, st: { m: 'e' }, sub: { m: 'This visitor’s ID: should be found. Not tested. Visitors who ignored the banner: still mostly not found.' }, ed: { e9: 'o', e10: 'e' },
         tok: [{ id: 'a', r: ['e9'], pill: '1,714 IDs', end: 'fade' }, { id: 'b', sp: 1, r: ['e10'], end: 'fade', at: 0.2 }],
-        big: 'Google looks for this visitor’s ID among the IDs it received from the site. It finds it.',
-        why: 'By design, Google can match an ID only if the same ID reached Google earlier through the site’s Google tag, and in this path it did (expected, not tested). Google’s public pages do not spell out the matching. Visitors who ignore the banner still cannot be found.',
-        ev: [['exp', EXPT], ['design', DESIGN]] },
+        big: 'Google looks for this visitor’s ID among the IDs it received from the site. It should find it.',
+        why: 'By design, Google can match an ID only if the same ID reached Google earlier through the site’s Google tag, and in this path it did (observed). Whether Google then matches the uploaded ID was not tested, and per-person matches are never shown. Google’s public pages do not spell out the matching. Visitors who ignore the banner still cannot be found.',
+        ev: [['exp', 'Match not tested: per-person matches are never shown'], ['design', DESIGN]] },
       { now: ['s'], d: { s: 0.6 }, st: { s: 'w' }, sub: {}, ed: { e11: 'o' },
         tok: [{ id: 'a', sp: 1, r: ['e11'], end: 'fade' }],
-        big: 'Each visitor who accepts adds one matchable person. The audience can grow toward Google’s 100-person floor.',
-        why: 'Google shows a number from 100 matched people, and the two audiences that report a match rate have an estimated 13 and 66 today. How many visitors accept has not been measured.',
-        ev: [['exp', EXPT], ['est', '13 and 66 matched people on the two audiences with a match rate']] }
+        big: 'Each visitor who accepts could add one matchable person. The audience could grow toward Google’s 100-person floor.',
+        why: 'Google shows a number from 100 matched people, and the two audiences that report a match rate have an estimated 13 and 66 today. How many visitors accept has not been measured, and neither has whether Google matches the uploaded IDs.',
+        ev: [['exp', 'List growth not tested'], ['est', '13 and 66 matched people on the two audiences with a match rate']] }
     ]
   };
   var CARDS = [
@@ -1094,7 +1095,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
     why.appendChild(h('b', '', 'Why: ')); why.appendChild(document.createTextNode(s.why));
     var evs = q('[data-jn="evs"]'); evs.textContent = '';
     var et = h('span', 'jn-evt');
-    s.ev.forEach(function (x, i) { if (i) { et.appendChild(document.createTextNode(' · ')); } et.appendChild(h('b', '', EVK[x[0]] + ':')); et.appendChild(document.createTextNode(' ' + x[1])); });
+    s.ev.forEach(function (x, i) { if (i) { et.appendChild(document.createTextNode(' · ')); } et.appendChild(h('b', '', EVK[x[0]] + (/^in /.test(x[1]) ? '' : ':'))); et.appendChild(document.createTextNode(' ' + x[1])); });
     why.appendChild(document.createTextNode(' ')); why.appendChild(et);
   }
   function renderControls() {
@@ -1412,16 +1413,15 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
   </details>
 
   <details class="lever" open>
-    <summary><span class="lv-n">2</span><span class="lv-t">Let the visitor ID reach Google when someone accepts cookies</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <summary><span class="lv-n">2</span><span class="lv-t">Decide, with your privacy counsel, how visitors are asked to accept ad cookies</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span class="lv-tags"><span class="tg"><i>Who:</i> the site owner, with Factors guidance</span><span class="tg"><i>Effort:</i> Medium, needs a legal decision</span><span class="tg"><i>Impact:</i> the biggest long-term lever</span></span></summary>
     <div class="lv-body">
+      <p>Tested: when a visitor clicks Accept all, the banner updates Google’s consent within about 56 ms and the Google tag sends the visitor ID; the ID cookie then persists. The setup works for visitors who accept. What limits the matches is how many visitors accept, which is the site owner’s policy decision, with their own privacy counsel.</p>
       <ul>
-        <li>Check that, when a visitor clicks Accept all, the banner updates Google’s consent signal (Consent Mode v2 “update”). We have not tested that path.</li>
-        <li>Decide with your own privacy counsel how the banner should treat the Factors visitor-ID cookie.</li>
         <li>Make sure the consent defaults and updates run before the Factors tag and the Google tag.</li>
       </ul>
-      <p>Effect: the match rate should move from 3–9% toward the typical level (the average across audiences is about 27%). That is an illustration, not a promise.</p>
-      <p class="hood"><b>Under the hood</b><span class="tag">FIELD</span>what the browser test saw on this site. <span class="tag">FLEET</span>the 27% average.</p>
+      <p>If more visitors accept, the match rate should move from 3–9% toward the typical level (the average across audiences is about 27%). That is an illustration, not a promise.</p>
+      <p class="hood"><b>Under the hood</b><span class="tag">FIELD</span>what the browser tests saw on this site (one clean-browser visit with Accept all, 15 Oct 2026; 56 ms and 12 ms are measurements from that visit). <span class="tag">FLEET</span>the 27% average.</p>
     </div>
   </details>
 
@@ -1511,17 +1511,17 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
         <li>All upload jobs finished SUCCESS.</li>
         <li>Product behaviour, read from the source code.</li>
         <li>On this site, in a clean browser, consent is denied by default.</li>
+        <li>After Accept all, Google’s consent is updated and the visitor ID reaches Google; the ID cookie persists (one clean-browser visit, 15 Oct 2026).</li>
         <li>Why four audiences are empty: Hot needs 60 points, and the highest score any account has today is 30. Audience 2 also accepts Warm, but its one Warm account has no country or industry in Factors’ company data, so it does not qualify.</li>
       </ul></div>
     <div class="card no"><h3 style="margin-top:0">Not verified</h3>
       <ul>
         <li>What the Google Ads screen shows for this account. We have no access and rely on the report of 0.</li>
         <li>What the Factors screen shows for this exact project. It needs the account’s own login, so we derived it from the code and stored values.</li>
-        <li>Whether a visitor who clicks “Accept all” really reaches Google on this site.</li>
         <li>The acceptance rate.</li>
         <li>The tag-manager setup on this site.</li>
         <li>That the likely fix refills the four audiences (untested).</li>
-        <li>Which individual people Google matched. The API never says.</li>
+        <li>Whether Google then matches the uploaded ID. Per-person matches are never shown.</li>
       </ul></div>
   </div>
 
