@@ -127,7 +127,7 @@ td.st{font-family:var(--mono);font-size:13px;overflow-wrap:anywhere;min-width:15
 details.more{margin:14px 0}
 details.more>summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center;padding:0 2px}
 
-/* three screens */
+/* two screens */
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
 .chip{min-height:44px;padding:0 16px;border:1px solid var(--ctrl);border-radius:999px;background:var(--raised);color:var(--text);font:600 15.5px var(--sans);cursor:pointer}
 .chip.is-empty{border-style:dashed}
@@ -141,10 +141,10 @@ dl.api .r{display:grid;grid-template-columns:minmax(0,max-content) 1fr;gap:2px 1
 dl.api dt{color:var(--dim)}dl.api dd{margin:0;overflow-wrap:anywhere}
 dl.api dd.hl{font-weight:700;color:var(--text);background:var(--warn-bg);border-radius:4px;padding:0 6px;justify-self:start}
 .na{color:var(--dim);font-style:italic}
-.screens{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto auto;gap:16px;margin:20px 0}
-@media(max-width:900px){.screens{grid-template-columns:1fr;grid-template-rows:none}}
+.screens{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto;gap:16px;margin:20px 0}
+@media(max-width:720px){.screens{grid-template-columns:1fr;grid-template-rows:none}}
 .screen{margin:0;display:grid;grid-row:span 2;grid-template-rows:subgrid;row-gap:10px}
-@media(max-width:900px){.screen{display:flex;flex-direction:column;grid-row:auto;gap:10px}}
+@media(max-width:720px){.screen{display:flex;flex-direction:column;grid-row:auto;gap:10px}}
 .mock{border:1px solid var(--ctrl);border-radius:10px;background:var(--raised);overflow:hidden;min-height:196px;display:flex;flex-direction:column}
 .mock-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 8px;padding:8px 12px;background:var(--sunken);border-bottom:1px solid var(--border);font-size:14px;color:var(--dim)}
 .mock-body{padding:14px;flex:1}
@@ -153,13 +153,6 @@ dl.api dd.hl{font-weight:700;color:var(--text);background:var(--warn-bg);border-
 .mk-rows{margin:0;display:grid;gap:8px}.mk-rows>div{display:grid;gap:2px}
 .mk-rows dt{font-size:14px;color:var(--dim)}.mk-rows dd{margin:0;font-weight:700;font-size:17px;overflow-wrap:anywhere}
 .working{margin:10px 0 0;font:14.5px/1.5 var(--mono);color:var(--dim)}
-.tipbox{margin-top:10px;padding:8px 10px;border:1px solid var(--ctrl);border-radius:8px;background:var(--sunken);font-size:14px;line-height:1.45}
-.tipbox b{display:block;font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
-.sheet{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.2fr) minmax(0,1.1fr);font:13.5px var(--mono)}
-.sheet div{padding:8px 10px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);overflow-wrap:anywhere}
-.sheet .h{background:var(--sunken);color:var(--dim);font-weight:600;font-size:12.5px}
-.sheet .hl{font-weight:700;background:var(--info-bg)}
-.sheet .span2{grid-column:2/4;color:var(--dim);font-style:italic}
 figcaption{font-size:16px;line-height:1.45}
 figcaption strong{display:block}
 
@@ -337,16 +330,16 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
     <div class="kpi"><div class="label">Number from the API</div><div class="val">0</div><div class="kn">sizeForSearch and sizeForDisplay, all 11 audiences</div></div>
     <div class="kpi"><div class="label">Bucket from the API</div><div class="val">Under 500</div><div class="kn">LESS_THAN_FIVE_HUNDRED</div></div>
     <div class="kpi"><div class="label">Google’s own match rate</div><div class="val">3–9%</div><div class="kn">typical customer ≈ 27%</div></div>
-    <div class="kpi"><div class="label">Matched people per audience <span class="pill est">Estimate</span></div><div class="val">about <span class="nb">13–66</span></div><div class="kn">Google’s floor is 100</div></div>
+    <div class="kpi"><div class="label">Matched people (estimate)</div><div class="val">about <span class="nb">13 and 66</span></div><div class="kn">on the two audiences that hold people and report a rate; Google’s floor is 100</div></div>
   </div>
   <ul class="plain">
-    <li><b>One fact, shown two ways.</b> For each audience, Google’s API sends a number (0) and a size bucket (Under 500). Google Ads shows 0, as reported to us. Factors and our status sheet show the bucket.</li>
-    <li><b>Why the number is 0.</b> Google shows a number only once a list has 100 members. Below that it shows 0. The “500” in “Under 500” is only the top of the lowest bucket, not a minimum. Our estimate is about 13–66 matched people per audience, under the 100 line. A 0 does not mean nobody matched.</li>
-    <li><b>Why the number is small.</b> Few visitor IDs reach Google: on this site the cookie banner denies ad consent by default and removes the Factors cookie. And four of the eleven audiences are empty right now. They are built on the “Hot” level, which needs 60 points, and the highest score any account has today is 30.</li>
+    <li><b>One fact, shown two ways.</b> For each audience, Google’s API sends a number (0) and a size bucket (Under 500). Google Ads shows 0, as reported by the customer. The Factors app shows the bucket.</li>
+    <li><b>Why the number is 0.</b> Google shows a number only once a list has 100 members. Below that it shows 0. The “500” in “Under 500” is only the top of the lowest bucket, not a minimum. Our estimate is 13 and 66 matched people on the two audiences that hold people and report a match rate (the other five that hold people report none yet), both under the 100 line. A 0 does not mean nobody matched.</li>
+    <li><b>Why the number is small.</b> Few visitor IDs reach Google: on this site the cookie banner denies ad consent by default and, in a clean-browser test on the home page, its script removed the Factors cookie about 85 ms after it was set. And four of the eleven audiences are empty right now. They are built on the “Hot” level, which needs 60 points, and the highest score any account has today is 30. Audience 2 also accepts “Warm”. One account is Warm (score 30), but it has no country or industry in Factors’ company data, and Audience 2 also requires Canada or the United States and one of 11 listed industries, so it does not qualify.</li>
   </ul>
-  <p class="hood"><b>Under the hood</b><span class="tag">API</span>Every one of the 11 audiences returns sizeForSearch "0", sizeForDisplay "0" and both size ranges LESS_THAN_FIVE_HUNDRED. Read live on 15 Oct 2026 at 12:13 UTC (API v23). <span class="tag">DB</span>Our stored copy equals the live API field for field. All 678 upload jobs to Google for these audiences finished SUCCESS, with an error count of 0. <span class="tag">DOCS</span>The 100-member rule is Google’s own (see “What Google’s documentation says”). <span class="tag">REPORTED</span>The 0 on the Google Ads screen is what this account reports; we could not see that screen.</p>
+  <p class="hood"><b>Under the hood</b><span class="tag">API</span>Every one of the 11 audiences returns sizeForSearch "0", sizeForDisplay "0" and both size ranges LESS_THAN_FIVE_HUNDRED. Read live on 15 Oct 2026 at 12:13 UTC (API v23). <span class="tag">DB</span>Our stored copy equals the live API field for field. All 678 upload jobs to Google for these audiences finished SUCCESS, with an error count of 0. <span class="tag">DOCS</span>The 100-member rule is Google’s own (see “What Google’s documentation says”). <span class="tag">REPORTED</span>The 0 on the Google Ads screen is what the customer reports; we could not see that screen.</p>
   <details class="more"><summary>What the evidence tags mean</summary>
-    <p class="small"><span class="tag">API</span>live Google Ads API read, 15 Oct 2026 12:13 UTC · <span class="tag">DB</span>read-only production data read, about 12:10 UTC · <span class="tag">CODE</span>read from the product source · <span class="tag">FIELD</span>browser test of this site, 15 Oct 2026 · <span class="tag">SNAP</span>internal status sheet snapshot, 10 Sep 2026 · <span class="tag">DOCS</span>Google documentation · <span class="tag">FLEET</span>about 150 live audience syncs across all accounts · <span class="tag">REPORTED</span>said to us, not seen by us.</p>
+    <p class="small"><span class="tag">API</span>live Google Ads API read, 15 Oct 2026 12:13 UTC · <span class="tag">DB</span>read-only production data read, about 12:10 UTC · <span class="tag">CODE</span>read from the product source · <span class="tag">FIELD</span>browser test of this site, 15 Oct 2026 · <span class="tag">DOCS</span>Google documentation · <span class="tag">FLEET</span>about 150 live audience syncs across all accounts · <span class="tag">REPORTED</span>said to us, not seen by us.</p>
   </details>
 </section>
 
@@ -649,7 +642,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
 
   <header class="jn-head">
     <h2 class="jn-h2" id="jn-title">How it works &mdash; and where it drops off</h2>
-    <p class="jn-lede">Each night Factors uploads visitor IDs to a Google Ads audience, and Google can match an ID only if this site&rsquo;s own Google tag sent it earlier.</p>
+    <p class="jn-lede">Each night Factors uploads visitor IDs to a Google Ads audience. By design, Google can match an ID only if the same ID reached Google earlier through the site&rsquo;s Google tag. Google&rsquo;s public pages do not spell out the matching.</p>
     <div class="jn-switch" role="group" aria-label="Choose what the visitor does">
       <button type="button" class="jn-sw" data-jn-scn="def" aria-pressed="true"><span><b>Visitor ignores the cookie banner</b><small>(what happens by default)</small></span></button>
       <button type="button" class="jn-sw" data-jn-scn="acc" aria-pressed="false"><span><b>Visitor clicks Accept all</b><small>(expected, not yet tested on this site)</small></span></button>
@@ -703,7 +696,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
           <svg class="jn-ic" aria-hidden="true" focusable="false"><use href="#jn-i-idle"></use></svg>
           <div class="jn-nb">
             <div class="jn-nt">Google looks for the uploaded IDs<span class="jn-sr"></span></div>
-            <div class="jn-ns">Compares each one with the IDs it received.</div>
+            <div class="jn-ns">Compares each uploaded ID with the IDs the site&rsquo;s Google tag sent earlier.</div>
             <div class="jn-mrow">
               <div class="jn-g100" aria-hidden="true"></div>
               <ul class="jn-gleg" aria-hidden="true">
@@ -731,7 +724,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
                 <div class="jn-mlab">Matched people per audience, against Google&rsquo;s floor</div>
                 <div class="jn-mfl"><span>Google shows a number from 100</span></div>
                 <div class="jn-mtrack"><div class="jn-mband"></div><div class="jn-mgrow"></div><div class="jn-mfloor"></div></div>
-                <div class="jn-mtx"><span class="jn-m0">0</span><span class="jn-me">13&ndash;66 (Estimate)</span><span class="jn-mg">&rarr; grows with each Accept all (Expected)</span></div>
+                <div class="jn-mtx"><span class="jn-m0">0</span><span class="jn-me">13 and 66 (Estimate)</span><span class="jn-mg">&rarr; grows with each Accept all (Expected)</span></div>
               </div>
             </div>
           </div>
@@ -775,8 +768,8 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
       <thead><tr><th scope="col">Script</th><th scope="col">What it does</th><th scope="col">Depends on Google ad consent?</th><th scope="col">What we saw</th></tr></thead>
       <tbody>
         <tr><th scope="row">Factors tag</th><td data-l="What it does">Records the page view on Factors&rsquo; side and sets the visitor-ID cookie.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">No.</span> It ran with ad consent off.</td><td data-l="What we saw">Present and working on the 3 pages tested.</td></tr>
-        <tr><th scope="row">Google tag</th><td data-l="What it does">Sends page-view pings to Google. It is set up to attach the visitor ID.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">Yes.</span> With ad consent denied, Google&rsquo;s consent rules make it send an anonymous ping.</td><td data-l="What we saw">Requests carried the consent flags gcs=G100 and npa=1 (ads storage denied) and no visitor ID.</td></tr>
-        <tr><th scope="row">Cookie banner</th><td data-l="What it does">Asks the visitor for consent. It is opt-in: everything except &ldquo;necessary&rdquo; is off until the visitor chooses.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">It sets the consent state</span> that the Google tag follows.</td><td data-l="What we saw">Its script removed the Factors ID cookie about 85 ms after the cookie was set.</td></tr>
+        <tr><th scope="row">Google tag</th><td data-l="What it does">Sends page-view pings to Google. It is set up to attach the visitor ID.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">Yes.</span> With ad consent denied, Google&rsquo;s consent rules make it send an anonymous ping.</td><td data-l="What we saw">The Google Ads requests carried the consent flags gcs=G100 and npa=1 (ads storage denied) and no visitor ID.</td></tr>
+        <tr><th scope="row">Cookie banner</th><td data-l="What it does">Asks the visitor for consent. It is opt-in: everything except &ldquo;necessary&rdquo; is off until the visitor chooses.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">It sets the consent state</span> that the Google tag follows.</td><td data-l="What we saw">In the home-page test, its script removed the Factors ID cookie about 85 ms after the cookie was set (at about 1.25 s).</td></tr>
       </tbody>
     </table>
     <p class="jn-note">How each script is treated by the banner is the site owner&rsquo;s decision.</p>
@@ -844,12 +837,12 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
         tok: [{ id: 'a', sp: 1, r: ['e1', 'e3', 'e4'], end: 'ok' }],
         big: 'Factors’ tag loads and records the page view. It also sets a visitor-ID cookie.',
         why: 'Factors’ tag does not wait for Google ad consent, so the page view is recorded either way.',
-        ev: [['obs', ORIG + ': 3 of 3 pages'], ['data', 'From Factors’ data: 15,426 page views in the last 30 days']] },
+        ev: [['obs', ORIG + ': 3 of 3 pages'], ['data', 'From Factors’ data: 13,313 page views in the last 30 days']] },
       { now: ['f3'], d: { f3: 0.3 }, st: { f3: 'x' }, sub: { f3: 'Deleted about 85 ms later by the banner’s script.', f2: 'Still saved, with its ID.' }, ui: { chip: 1 }, ed: {},
         tok: [{ id: 'a', end: 'bad' }],
         big: 'About 85 ms later, the banner’s script deletes the ID cookie.',
-        why: 'The next page view then looks like a brand-new visitor. In the last 7 days, 95% of this site’s visitors have exactly one event.',
-        ev: [['obs', ORIG], ['data', 'From Factors’ data, last 7 days']] },
+        why: 'In a clean-browser test on the home page, the cookie was set at about 1.25 s and removed about 85 ms later by the banner script.',
+        ev: [['obs', ORIG + ' (home page)']] },
       { now: ['g1', 'g2', 'g3', 'r'], d: { g1: 0.35, g2: 0.8, g3: 1.25, r: 1.7 }, st: { g1: 'o', g2: 'w', g3: 'x', r: 'x' },
         sub: { g1: 'Loaded and running.', g2: 'Ad consent: denied. The ID is not attached.', g3: 'Sent WITHOUT the visitor ID.', r: 'Nothing from this visit.' },
         ed: { e2: 'o', e5: 'x', e6: 'g', e7: 'g' },
@@ -857,19 +850,19 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
         big: 'Google’s tag runs. Ad consent is denied, so it sends only an anonymous ping, with no visitor ID.',
         why: 'The tag is set up to pass the ID. With consent denied, Google’s consent rules hold it back.',
         ev: [['obs', ORIG]] },
-      { now: ['c1'], d: { c1: 0.9 }, st: { c1: 'o' }, sub: { c1: '1,714 IDs sent now. 5,304 different people sent over time.' }, ed: { e8: 'o' },
+      { now: ['c1'], d: { c1: 0.9 }, st: { c1: 'o' }, sub: { c1: '1,714 IDs sent now.' }, ed: { e8: 'o' },
         tok: [{ id: 'a', sp: 1, r: ['e8'], pill: '1,714 IDs', end: 'ok' }, { id: 'b', end: 'fade' }],
         big: 'Overnight, Factors uploads its visitor IDs to the Google Ads audience.',
         why: UPLOAD_WHY, ev: UPLOAD_EV },
       { now: ['m', 'r'], d: { m: 0.9 }, st: { m: 'x' }, sub: { m: 'Found: about 3 to 9 of every 100 uploaded IDs. This visitor’s ID: not found.' }, ed: { e9: 'o', e10: 'g' },
         tok: [{ id: 'a', r: ['e9'], pill: '1,714 IDs', end: 'fade' }],
         big: 'Google looks for those IDs among the IDs it received from the site. Most are not found.',
-        why: 'Google can only match an ID the site’s own Google tag sent it. Its own match rate on this account is 3–9%, against about 27% typical.',
+        why: 'By design, Google can match an ID only if the same ID reached Google earlier through the site’s Google tag. Google’s public pages do not spell out the matching. Its own match rate on this account is 3–9%, against about 27% typical.',
         ev: [['data', 'Match rate: from Google’s API, read 15 Oct 2026'], ['design', DESIGN]] },
       { now: ['s'], d: { s: 0.6 }, st: { s: 'w' }, sub: {}, ed: { e11: 'o' },
         tok: [{ id: 'a', sp: 1, r: ['e11'], end: 'fade' }],
         big: 'The audience stays too small. Google Ads shows 0, the API says “under 500”, and Factors shows “< 500 matched users”.',
-        why: 'Google shows a number only from 100 matched people, and these audiences have an estimated 13–66 each. The 0 is a reporting floor, not “nobody matched”.',
+        why: 'Google shows a number only from 100 matched people. The two audiences that hold people and report a match rate have an estimated 13 and 66; the other five that hold people report none yet. The 0 is a reporting floor, not “nobody matched”.',
         ev: [['est', '5–9% match rate × people uploaded, per audience'], ['docs', 'The size shows as zero until a list has 100 members']] }
     ],
     acc: [
@@ -895,27 +888,27 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
         big: 'Google’s tag runs. Ad consent is on, so the visitor ID goes to Google with the page view.',
         why: 'The tag is set up to pass the ID, and consent no longer holds it back. On a different site where consent is granted by default, the visitor ID does reach Google.',
         ev: [['exp', EXPT], ['obs', 'Seen on a different site where consent is granted by default']] },
-      { now: ['c1'], d: { c1: 0.9 }, st: { c1: 'o' }, sub: { c1: '1,714 IDs sent now. 5,304 different people sent over time.' }, ed: { e8: 'o' },
+      { now: ['c1'], d: { c1: 0.9 }, st: { c1: 'o' }, sub: { c1: '1,714 IDs sent now.' }, ed: { e8: 'o' },
         tok: [{ id: 'a', sp: 1, r: ['e8'], pill: '1,714 IDs', end: 'ok' }],
         big: 'Overnight, Factors uploads its visitor IDs to the Google Ads audience.',
         why: UPLOAD_WHY, ev: UPLOAD_EV },
       { now: ['m', 'r'], d: { m: 0.9 }, st: { m: 'e' }, sub: { m: 'This visitor’s ID: found. Expected. Visitors who ignored the banner: still mostly not found.' }, ed: { e9: 'o', e10: 'e' },
         tok: [{ id: 'a', r: ['e9'], pill: '1,714 IDs', end: 'fade' }, { id: 'b', sp: 1, r: ['e10'], end: 'fade', at: 0.2 }],
         big: 'Google looks for this visitor’s ID among the IDs it received from the site. It finds it.',
-        why: 'The same ID reached Google earlier through the site’s own tag, so the match works. Visitors who ignore the banner still cannot be found.',
+        why: 'By design, Google can match an ID only if the same ID reached Google earlier through the site’s Google tag, and in this path it did (expected, not tested). Google’s public pages do not spell out the matching. Visitors who ignore the banner still cannot be found.',
         ev: [['exp', EXPT], ['design', DESIGN]] },
       { now: ['s'], d: { s: 0.6 }, st: { s: 'w' }, sub: {}, ed: { e11: 'o' },
         tok: [{ id: 'a', sp: 1, r: ['e11'], end: 'fade' }],
         big: 'Each visitor who accepts adds one matchable person. The audience can grow toward Google’s 100-person floor.',
-        why: 'Google shows a number from 100 matched people, and an audience has an estimated 13–66 today. How many visitors accept has not been measured.',
-        ev: [['exp', EXPT], ['est', '13–66 matched people per audience today']] }
+        why: 'Google shows a number from 100 matched people, and the two audiences that report a match rate have an estimated 13 and 66 today. How many visitors accept has not been measured.',
+        ev: [['exp', EXPT], ['est', '13 and 66 matched people on the two audiences with a match rate']] }
     ]
   };
   var FUN = [
-    { n: '15,426', u: 'page views in the last 30 days', v: 15426, k: 'data', kt: 'From Factors’ data', w: 'Factors’ tag records every page view, whether or not the visitor accepts cookies.' },
-    { n: '11,372', u: 'different visitor IDs in the last 30 days', v: 11372, k: 'data', kt: 'From Factors’ data', w: 'The banner deletes the ID cookie about 85 ms after it is set, so most visitors have a single event (95% in the last 7 days).' },
-    { n: '1,714', u: 'IDs uploaded now', v: 1714, k: 'data', kt: 'From Factors’ data', w: 'Only people from the target accounts are uploaded. A person in two audiences counts twice. 5,304 different people were sent over time.' },
-    { n: '85–155', u: 'people Google can match (Estimate)', est: 1, lo: 85, hi: 155, lo2: 13, hi2: 66, k: 'est', kt: 'Estimate', w: 'Google’s 5–9% match rate × 1,714, as if everyone were in one audience. Per audience it is about 13–66.' },
+    { n: '13,313', u: 'page views in the last 30 days', v: 13313, k: 'data', kt: 'From Factors’ data', w: 'Factors’ tag records every page view, whether or not the visitor accepts cookies.' },
+    { n: '11,372', u: 'different visitor IDs in the last 30 days', v: 11372, k: 'data', kt: 'From Factors’ data', w: 'Counted from Factors’ data. In a clean-browser test on the home page, the banner script removed the visitor-ID cookie about 85 ms after it was set.' },
+    { n: '1,714', u: 'IDs uploaded now', v: 1714, k: 'data', kt: 'From Factors’ data', w: 'Only people from the target accounts are uploaded. A person in two audiences counts twice.' },
+    { n: '85–155', u: 'people Google can match (Estimate)', est: 1, lo: 85, hi: 155, lo2: 13, hi2: 66, k: 'est', kt: 'Estimate', w: 'Google’s 5–9% match rate × 1,714, as if everyone were in one audience. Per audience, the two that report a match rate are about 13 and 66.' },
     { n: '0', u: 'number Google Ads shows', zero: 1, k: 'docs', kt: 'Google’s docs', w: 'Google shows a number only from 100 matched people. Below that it shows 0, which is a reporting floor, not “nobody matched”.' }
   ];
 
@@ -1205,7 +1198,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
         b = h('div', 'jn-fb jn-fb-est'); b.style.left = pct(r.lo) + '%'; b.style.width = (pct(r.hi) - pct(r.lo)) + '%'; tr.appendChild(b);
         var l1 = h('div', 'jn-flab', '85–155 if all in one list'); l1.style.left = (pct(r.hi) + 1.2) + '%'; l1.style.top = '5px'; tr.appendChild(l1);
         b2 = h('div', 'jn-fb jn-fb-est jn-fb2'); b2.style.left = pct(r.lo2) + '%'; b2.style.width = (pct(r.hi2) - pct(r.lo2)) + '%'; tr.appendChild(b2);
-        var l2 = h('div', 'jn-flab', '13–66 per audience'); l2.style.left = (pct(r.hi2) + 1.2) + '%'; l2.style.top = '27px'; tr.appendChild(l2);
+        var l2 = h('div', 'jn-flab', '13 and 66 on two audiences'); l2.style.left = (pct(r.hi2) + 1.2) + '%'; l2.style.top = '27px'; tr.appendChild(l2);
       } else {
         b = h('div', 'jn-fb'); b.style.width = pct(r.v) + '%'; tr.appendChild(b);
       }
@@ -1298,10 +1291,10 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
 </script>
 
 
-<!-- ============ 2. THREE SCREENS ============ -->
+<!-- ============ 2. TWO SCREENS ============ -->
 <section id="screens" aria-labelledby="h-screens">
-  <h2 id="h-screens">One API answer, three screens</h2>
-  <p class="lead">Pick an audience. Google’s API answers in the same way for all eleven. Three places then show that one answer in three different ways.</p>
+  <h2 id="h-screens">One API answer, two screens</h2>
+  <p class="lead">Pick an audience. Google’s API answers in the same way for all eleven. Two places then show that one answer in two different ways.</p>
   <div class="chips" id="chips" role="group" aria-label="Choose an audience"></div>
   <div class="two">
     <div class="card apicard">
@@ -1312,26 +1305,22 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
       </details>
     </div>
     <div>
-      <div class="note"><b>Same answer, three displays.</b> Google Ads shows 0 (as reported to us). The Factors app builds a label from the bucket. The status sheet has the bucket typed in by hand.</div>
+      <div class="note"><b>Same answer, two displays.</b> Google Ads shows 0 (as reported by the customer). The Factors app builds a label from the bucket.</div>
       <div class="note warn" id="emptyNote"><b>Empty audiences still show a match rate.</b> Google keeps returning its last match rate for an empty audience (for example 8%). An empty audience shows 0 in Google Ads for a plain reason: it is empty.</div>
     </div>
   </div>
   <div class="screens">
     <figure class="screen">
       <div class="mock" id="scrGads"></div>
-      <figcaption><strong>Google Ads screen</strong> — shows 0 (as reported to us; we could not see it)</figcaption>
+      <figcaption><strong>Google Ads screen</strong> — shows 0 (as reported by the customer; we could not see it)</figcaption>
     </figure>
     <figure class="screen">
       <div class="mock" id="scrFapp"></div>
       <figcaption><strong>Factors app</strong> — shows the label the product builds: <span id="fcap" class="mono"></span></figcaption>
     </figure>
-    <figure class="screen">
-      <div class="mock" id="scrSheet"></div>
-      <figcaption><strong>Internal status sheet, 10 Sep snapshot</strong> — shows “Under 500” (typed by hand from the stored bucket)</figcaption>
-    </figure>
   </div>
-  <p class="small muted">The three panels are illustrations built from the real values, not screenshots.</p>
-  <p class="hood"><b>Under the hood</b><span class="tag">API</span>Fields read live, API v23. They are identical for all 11 audiences except the match rate, which is present on 6 and absent on 5. <span class="tag">CODE</span>The Factors label follows the product’s rule: show the number if it is above 0, otherwise the bucket label “< 500 matched users”. It adds “(~N)” only when Google returned a match rate above 0 and people were uploaded, where N = max(1, round(uploaded × rate ÷ 100)). The status badge “Ready” follows Google’s eligibleForSearch. The detail card also has rows for total segment size and eligible member size, which we have not mapped here. <span class="tag">DB</span>Uploaded counts and match rates as stored. We could not open this project in the app (it needs the account’s own login), so the Factors panel is derived from the product code and the stored values. <span class="tag">SNAP</span>The sheet cell says “Under 500”, typed by hand from the stored bucket. It is not a formula or a live feed, and it was about 35 days old when we looked. The symbol form “< 500” exists only in the Factors screen.</p>
+  <p class="small muted">The two panels are illustrations built from the real values, not screenshots.</p>
+  <p class="hood"><b>Under the hood</b><span class="tag">API</span>Fields read live, API v23. They are identical for all 11 audiences except the match rate, which is present on 6 and absent on 5. <span class="tag">CODE</span>The Factors label follows the product’s rule: show the number if it is above 0, otherwise the bucket label “< 500 matched users”. It adds “(~N)” only when Google returned a match rate above 0 and people were uploaded, where N = max(1, round(uploaded × rate ÷ 100)). The status badge “Ready” follows Google’s eligibleForSearch. The detail card also has rows for total segment size and eligible member size, which we have not mapped here. <span class="tag">DB</span>Uploaded counts and match rates as stored. We could not open this project in the app (it needs the account’s own login), so the Factors panel is derived from the product code and the stored values.</p>
 </section>
 
 <!-- ============ 3. THE 11 AUDIENCES ============ -->
@@ -1355,9 +1344,9 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
   <p class="small muted">Bars count uploaded people. Google counts matched people, which are fewer. The estimate is shown only for Audiences 4 and 6: the two that hold people and report a Google match rate.</p>
   <details class="more"><summary>Table: the 11 audiences</summary>
     <div class="tablewrap" tabindex="0" role="region" aria-label="Table of the 11 audiences"><table id="atable"></table></div>
-    <p class="small muted">“AWAITING_GOOGLE_JOB_COMPLETION” is not stuck. Google already reports all of those upload jobs as SUCCESS; our store can lag by up to a day. The sync runs once a day (about 02:15–02:55 UTC) and Google’s numbers are re-read about once a day. Audiences 1–6 are the older ones; Audiences 7–11 were created 5–7 Oct. One person can be in several audiences: 1,714 is a count of memberships.</p>
+    <p class="small muted">“AWAITING_GOOGLE_JOB_COMPLETION” is not stuck. Google already reports all of those upload jobs as SUCCESS; our store can lag by up to a day. The sync runs once a day (about 02:15–02:55 UTC) and Google’s numbers are re-read about once a day. Audiences 1–6 are the older ones; Audiences 7–11 were created 5–6 Oct. One person can be in several audiences: 1,714 is a count of memberships.</p>
   </details>
-  <p class="hood"><b>Under the hood</b><span class="tag">DB</span>Rows read from production on 15 Oct 2026 at about 12:10 UTC: 7 audiences hold people, with 1,714 uploaded memberships. 5,304 distinct people were ever sent (10,338 person-audience pairs: 1,714 added now, 8,624 removed). <span class="tag">API</span>Match rates and sizes read live. <span class="tag">DB</span><span class="tag">API</span>Estimated matched = uploaded now × Google match rate: 268 × 5% ≈ 13 and 738 × 9% ≈ 66. Google never says which people matched. Even all 1,714 memberships at 5–9% would give roughly 85–155 matched, still far below 500 (illustration, simple multiplication).</p>
+  <p class="hood"><b>Under the hood</b><span class="tag">DB</span>Rows read from production on 15 Oct 2026 at about 12:10 UTC: 7 audiences hold people, with 1,714 uploaded memberships (one person can be in several audiences). <span class="tag">API</span>Match rates and sizes read live. <span class="tag">DB</span><span class="tag">API</span>Estimated matched = uploaded now × Google match rate: 268 × 5% ≈ 13 and 738 × 9% ≈ 66. Google never says which people matched. Even all 1,714 memberships at 5–9% would give roughly 85–155 matched, still far below 500 (illustration, simple multiplication).</p>
 </section>
 
 <!-- ============ 4. FLEET ============ -->
@@ -1402,13 +1391,13 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
         <div class="ctl-row"><input id="rtRange" type="range" min="1" max="60" step="1" value="7" aria-label="Google match rate percent (slider)"><input id="rtNum" class="numin" type="number" min="1" max="60" step="1" value="7" aria-label="Google match rate percent (exact number)"></div>
       </div>
       <div class="presets" id="presets" role="group" aria-label="Presets"></div>
-      <p class="small muted" style="margin-top:14px">Today’s 1,714 counts memberships. One person can sit in several audiences, so a merged list could hold fewer people. The overlap is unknown. The “refilled” preset adds back up to about 1,060 distinct visitor IDs from the four empty audiences, before overlap; consent is still the limiter.</p>
+      <p class="small muted" style="margin-top:14px">Today’s 1,714 counts memberships. One person can sit in several audiences, so a merged list could hold fewer people. The overlap is unknown.</p>
     </div>
     <div class="out">
       <div class="line"><span class="k">Expected matched people</span><span class="v" id="cMatched">120</span><span class="work" id="cWork">1,714 × 7% = 120</span></div>
       <div class="line"><span class="k">Google would show:</span><span class="v big" id="cShown">120</span></div>
       <div class="line"><span class="k">Size bucket</span><span class="v"><span class="pill pri" id="cBucket">Under 500</span></span></div>
-      <p class="status ok" id="cStatus">At or above Google’s documented minimum of 100 active users</p>
+      <p class="status ok" id="cStatus">At or above 100 matched people (serving needs active users)</p>
       <div class="meter" id="meter" role="img" aria-label=""><span class="fill" id="mFill"></span><span class="mk m1" id="mk100"><span>100</span></span><span class="mk m5" id="mk500"><span>500</span></span></div>
       <div class="need">
         <div class="mini"><span>People needed for 100 matched, at this rate</span><b id="cNeed100">≈ 1,430</b></div>
@@ -1417,7 +1406,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
       <p class="sr" id="calcSummary" role="status" aria-live="polite"></p>
     </div>
   </div>
-  <p class="hood"><b>Under the hood</b><span class="tag">DOCS</span>Google’s rule: a list size shows as zero until the list has at least 100 members, then it is rounded to the two most significant digits. The bucket is picked from the number Google would show. <span class="tag">FLEET</span>The typical match rate (about 27%) is the average across audiences that report one. <span class="tag">DB</span>1,714 is today’s total of uploaded memberships; 11,372 is the number of distinct visitor IDs this site produced in the last 30 days (all visitors, not only target accounts); about 2,770 adds back up to about 1,060 distinct visitor IDs that the four empty audiences held on 5 Oct (before overlap between audiences; consent is still the limiter).</p>
+  <p class="hood"><b>Under the hood</b><span class="tag">DOCS</span>Google’s rule: a list size shows as zero until the list has at least 100 members, then it is rounded to the two most significant digits. The bucket is picked from the number Google would show. <span class="tag">FLEET</span>The typical match rate (about 27%) is the average across audiences that report one. <span class="tag">DB</span>1,714 is today’s total of uploaded memberships; 11,372 is the number of distinct visitor IDs this site produced in the last 30 days (all visitors, not only target accounts).</p>
 </section>
 
 <!-- ============ 6. WHAT CAN BE DONE ============ -->
@@ -1441,11 +1430,11 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
       <span class="lv-tags"><span class="tg"><i>Who:</i> the site owner, with Factors guidance</span><span class="tg"><i>Effort:</i> Medium, needs a legal decision</span><span class="tg"><i>Impact:</i> the biggest long-term lever</span></span></summary>
     <div class="lv-body">
       <ul>
-        <li>When a visitor accepts, update Google’s consent signal (Consent Mode v2 “update”) so the Google tag may send the user id.</li>
-        <li>Let the Factors visitor-ID cookie survive the cookie banner (classify it as allowed, under the site owner’s own legal policy).</li>
+        <li>Check that, when a visitor clicks Accept all, the banner updates Google’s consent signal (Consent Mode v2 “update”). We have not tested that path.</li>
+        <li>Decide with your own privacy counsel how the banner should treat the Factors visitor-ID cookie.</li>
         <li>Make sure the consent defaults and updates run before the Factors tag and the Google tag.</li>
       </ul>
-      <p>Effect: the match rate should move from 3–9% toward the typical level (the average across accounts is about 27%). That is an illustration, not a promise. Cookie settings are a decision for the site owner’s legal and compliance team.</p>
+      <p>Effect: the match rate should move from 3–9% toward the typical level (the average across audiences is about 27%). That is an illustration, not a promise.</p>
       <p class="hood"><b>Under the hood</b><span class="tag">FIELD</span>what the browser test saw on this site. <span class="tag">FLEET</span>the 27% average.</p>
     </div>
   </details>
@@ -1454,7 +1443,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
     <summary><span class="lv-n">3</span><span class="lv-t">Set the Hot threshold where accounts can reach it, then refill the four audiences</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span class="lv-tags"><span class="tg"><i>Who:</i> Factors, with this account’s team</span><span class="tg"><i>Effort:</i> Low to medium</span><span class="tg"><i>Impact:</i> refills four empty lists</span></span></summary>
     <div class="lv-body">
-      <p><span class="pill warn">Likely fix, untested</span> Set the Warm and Hot thresholds to scores that accounts actually reach under the new scoring rules, or go back to percentile-based thresholds. Hot accounts should then reappear after the next scoring run (every 3–5 days), and the four audiences refill at the nightly sync after that.</p>
+      <p><span class="pill warn">Likely fix, untested</span> Set the Warm and Hot thresholds to scores that accounts actually reach under the new scoring rules, or go back to percentile-based thresholds. Hot accounts should then reappear after the next scoring run (every 3–5 days), and the four audiences refill at the nightly sync after that, for accounts that also match each audience’s region and industry filters.</p>
       <p>An empty audience can never show a size. The cause is explained in <a href="#empty">Why four audiences are empty</a>.</p>
     </div>
   </details>
@@ -1471,12 +1460,10 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
 
   <details class="lever">
     <summary><span class="lv-n">5</span><span class="lv-t">Add a contact-based (hashed email) audience next to the ID-based one</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span class="lv-tags"><span class="tg"><i>Who:</i> Factors can discuss adding it; this account’s team</span><span class="tg"><i>Effort:</i> Higher</span><span class="tg"><i>Impact:</i> unknown, worth discussing</span></span></summary>
+      <span class="lv-tags"><span class="tg"><i>Who:</i> Factors, with this account’s team</span><span class="tg"><i>Effort:</i> Higher</span><span class="tg"><i>Impact:</i> often low for business emails</span></span></summary>
     <div class="lv-body">
-      <p>Google says Workspace and corporate accounts can’t be targeted, so this kind of list matches mainly personal Google accounts.</p>
-      <p>Other lists in this Google Ads account, built from the account’s own hashed emails, report upload match ranges of 91–100% on 65 of the 77 upload jobs that report a range. That is different data and a different method, so we cannot promise the same for target-account contacts. If you can upload your own contact lists, that is worth discussing.</p>
-      <p>Factors uploads IDs only today. Factors can discuss adding contact uploads.</p>
-      <p class="hood"><b>Under the hood</b><span class="tag">API</span><span class="tag">DOCS</span><span class="tag">CODE</span></p>
+      <p>A contact-based (hashed email) audience reaches people whose email belongs to a personal Google account. Google says Workspace and corporate accounts can’t be targeted, so the match is often low for business emails.</p>
+      <p class="hood"><b>Under the hood</b><span class="tag">DOCS</span>Google’s Customer Match documentation.</p>
     </div>
   </details>
 
@@ -1492,8 +1479,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
 <!-- ============ 7. WHY FOUR AUDIENCES ARE EMPTY ============ -->
 <section id="empty" aria-labelledby="h-empty">
   <h2 id="h-empty">Why four audiences are empty</h2>
-  <p class="lead"><b>A settings effect, not an outage.</b> Audiences 1, 2, 3 and 5 are built on the engagement level “Hot” (Audience 2 on “Hot or Warm”). Hot needs 60 points, and the highest score any account has today is 30. So these segments match no accounts, and the nightly sync removed everyone from the four Google lists.</p>
-  <p>This is specific to this account’s setup, not a platform-wide change.</p>
+  <p class="lead"><b>A settings effect, not an outage.</b> Audiences 1, 2, 3 and 5 are built on the engagement level “Hot”. Hot needs 60 points, and the highest score any account has today is 30. Audience 2 also accepts “Warm”. One account is Warm (score 30), but it has no country or industry in Factors’ company data, and Audience 2 also requires Canada or the United States and one of 11 listed industries, so it does not qualify. So these segments match nobody, and the nightly sync removed everyone from the four Google lists.</p>
   <div class="card">
     <h3 style="margin-top:0">Illustration of the current setup <span class="pill est">Illustration</span></h3>
     <p class="small muted" style="margin-top:0">Account score, 0 to 70. Engagement levels use fixed scores: Ice 0–10, Cool 10–30, Warm 30–60, Hot 60 and above.</p>
@@ -1520,17 +1506,11 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
       <div class="mini"><b>18,452</b><span>accounts rated Ice today (19,280 accounts have a level)</span></div>
     </div>
     <p>Under the new rules, reaching 60 takes at least two high-intent actions inside the scoring window (for example a contact-us style visit plus a pricing visit). The maximum possible total across all rules is 330.</p>
-    <h3>What happened, in order</h3>
-    <ol class="tl">
-      <li><b>2 Oct</b>The account-scoring rules were replaced (12 new capped rules). The level thresholds changed from percentile-based to fixed scores.</li>
-      <li><b>5 Oct</b>The four audiences still held up to about 1,060 distinct visitor IDs.</li>
-      <li><b>7 Oct</b>The first scoring run on the new setup.</li>
-      <li><b>9 Oct</b>The big drop in the four lists.</li>
-      <li><b>12–14 Oct</b>The rest were removed.</li>
-    </ol>
-    <div class="note good"><b>What did not change.</b> The other 7 audiences do not use engagement level and are populated normally (7 to 1,232 accounts each). No segment was edited or deleted. The sync is healthy (no errors) and the scoring job ran on 15 Oct.</div>
-    <div class="note warn"><b>Likely fix (untested).</b> Set the Warm and Hot thresholds to scores that accounts actually reach under the new rules, or go back to percentile-based thresholds. Hot accounts should then reappear after the next scoring run (every 3–5 days), and the audiences refill at the nightly sync after that.</div>
-    <p class="hood"><b>Under the hood</b><span class="tag">DB</span><span class="tag">CODE</span>Segment definitions, account levels, scores and scoring settings, read from production on 15 Oct 2026; levels were computed on 15 Oct between 03:46 and 03:47 UTC. Before 2 Oct the old uncapped rules produced scores up to about 220,000. The fixed-score thresholds are the active ones; the percentile ones are stored but ignored. On 5 Oct the four audiences held 1,690 audience slots, which is up to about 1,060 distinct visitor IDs because Audience 1 sits entirely inside Audience 2. “Up to” because a few may have been added after 5 Oct and removed later. A check of about 445 other projects showed no platform-wide scoring shift. The data does not record who made the change, so this page does not say. <span class="pill est">Estimate</span> With the four audiences refilled (up to about 1,060 IDs) and merged with today’s 1,714 memberships, one list would hold about 2,770 uploaded IDs, before overlap. At a 7% match rate that is about 194 matched people, and Google would show 190. That is above Google’s floor of 100; consent is still the limiter.</p>
+    <h3>What happened</h3>
+    <p>The account-scoring rules were replaced on 2 Oct, and the level thresholds changed from percentile-based to fixed scores. The four audiences emptied over the days after the change; the last members were removed on 13–14 Oct.</p>
+    <div class="note good"><b>What did not change.</b> The other 7 audiences do not use engagement level and are populated normally. No segment was edited or deleted. The sync is healthy (no errors) and the scoring job ran on 15 Oct.</div>
+    <div class="note warn"><b>Likely fix (untested).</b> Set the Warm and Hot thresholds to scores that accounts actually reach under the new rules, or go back to percentile-based thresholds. Hot accounts should then reappear after the next scoring run (every 3–5 days), and the audiences refill at the nightly sync after that, for accounts that also match each audience’s region and industry filters.</div>
+    <p class="hood"><b>Under the hood</b><span class="tag">DB</span><span class="tag">CODE</span>Segment definitions, account levels, scores and scoring settings, read from production on 15 Oct 2026; levels were computed on 15 Oct between 03:46 and 03:47 UTC. The fixed-score thresholds are the active ones; the percentile ones are stored but ignored. Audience 2’s extra filters (Canada or the United States, and one of 11 listed industries) and the Warm account’s missing country and industry come from the segment definition and Factors’ company data.</p>
   </div>
 </section>
 
@@ -1544,9 +1524,8 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
         <li>Our stored copy equals the live API.</li>
         <li>All upload jobs finished SUCCESS.</li>
         <li>Product behaviour, read from the source code.</li>
-        <li>The sheet’s “Under 500” is a typed label of the stored bucket.</li>
         <li>On this site, in a clean browser, consent is denied by default.</li>
-        <li>Why four audiences are empty: Hot needs 60 points, and the highest score any account has today is 30.</li>
+        <li>Why four audiences are empty: Hot needs 60 points, and the highest score any account has today is 30. Audience 2 also accepts Warm, but its one Warm account has no country or industry in Factors’ company data, so it does not qualify.</li>
       </ul></div>
     <div class="card no"><h3 style="margin-top:0">Not verified</h3>
       <ul>
@@ -1568,7 +1547,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
       <li><b>Buckets.</b> LESS_THAN_FIVE_HUNDRED means “under 500 users”. The next is 500 to 1,000, then 1,000 to 10,000, and so on. There is no “under 100” bucket.</li>
       <li><b>Screen against API.</b> The API guide says a list “could appear smaller than expected” in the Google Ads Audience Manager, because that view shows the number of active users. Google does not document the exact label its screen shows for tiny lists.</li>
       <li><b>Timing.</b> List population can take up to 24 hours (API guide); the Help Center says matching can take up to 48 hours. These audiences are refreshed daily and the API returns definite values, so timing is not the cause here.</li>
-      <li><b>Matching.</b> Contact lists match hashed email or phone against Google accounts; Workspace and corporate accounts can’t be targeted. For ID-based lists, Google’s public pages describe the ID as advertiser-assigned and do not spell out how it is matched. “The ID must have reached Google through the website’s Google tag” is the design the Factors integration relies on, and what the browser test showed. It is not a documented Google statement.</li>
+      <li><b>Matching.</b> Contact lists match hashed email or phone against Google accounts; Workspace and corporate accounts can’t be targeted. For ID-based lists, Google’s public pages describe the ID as advertiser-assigned. By design, Google can match an ID only if the same ID reached Google earlier through the site’s Google tag. Google’s public pages do not spell out the matching.</li>
     </ul>
     <p class="hood"><b>Sources</b></p>
     <ul class="srclist">
@@ -1588,7 +1567,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
       <dt>Matched audience size</dt><dd>How many of the uploaded people Google could match to a Google user. Google hides small numbers.</dd>
       <dt>Size bucket / range</dt><dd>Google’s coarse label for the size: “less than 500”, “500 to 1,000”, “1,000 to 10,000” and so on.</dd>
       <dt>Match rate</dt><dd>The share of uploaded IDs that Google matched.</dd>
-      <dt>ID-based (CRM_ID) list</dt><dd>We upload a Factors visitor ID, not an email. It matches only if the same ID reached Google from the website.</dd>
+      <dt>ID-based (CRM_ID) list</dt><dd>We upload a Factors visitor ID, not an email. By design, Google can match an ID only if the same ID reached Google earlier through the site’s Google tag. Google’s public pages do not spell out the matching.</dd>
       <dt>Consent banner / Consent Mode</dt><dd>The website’s cookie banner and Google’s consent signals. When consent is denied, Google ad features may not use the visitor’s data.</dd>
       <dt>Active users</dt><dd>Matched people who were active in the last 30 days. Google’s serving minimum counts these.</dd>
     </dl>
@@ -1617,25 +1596,24 @@ paintBtn();
 
 /* ---------- data (single source for chart, table, mocks) ---------- */
 var AUD=[
- {n:1,st:'ACTIVE',acc:0,up:0,rem:1890,rate:8,snap:488},
- {n:2,st:'ACTIVE',acc:0,up:0,rem:2245,rate:8,snap:628},
- {n:3,st:'ACTIVE',acc:0,up:0,rem:446,rate:3,snap:62},
- {n:4,st:'AWAITING_GOOGLE_JOB_COMPLETION',acc:65,up:268,rem:526,rate:5,snap:278},
- {n:5,st:'ACTIVE',acc:0,up:0,rem:1380,rate:3,snap:220},
- {n:6,st:'AWAITING_GOOGLE_JOB_COMPLETION',acc:611,up:738,rem:1988,rate:9,snap:797},
- {n:7,st:'AWAITING_GOOGLE_JOB_COMPLETION',acc:216,up:49,rem:14,rate:null,snap:null},
- {n:8,st:'AWAITING_GOOGLE_JOB_COMPLETION',acc:845,up:281,rem:48,rate:null,snap:null},
- {n:9,st:'ACTIVE',acc:15,up:2,rem:11,rate:null,snap:null},
- {n:10,st:'AWAITING_GOOGLE_JOB_COMPLETION',acc:1232,up:296,rem:75,rate:null,snap:null},
- {n:11,st:'ACTIVE',acc:7,up:80,rem:1,rate:null,snap:null}
+ {n:1,st:'ACTIVE',up:0,rem:1890,rate:8},
+ {n:2,st:'ACTIVE',up:0,rem:2245,rate:8},
+ {n:3,st:'ACTIVE',up:0,rem:446,rate:3},
+ {n:4,st:'AWAITING_GOOGLE_JOB_COMPLETION',up:268,rem:526,rate:5},
+ {n:5,st:'ACTIVE',up:0,rem:1380,rate:3},
+ {n:6,st:'AWAITING_GOOGLE_JOB_COMPLETION',up:738,rem:1988,rate:9},
+ {n:7,st:'AWAITING_GOOGLE_JOB_COMPLETION',up:49,rem:14,rate:null},
+ {n:8,st:'AWAITING_GOOGLE_JOB_COMPLETION',up:281,rem:48,rate:null},
+ {n:9,st:'ACTIVE',up:2,rem:11,rate:null},
+ {n:10,st:'AWAITING_GOOGLE_JOB_COMPLETION',up:296,rem:75,rate:null},
+ {n:11,st:'ACTIVE',up:80,rem:1,rate:null}
 ];
-var EMPTY_TXT='empty since 9–14 Oct (Hot needs 60 points; the highest score today is 30)';
-var TIP='Google reports a bucketed range until the audience has 500+ matched users.';
+function emptyTxt(a){return a.n===2?'empty: matches nobody (Hot needs 60 points; the one Warm account has no country or industry in Factors’ company data)':'empty: matches nobody (Hot needs 60 points; the highest score today is 30)'}
 function isEmpty(a){return a.up===0}
 function estN(a){return (a.rate!=null&&a.rate>0&&a.up>0)?Math.max(1,Math.round(a.up*a.rate/100)):null}
 function factorsLabel(a){var e=estN(a);return '< 500 matched users'+(e!=null?' (~'+e+')':'')}
 
-/* ---------- section: three screens ---------- */
+/* ---------- section: two screens ---------- */
 var chips=$('#chips');
 AUD.forEach(function(a){
   var b=document.createElement('button');b.type='button';b.className='chip'+(isEmpty(a)?' is-empty':'');b.setAttribute('data-n',a.n);
@@ -1650,7 +1628,7 @@ function selAud(n){
   function r(k,v,h){return '<div class="r"><dt>'+k+'</dt><dd'+(h?' class="hl"':'')+'>'+v+'</dd></div>'}
   $('#apiFields').innerHTML=r('sizeForDisplay','"0"',1)+r('sizeForSearch','"0"',1)+r('sizeRangeForDisplay','"LESS_THAN_FIVE_HUNDRED"',1)+r('sizeRangeForSearch','"LESS_THAN_FIVE_HUNDRED"',1)+
     r('matchRatePercentage',a.rate==null?'<span class="na">(not returned)</span>':String(a.rate))+r('eligibleForSearch','true')+r('eligibleForDisplay','false');
-  $('#scrGads').innerHTML='<div class="mock-bar"><span>Google Ads · Audience manager</span><span class="pill info">Reported</span></div><div class="mock-body"><div class="mk-label">Audience '+n+' · list size</div><div class="mk-big" id="gadsNum">0</div><p class="small muted" style="margin:0">Illustration of the number reported to us.</p></div>';
+  $('#scrGads').innerHTML='<div class="mock-bar"><span>Google Ads · Audience manager</span><span class="pill info">Reported</span></div><div class="mock-body"><div class="mk-label">Audience '+n+' · list size</div><div class="mk-big" id="gadsNum">0</div><p class="small muted" style="margin:0">Illustration of the number the customer reported.</p></div>';
   var e=estN(a),work;
   if(e!=null)work=a.up+' × '+a.rate+'% ≈ '+e+'  (uploaded × Google match rate)';
   else if(a.up===0)work='No “(~N)” added: no people are uploaded now.';
@@ -1658,15 +1636,10 @@ function selAud(n){
   $('#scrFapp').innerHTML='<div class="mock-bar"><span>Factors · Audience '+n+'</span><span class="pill ok">Ready</span></div><div class="mock-body"><dl class="mk-rows">'+
     (a.rate!=null?'<div><dt>Match rate</dt><dd>'+a.rate+'%</dd></div>':'')+
     '<div><dt>Audience size</dt><dd id="fLabel">'+esc(factorsLabel(a))+'</dd></div></dl>'+
-    '<p class="working" id="fWork">'+esc(work)+'</p><div class="tipbox"><b>Tooltip in the app</b>'+esc(TIP)+'</div></div>';
+    '<p class="working" id="fWork">'+esc(work)+'</p></div>';
   $('#fcap').textContent='“'+factorsLabel(a)+'”';
-  var sh='<div class="mock-bar"><span>Status sheet · 10 Sep snapshot</span><span class="pill info">Typed by hand</span></div><div class="mock-body" style="padding:0"><div class="sheet"><div class="h">Audience</div><div class="h">Uploaded</div><div class="h">Size</div>';
-  if(a.snap!=null)sh+='<div>Audience '+n+'</div><div>'+fmt(a.snap)+'</div><div class="hl">Under 500</div>';
-  else sh+='<div>Audience '+n+'</div><div class="span2">not in this snapshot: created 5–7 Oct</div>';
-  sh+='</div>'+(a.snap!=null&&a.snap>=500?'<p class="small muted" style="margin:10px 12px">Uploaded people ('+fmt(a.snap)+') are not matched people. The bucket counts matched people.</p>':'')+'</div>';
-  $('#scrSheet').innerHTML=sh;
   var en=$('#emptyNote');
-  en.innerHTML=isEmpty(a)?'<b>This audience is empty</b> (its segment matches no accounts), but Google still returns its last match rate ('+a.rate+'%). An empty audience shows 0 in Google Ads for a plain reason: it is empty.':'<b>Empty audiences still show a match rate.</b> Google keeps returning its last match rate for an empty audience (for example 8%). An empty audience shows 0 in Google Ads for a plain reason: it is empty.';
+  en.innerHTML=isEmpty(a)?'<b>This audience is empty</b> (it matches nobody)'+(n===2?'. It accepts “Hot or Warm”, but its one Warm account has no country or industry in Factors’ company data, so it does not qualify':'')+', but Google still returns its last match rate ('+a.rate+'%). An empty audience shows 0 in Google Ads for a plain reason: it is empty.':'<b>Empty audiences still show a match rate.</b> Google keeps returning its last match rate for an empty audience (for example 8%). An empty audience shows 0 in Google Ads for a plain reason: it is empty.';
 }
 selAud(6);
 
@@ -1675,7 +1648,7 @@ selAud(6);
   var MAX=800,h='';
   function readout(a){
     var e=estN(a),t;
-    if(isEmpty(a))t='Audience '+a.n+': '+EMPTY_TXT+'. '+fmt(a.rem)+' people were removed over time. Google still reports its last match rate ('+a.rate+'%).';
+    if(isEmpty(a))t='Audience '+a.n+': '+emptyTxt(a)+'. '+fmt(a.rem)+' people were removed over time. Google still reports its last match rate ('+a.rate+'%).';
     else if(e!=null)t='Audience '+a.n+': '+fmt(a.up)+' uploaded now. Google match rate '+a.rate+'%, so about '+e+' matched ('+a.up+' × '+a.rate+'%, an estimate). Removed all-time: '+fmt(a.rem)+'.';
     else t='Audience '+a.n+': '+fmt(a.up)+' uploaded now. Google reports no match rate yet, so there is no estimate. Removed all-time: '+fmt(a.rem)+'.';
     return t;
@@ -1683,7 +1656,7 @@ selAud(6);
   AUD.forEach(function(a){
     var e=estN(a),w=a.up/MAX*100,ew=e!=null?e/MAX*100:0;
     h+='<li><button type="button" class="hrow'+(isEmpty(a)?' empty':'')+'" data-n="'+a.n+'" aria-pressed="false" aria-label="'+esc(readout(a))+'"><span class="hlab">Audience '+a.n+'</span><span class="htrack">'+
-      (a.up>0?'<span class="hbar" style="width:'+w+'%"></span>':'<span class="hempty">'+esc(EMPTY_TXT)+'</span>')+
+      (a.up>0?'<span class="hbar" style="width:'+w+'%"></span>':'<span class="hempty">'+esc(emptyTxt(a))+'</span>')+
       (e!=null?'<span class="hbar m" style="width:'+ew+'%"></span>':'')+'</span><span class="hval">'+fmt(a.up)+(e!=null?'<small>≈'+e+' matched</small>':'')+'</span></button></li>';
   });
   $('#hlist').innerHTML=h;
@@ -1691,11 +1664,11 @@ selAud(6);
     function go(){var a=AUD[+b.getAttribute('data-n')-1];$$('#hlist .hrow').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});$('#readout').textContent=readout(a)}
     b.addEventListener('click',go);b.addEventListener('mouseenter',go);b.addEventListener('focus',go);
   });
-  var t='<tr><th>Audience</th><th>Sync status</th><th class="num">Accounts in segment now</th><th class="num">Uploaded now</th><th class="num">Removed all-time</th><th class="num">Google match rate</th><th class="num">API size (search / display)</th><th>API bucket</th></tr>';
+  var t='<tr><th>Audience</th><th>Sync status</th><th class="num">Uploaded now</th><th class="num">Removed all-time</th><th class="num">Google match rate</th><th class="num">API size (search / display)</th><th>API bucket</th></tr>';
   AUD.forEach(function(a){
-    t+='<tr><td>Audience '+a.n+(isEmpty(a)?' <span class="pill warn">empty</span>':'')+'</td><td class="st">'+a.st+'</td><td class="num">'+fmt(a.acc)+'</td><td class="num">'+fmt(a.up)+'</td><td class="num">'+fmt(a.rem)+'</td><td class="num">'+(a.rate==null?'not reported':a.rate+'%')+'</td><td class="num">0 / 0</td><td>Under 500</td></tr>';
+    t+='<tr><td>Audience '+a.n+(isEmpty(a)?' <span class="pill warn">empty</span>':'')+'</td><td class="st">'+a.st+'</td><td class="num">'+fmt(a.up)+'</td><td class="num">'+fmt(a.rem)+'</td><td class="num">'+(a.rate==null?'not reported':a.rate+'%')+'</td><td class="num">0 / 0</td><td>Under 500</td></tr>';
   });
-  t+='<tr><td><b>Total</b></td><td></td><td class="num"></td><td class="num"><b>1,714</b></td><td class="num"><b>8,624</b></td><td class="num"></td><td class="num"></td><td></td></tr>';
+  t+='<tr><td><b>Total</b></td><td></td><td class="num"><b>1,714</b></td><td class="num"></td><td class="num"></td><td class="num"></td><td></td></tr>';
   $('#atable').innerHTML=t;
 })();
 
@@ -1717,7 +1690,6 @@ selAud(6);
   var S={up:1714,rate:7};
   var P=[
    {t:'Today, merged (1,714 @ 7%)',up:1714,rate:7},
-   {t:'Merged, with the four audiences refilled (about 2,770 @ 7%)',up:2770,rate:7},
    {t:'Merged at the typical 27%',up:1714,rate:27},
    {t:'All site visitors in 30 days (11,372) @ 7%',up:11372,rate:7},
    {t:'All visitors @ 27%',up:11372,rate:27}
@@ -1736,7 +1708,7 @@ selAud(6);
     $('#cShown').textContent=fmt(sh);
     $('#cBucket').textContent=bk;
     var ok=m>=100,st=$('#cStatus');
-    st.textContent=ok?'At or above Google’s documented minimum of 100 active users':'Below Google’s 100 minimum';
+    st.textContent=ok?'At or above 100 matched people (serving needs active users)':'Below Google’s 100 minimum';
     st.className='status '+(ok?'ok':'low');
     $('#cNeed100').textContent='≈ '+fmt(r10(100/(S.rate/100)));
     $('#cNeed500').textContent='≈ '+fmt(r10(500/(S.rate/100)));
