@@ -46,9 +46,10 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:64px}
+html{scroll-behavior:auto;-webkit-text-size-adjust:100%}
+section[id]{scroll-margin-top:68px}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;font-size:17px}
-.wrap{max-width:980px;margin:0 auto;padding:28px 16px 88px}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 88px}
 @media(min-width:700px){.wrap{padding:40px 20px 96px}}
 a{color:var(--primary)}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
@@ -64,9 +65,24 @@ p{margin:12px 0}
 
 /* journey fragment integration */
 section#journey{margin-top:68px}
+#journey .jn-btn[hidden]{display:none}
+#journey .jn-evs{display:none}
+#journey .jn-evt{display:block;margin-top:4px;font-size:14px;color:var(--jn-dim)}
+#journey .jn-srow{opacity:.55}
+#journey.jn-show .jn-srow{opacity:1}
+#journey .jn-lh span{white-space:normal;text-transform:none;letter-spacing:.02em;font-size:14px;text-align:center}
+#journey .jn-ban,#journey .jn-tgp,#journey .jn-legend,#journey .jn-lgh,#journey .jn-gleg,#journey .jn-sk,#journey .jn-sn,#journey .jn-mlab,#journey .jn-mfl,#journey .jn-mtx,#journey .jn-kick,#journey .jn-ev,#journey .jn-sw small,#journey .jn-tbl thead th,#journey .jn-band,#journey .jn-tokb,#journey .jn-tbl td::before{font-size:14px}
+#journey:not(.jn-narrow) .jn-f2,#journey:not(.jn-narrow) .jn-g2,#journey:not(.jn-narrow) .jn-f3,#journey:not(.jn-narrow) .jn-g3{min-height:84px}
+#journey:not(.jn-narrow) .jn-m{min-height:176px}
+#journey:not(.jn-narrow) .jn-r{min-height:104px}
+#journey:not(.jn-narrow) .jn-dock{position:sticky;bottom:0;z-index:30;box-shadow:0 -8px 22px rgba(0,0,0,.14);display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px 28px;align-items:start;padding:12px 16px 14px}
+#journey:not(.jn-narrow) .jn-bar{flex-direction:column;align-items:flex-start;gap:10px}
+#journey:not(.jn-narrow) .jn-btns{display:grid;grid-template-columns:repeat(2,auto);gap:8px}
+#journey:not(.jn-narrow) .jn-cap{margin-top:0;grid-template-columns:minmax(0,1fr)}
+#journey:not(.jn-narrow) .jn-big{font-size:20px}
 #journey .jn-h2{padding-bottom:10px;border-bottom:1px solid var(--border)}
 #journey .jn-sub,#journey .jn-note,#journey .jn-untested ul,#journey .jn-tbl th,#journey .jn-tbl td{font-size:16px}
-#journey .jn-tbl thead th{font-size:13.5px}
+#journey .jn-tbl thead th{font-size:14px}
 #journey .jn-fw{font-size:15.5px}
 #journey .jn-fu,#journey .jn-ns{font-size:14px}
 #journey:not(.jn-narrow) .jn-why{font-size:16px}
@@ -76,7 +92,7 @@ section#journey{margin-top:68px}
 
 /* top nav */
 .topnav{position:sticky;top:0;z-index:60;background:var(--navbg);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
-.topnav .in{max-width:980px;margin:0 auto;height:50px;display:flex;align-items:center;gap:8px;padding:0 10px}
+.topnav .in{max-width:1100px;margin:0 auto;height:50px;display:flex;align-items:center;gap:8px;padding:0 10px}
 .topnav nav{flex:1 1 auto;min-width:0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
 .topnav nav::-webkit-scrollbar{display:none}
 .topnav nav a{flex:0 0 auto;padding:7px 10px;border-radius:8px;font-size:15px;color:var(--dim);text-decoration:none;white-space:nowrap}
@@ -93,10 +109,11 @@ section#journey{margin-top:68px}
 .answer{font-size:clamp(21px,3.5vw,28px);line-height:1.32;font-weight:700;letter-spacing:-.01em;margin:0 0 20px;padding:20px 22px;background:var(--raised);border:1px solid var(--border);border-left:6px solid var(--primary);border-radius:12px;box-shadow:var(--shadow)}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin:16px 0}
 .kpi{background:var(--raised);border:1px solid var(--border);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow)}
-.kpi .label{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);line-height:1.35}
+.kpi .label{font-size:14px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);line-height:1.35}
 .kpi .val{font:600 clamp(24px,3.2vw,29px)/1.15 var(--mono);margin-top:8px}
 .kpi .kn{font-size:15px;color:var(--dim);margin-top:6px;line-height:1.4;overflow-wrap:anywhere}
 .nb{white-space:nowrap}
+.kpi .kn.enum{overflow-wrap:normal;word-break:normal;font-family:var(--mono);font-size:14.5px}
 .plain{margin:18px 0 8px;padding:0;list-style:none;display:grid;gap:12px}
 .plain li{padding:2px 0 2px 18px;border-left:4px solid var(--border)}
 .plain b{display:block}
@@ -105,25 +122,25 @@ section#journey{margin-top:68px}
 .card{background:var(--raised);border:1px solid var(--border);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow);margin:16px 0}
 .note{border-left:4px solid var(--info);background:var(--sunken);border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0}
 .note.warn{border-left-color:var(--warn)}.note.good{border-left-color:var(--up)}.note.bad{border-left-color:var(--down)}
-.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13.5px;font-weight:600;letter-spacing:.02em;vertical-align:middle}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:14px;font-weight:600;letter-spacing:.02em;vertical-align:middle}
 .pill.ok{background:var(--ok-bg);color:var(--up-t)}.pill.warn{background:var(--warn-bg);color:var(--warn-t)}
 .pill.bad{background:var(--bad-bg);color:var(--down-t)}.pill.info{background:var(--info-bg);color:var(--info-t)}
 .pill.pri{background:var(--pri-bg);color:var(--pri-t)}
 .pill.est{border:1px dashed var(--warn);color:var(--warn-t);background:transparent;text-transform:none;letter-spacing:0}
 .hood{margin:16px 0 0;padding-top:12px;border-top:1px dashed var(--ctrl);font-size:15px;color:var(--dim);line-height:1.55}
 .hood b{color:var(--text);font-weight:600;margin-right:8px}
-.tag{display:inline-block;font:600 12.5px/1.5 var(--mono);padding:0 7px;margin:0 5px 0 0;border:1px solid var(--ctrl);border-radius:5px;color:var(--dim);background:var(--sunken);vertical-align:1px}
+.tag{display:inline-block;font:600 14px/1.5 var(--mono);padding:0 7px;margin:0 5px 0 0;border:1px solid var(--ctrl);border-radius:5px;color:var(--dim);background:var(--sunken);vertical-align:1px}
 code,.mono{font-family:var(--mono);font-size:.9em}
 code{background:var(--sunken);padding:1px 6px;border-radius:5px}
 .btn{min-height:44px;padding:0 18px;border:1px solid var(--ctrl);border-radius:10px;background:var(--raised);color:var(--text);font:600 15.5px var(--sans);cursor:pointer}
 .btn[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
 .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--raised);margin:14px 0}
 table:not(.jn-tbl){border-collapse:collapse;width:100%;font-size:15.5px;min-width:520px}
-table:not(.jn-tbl) th{text-align:left;padding:11px 14px;background:var(--sunken);color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap}
+table:not(.jn-tbl) th{text-align:left;padding:11px 14px;background:var(--sunken);color:var(--dim);font-size:14px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap}
 table:not(.jn-tbl) td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top}
 table:not(.jn-tbl) tr:last-child td{border-bottom:0}
 td.num,th.num{text-align:right;font-family:var(--mono);font-size:14.5px}
-td.st{font-family:var(--mono);font-size:13px;overflow-wrap:anywhere;min-width:150px}
+td.st{font-family:var(--mono);font-size:14px;overflow-wrap:anywhere;min-width:150px}
 details.more{margin:14px 0}
 details.more>summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center;padding:0 2px}
 
@@ -176,12 +193,12 @@ figcaption strong{display:block}
 .hrow:hover .hempty,.hrow[aria-pressed="true"] .hempty{background:var(--sunken)}
 .hrow.empty .htrack{grid-column:2/4}.hrow.empty .hval{display:none}
 .hval{font:600 15px/1.2 var(--mono);text-align:right;padding-right:4px}
-.hval small{display:block;font:600 13px/1.3 var(--mono);color:var(--c-match)}
+.hval small{display:block;font:600 14px/1.3 var(--mono);color:var(--c-match)}
 .hrefs{position:absolute;top:0;bottom:30px;left:calc(var(--lab) + 10px);right:calc(var(--val) + 10px);pointer-events:none;z-index:2}
 .href{position:absolute;top:0;bottom:0;border-left:3px dashed var(--ref)}
 .href.r500{border-left:2px dotted var(--ref)}
-.href i{position:absolute;top:-30px;left:0;transform:translateX(-50%);font:600 13px/1 var(--mono);font-style:normal;background:var(--raised);border:1px solid var(--ref);border-radius:6px;padding:4px 7px;white-space:nowrap}
-.haxis{position:absolute;bottom:0;left:calc(var(--lab) + 10px);right:calc(var(--val) + 10px);height:24px;font:13px var(--mono);color:var(--dim)}
+.href i{position:absolute;top:-30px;left:0;transform:translateX(-50%);font:600 14px/1 var(--mono);font-style:normal;background:var(--raised);border:1px solid var(--ref);border-radius:6px;padding:4px 7px;white-space:nowrap}
+.haxis{position:absolute;bottom:0;left:calc(var(--lab) + 10px);right:calc(var(--val) + 10px);height:24px;font:14px var(--mono);color:var(--dim)}
 .haxis span{position:absolute;top:2px;transform:translateX(-50%)}
 .haxis span:first-child{transform:none}.haxis span:last-child{transform:translateX(-100%)}
 .readout{margin:8px 0;padding:12px 16px;background:var(--sunken);border-radius:10px;font-size:16px;min-height:56px}
@@ -233,8 +250,8 @@ input[type=range]{flex:1 1 auto;min-width:0;accent-color:var(--primary);height:3
 .meter .fill{position:absolute;left:0;top:0;bottom:0;background:var(--c-match);border-radius:10px 0 0 10px;min-width:3px}
 .meter .mk{position:absolute;top:-8px;bottom:-8px;border-left:3px dashed var(--ref)}
 .meter .mk.m5{border-left-style:dotted;border-left-width:2px}
-.meter .mk span{position:absolute;top:-26px;left:0;transform:translateX(-50%);font:600 13px/1 var(--mono);white-space:nowrap;background:var(--raised);border:1px solid var(--ref);border-radius:6px;padding:4px 6px}
-.meter .cap{position:absolute;top:26px;left:0;font:13px var(--mono);color:var(--dim);white-space:nowrap}
+.meter .mk span{position:absolute;top:-26px;left:0;transform:translateX(-50%);font:600 14px/1 var(--mono);white-space:nowrap;background:var(--raised);border:1px solid var(--ref);border-radius:6px;padding:4px 6px}
+.meter .cap{position:absolute;top:26px;left:0;font:14px var(--mono);color:var(--dim);white-space:nowrap}
 .need{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
 @media(max-width:520px){.need{grid-template-columns:1fr}}
 
@@ -266,7 +283,7 @@ details[open]>summary .chev{transform:rotate(90deg)}
 .rmark .lb{position:absolute;white-space:nowrap;font:600 14.5px/1.25 var(--sans);background:var(--raised);border:1px solid var(--ref);border-radius:8px;padding:4px 9px}
 .rmark.hot .lb{bottom:100%;right:-3px;margin-bottom:4px}
 .rmark.today .lb{top:100%;left:0;transform:translateX(-50%);margin-top:4px}
-.rticks{position:absolute;left:0;right:0;top:42px;height:22px;font:13px var(--mono);color:var(--dim)}
+.rticks{position:absolute;left:0;right:0;top:42px;height:22px;font:14px var(--mono);color:var(--dim)}
 .rticks span{position:absolute;transform:translateX(-50%);background:var(--raised);padding:0 4px}
 .rticks span:last-child{transform:translateX(-100%)}
 @media(max-width:560px){.rseg .rng{display:none}}
@@ -297,18 +314,18 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
 <a class="skip" href="#answer">Skip to the answer</a>
 <header class="topnav"><div class="in">
   <nav aria-label="Sections">
-    <a href="#journey">How it works</a>
     <a href="#answer">Answer</a>
+    <a href="#journey">How it works</a>
     <a href="#screens">Screens</a>
     <a href="#chart">Audiences</a>
     <a href="#fleet">Compare</a>
     <a href="#calc">Calculator</a>
-    <a href="#actions">What to do</a>
-    <a href="#empty">Empty lists</a>
+    <a href="#actions">What can be done</a>
+    <a href="#empty">Empty audiences</a>
     <a href="#sure">How sure</a>
   </nav>
-  <button type="button" id="themeBtn" class="themebtn" aria-pressed="false">
-    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 12.2A7 7 0 0 1 7.8 3.5a7 7 0 1 0 8.7 8.7z" fill="currentColor"/></svg><span class="lbl">Dark mode</span>
+  <button type="button" id="themeBtn" class="themebtn" aria-label="Theme: Light. Switch to dark">
+    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 12.2A7 7 0 0 1 7.8 3.5a7 7 0 1 0 8.7 8.7z" fill="currentColor"/></svg><span class="lbl">Theme: Light</span>
   </button>
 </div></header>
 <noscript><div class="wrap"><p class="note warn">The interactive parts of this page need JavaScript. The text and tables still read without it.</p></div></noscript>
@@ -325,17 +342,17 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
 <!-- ============ 1. THE ANSWER ============ -->
 <section id="answer" aria-labelledby="h-answer">
   <h2 id="h-answer" style="margin-top:36px">The answer</h2>
-  <p class="answer">Yes. Google’s API does tell us “under 500” — as a size bucket, not as a number. The number it returns is 0.</p>
+  <p class="answer">Google Ads shows 0 because Google hides a list’s size until about 100 people match. Factors shows “Under 500”, which is Google’s label for the same list. The cause: few visitor IDs reach Google, because the site’s cookie banner turns ad consent off by default.</p>
   <div class="kpis">
     <div class="kpi"><div class="label">Number from the API</div><div class="val">0</div><div class="kn">sizeForSearch and sizeForDisplay, all 11 audiences</div></div>
-    <div class="kpi"><div class="label">Bucket from the API</div><div class="val">Under 500</div><div class="kn">LESS_THAN_FIVE_HUNDRED</div></div>
+    <div class="kpi"><div class="label">Bucket from the API</div><div class="val">Under 500</div><div class="kn enum">LESS_<wbr>THAN_<wbr>FIVE_<wbr>HUNDRED</div></div>
     <div class="kpi"><div class="label">Google’s own match rate</div><div class="val">3–9%</div><div class="kn">typical customer ≈ 27%</div></div>
     <div class="kpi"><div class="label">Matched people (estimate)</div><div class="val">about <span class="nb">13 and 66</span></div><div class="kn">on the two audiences that hold people and report a rate; Google’s floor is 100</div></div>
   </div>
   <ul class="plain">
     <li><b>One fact, shown two ways.</b> For each audience, Google’s API sends a number (0) and a size bucket (Under 500). Google Ads shows 0, as reported by the customer. The Factors app shows the bucket.</li>
     <li><b>Why the number is 0.</b> Google shows a number only once a list has 100 members. Below that it shows 0. The “500” in “Under 500” is only the top of the lowest bucket, not a minimum. Our estimate is 13 and 66 matched people on the two audiences that hold people and report a match rate (the other five that hold people report none yet), both under the 100 line. A 0 does not mean nobody matched.</li>
-    <li><b>Why the number is small.</b> Few visitor IDs reach Google: on this site the cookie banner denies ad consent by default and, in a clean-browser test on the home page, its script removed the Factors cookie about 85 ms after it was set. And four of the eleven audiences are empty right now. They are built on the “Hot” level, which needs 60 points, and the highest score any account has today is 30. Audience 2 also accepts “Warm”. One account is Warm (score 30), but it has no country or industry in Factors’ company data, and Audience 2 also requires Canada or the United States and one of 11 listed industries, so it does not qualify.</li>
+    <li><b>Why the number is small.</b> Few visitor IDs reach Google: on this site the cookie banner denies ad consent by default. In one clean-browser test on the home page the cookie was set at about 1.25 s and the banner’s own script removed it within about 85 ms (a measurement, not a setting). And four of the eleven audiences are empty right now. They are built on the “Hot” level, which needs 60 points, and the highest score any account has today is 30. Audience 2 also accepts “Warm”. One account is Warm (score 30), but it has no country or industry in Factors’ company data, and Audience 2 also requires Canada or the United States and one of 11 listed industries, so it does not qualify.</li>
   </ul>
   <p class="hood"><b>Under the hood</b><span class="tag">API</span>Every one of the 11 audiences returns sizeForSearch "0", sizeForDisplay "0" and both size ranges LESS_THAN_FIVE_HUNDRED. Read live on 15 Oct 2026 at 12:13 UTC (API v23). <span class="tag">DB</span>Our stored copy equals the live API field for field. All 678 upload jobs to Google for these audiences finished SUCCESS, with an error count of 0. <span class="tag">DOCS</span>The 100-member rule is Google’s own (see “What Google’s documentation says”). <span class="tag">REPORTED</span>The 0 on the Google Ads screen is what the customer reports; we could not see that screen.</p>
   <details class="more"><summary>What the evidence tags mean</summary>
@@ -541,35 +558,18 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
 .jn-bh{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px}
 .jn-h3{font-size:clamp(19px,2.4vw,24px);line-height:1.25;font-weight:750;letter-spacing:-.01em}
 .jn-sub{margin-top:6px;max-width:72ch;font-size:15px;color:var(--jn-dim)}
-.jn-fun{margin-top:14px;--jn-lw:210px}
-.jn-axis{position:relative;height:22px;margin-left:var(--jn-lw);font-size:12.5px;line-height:22px;color:var(--jn-dim)}
-.jn-axis span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
-.jn-axis span.jn-ax-f{color:var(--jn-text);font-weight:750}
-.jn-fr{display:grid;grid-template-columns:var(--jn-lw) minmax(0,1fr);align-items:center;gap:4px 0;padding:12px 0;border-top:1px solid var(--jn-border)}
-.jn-fl{padding-right:14px;min-width:0}
-.jn-fn{font-size:clamp(22px,3vw,28px);font-weight:750;line-height:1.1;font-variant-numeric:tabular-nums}
-.jn-fu{margin-top:2px;font-size:13.5px;line-height:1.3;color:var(--jn-dim)}
-.jn-ft{position:relative;height:30px;border-radius:6px;background:
-  linear-gradient(var(--jn-border),var(--jn-border)) 0 0/1px 100% no-repeat,
-  linear-gradient(var(--jn-border),var(--jn-border)) var(--jn-g3) 0/1px 100% no-repeat,
-  linear-gradient(var(--jn-border),var(--jn-border)) var(--jn-g4) 0/1px 100% no-repeat,
-  linear-gradient(var(--jn-border),var(--jn-border)) var(--jn-g5) 0/1px 100% no-repeat,
-  var(--jn-sunken)}
-.jn-ft::after{content:"";position:absolute;left:var(--jn-g2);top:-3px;bottom:-3px;border-left:2.5px dashed var(--jn-text);pointer-events:none}
-.jn-ft2{height:48px}
-.jn-fb{position:absolute;top:5px;bottom:5px;left:0;border-radius:4px;background:var(--jn-primary)}
-.jn-ft2 .jn-fb{top:5px;bottom:auto;height:16px}
-.jn-ft2 .jn-fb2{top:27px;height:12px}
-.jn-fb-est{background:repeating-linear-gradient(135deg,var(--jn-warn) 0 5px,transparent 5px 9px);border:2px solid var(--jn-warn)}
-.jn-flab{position:absolute;font-size:12.5px;line-height:16px;font-weight:650;white-space:nowrap}
-.jn-zero{position:absolute;left:6px;top:0;bottom:0;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:650}
-.jn-zero b{display:inline-block;padding:1px 9px;border-radius:999px;border:2px solid var(--jn-down);font-size:13px}
-.jn-fw{grid-column:2;margin-top:6px;font-size:14.5px;line-height:1.45}
-.jn-fw .jn-ev{margin-left:6px;vertical-align:1px}
-.jn-armed .jn-fb{transform:scaleX(0);transform-origin:left center;transition:transform 1.1s cubic-bezier(.2,.7,.2,1) var(--jn-fd,0s)}
-.jn-armed.jn-go .jn-fb{transform:scaleX(1)}
-.jn-armed .jn-flab,.jn-armed .jn-zero{opacity:0;transition:opacity .5s ease calc(var(--jn-fd,0s) + .9s)}
-.jn-armed.jn-go .jn-flab,.jn-armed.jn-go .jn-zero{opacity:1}
+.jn-cards{margin-top:16px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:30px}
+.jn-card{position:relative;display:flex;flex-direction:column;gap:6px;padding:14px 14px 16px;border:2px solid var(--jn-border);border-radius:14px;background:var(--jn-raised)}
+.jn-card:not(:last-child)::after{content:"";position:absolute;right:-22px;top:50%;width:14px;height:14px;margin-top:-7px;border-top:3px solid var(--jn-dim);border-right:3px solid var(--jn-dim);transform:rotate(45deg)}
+.jn-cn{font-size:clamp(28px,3.4vw,40px);font-weight:750;line-height:1.05;font-variant-numeric:tabular-nums}
+.jn-cl{font-size:15px;font-weight:650;line-height:1.3}
+.jn-cw{font-size:14.5px;line-height:1.45;color:var(--jn-dim)}
+.jn-card .jn-ev{align-self:flex-start;margin-top:auto}
+.jn-card-est{border-style:dashed;border-color:var(--jn-warn)}
+.jn-card-zero{border-color:var(--jn-down)}.jn-card-zero .jn-cn{color:var(--jn-down)}
+.jn-armed .jn-card{opacity:0;transform:translateY(14px);transition:opacity .5s ease calc(var(--jn-ci) * .45s),transform .5s ease calc(var(--jn-ci) * .45s)}
+.jn-armed.jn-go .jn-card{opacity:1;transform:none}
+.jn-armed.jn-reset .jn-card{transition:none!important}
 
 .jn-tbl{width:100%;margin-top:14px;border-collapse:separate;border-spacing:0;border:1.5px solid var(--jn-border);border-radius:12px;overflow:hidden;background:var(--jn-raised)}
 .jn-tbl th,.jn-tbl td{padding:12px 14px;text-align:left;vertical-align:top;font-size:15px;line-height:1.45;border-top:1px solid var(--jn-border)}
@@ -610,10 +610,8 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
 .jn-narrow .jn-dots{gap:5px}
 .jn-narrow .jn-bl{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .jn-narrow .jn-btn[data-jn="play"] .jn-bl{position:static;width:auto;height:auto;margin:0;overflow:visible;clip:auto}
-.jn-narrow .jn-fun{--jn-lw:0px}
-.jn-narrow .jn-fr{grid-template-columns:minmax(0,1fr)}
-.jn-narrow .jn-fl{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;padding-right:0}
-.jn-narrow .jn-fw{grid-column:1}
+.jn-narrow .jn-cards{grid-template-columns:1fr;gap:36px}
+.jn-narrow .jn-card:not(:last-child)::after{right:auto;left:50%;top:auto;bottom:-25px;margin:0 0 0 -7px;transform:rotate(135deg)}
 .jn-narrow .jn-tbl thead{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0)}
 .jn-narrow .jn-tbl,.jn-narrow .jn-tbl tbody,.jn-narrow .jn-tbl tr,.jn-narrow .jn-tbl th,.jn-narrow .jn-tbl td{display:block}
 .jn-narrow .jn-tbl tbody th{white-space:normal;font-size:16px;background:var(--jn-sunken)}
@@ -667,8 +665,8 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
           </div>
         </div>
 
-        <div class="jn-lh jn-lh1"><span>Factors tag</span></div>
-        <div class="jn-lh jn-lh2"><span>Google tag</span></div>
+        <div class="jn-lh jn-lh1"><span>Factors tag · ignores ad consent</span></div>
+        <div class="jn-lh jn-lh2"><span>Google tag · obeys ad consent</span></div>
 
         <aside class="jn-legend" aria-label="How to read the diagram">
           <div class="jn-lgh">How to read this</div>
@@ -757,8 +755,8 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
       <h3 class="jn-h3">Where the people drop off</h3>
       <button type="button" class="jn-btn" data-jn="replay"><svg class="jn-bi" aria-hidden="true" focusable="false"><use href="#jn-i-restart"></use></svg><span>Replay</span></button>
     </div>
-    <p class="jn-sub">Counts for this site. The scale is logarithmic: each gridline to the right is 10 times more, so every row stays visible. The unit changes from row to row, so read each label. The dashed line is Google&rsquo;s floor of 100.</p>
-    <div class="jn-fun" data-jn="fun"></div>
+    <p class="jn-sub">Counts for this site, from left to right. Each card says why the number changes.</p>
+    <div class="jn-cards" data-jn="fun" role="list"></div>
   </div>
 
   <div class="jn-block">
@@ -769,7 +767,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
       <tbody>
         <tr><th scope="row">Factors tag</th><td data-l="What it does">Records the page view on Factors&rsquo; side and sets the visitor-ID cookie.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">No.</span> It ran with ad consent off.</td><td data-l="What we saw">Present and working on the 3 pages tested.</td></tr>
         <tr><th scope="row">Google tag</th><td data-l="What it does">Sends page-view pings to Google. It is set up to attach the visitor ID.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">Yes.</span> With ad consent denied, Google&rsquo;s consent rules make it send an anonymous ping.</td><td data-l="What we saw">The Google Ads requests carried the consent flags gcs=G100 and npa=1 (ads storage denied) and no visitor ID.</td></tr>
-        <tr><th scope="row">Cookie banner</th><td data-l="What it does">Asks the visitor for consent. It is opt-in: everything except &ldquo;necessary&rdquo; is off until the visitor chooses.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">It sets the consent state</span> that the Google tag follows.</td><td data-l="What we saw">In the home-page test, its script removed the Factors ID cookie about 85 ms after the cookie was set (at about 1.25 s).</td></tr>
+        <tr><th scope="row">Cookie banner</th><td data-l="What it does">Asks the visitor for consent. It is opt-in: everything except &ldquo;necessary&rdquo; is off until the visitor chooses.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">It sets the consent state</span> that the Google tag follows.</td><td data-l="What we saw">In one clean-browser test on the home page the cookie was set at about 1.25 s and the banner’s own script removed it within about 85 ms (a measurement, not a setting).</td></tr>
       </tbody>
     </table>
     <p class="jn-note">How each script is treated by the banner is the site owner&rsquo;s decision.</p>
@@ -821,7 +819,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
   /* ------------------------------------------------------------------ story data
      st: node state (i idle, n active, o done, x blocked, w caution, e expected). Entries carry forward to later steps. */
   var ORIG = 'Seen in a clean-browser test, 15 Oct 2026';
-  var EXPT = 'Expected, not tested on this site';
+  var EXPT = 'Not tested on this site';
   var DESIGN = 'How the integration is designed. Google’s public docs don’t detail ID matching';
   var UPLOAD_WHY = 'The upload itself works: all 678 upload jobs to Google finished with no errors.';
   var UPLOAD_EV = [['data', 'From Factors’ data and Google’s API, read 15 Oct 2026']];
@@ -838,16 +836,16 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
         big: 'Factors’ tag loads and records the page view. It also sets a visitor-ID cookie.',
         why: 'Factors’ tag does not wait for Google ad consent, so the page view is recorded either way.',
         ev: [['obs', ORIG + ': 3 of 3 pages'], ['data', 'From Factors’ data: 13,313 page views in the last 30 days']] },
-      { now: ['f3'], d: { f3: 0.3 }, st: { f3: 'x' }, sub: { f3: 'Deleted about 85 ms later by the banner’s script.', f2: 'Still saved, with its ID.' }, ui: { chip: 1 }, ed: {},
+      { now: ['f3'], d: { f3: 0.3 }, st: { f3: 'x' }, sub: { f3: 'Removed within about 85 ms by the banner’s own script (one measurement).', f2: 'Still saved, with its ID.' }, ui: { chip: 1 }, ed: {},
         tok: [{ id: 'a', end: 'bad' }],
-        big: 'About 85 ms later, the banner’s script deletes the ID cookie.',
-        why: 'In a clean-browser test on the home page, the cookie was set at about 1.25 s and removed about 85 ms later by the banner script.',
+        big: 'In one clean-browser test on the home page the cookie was set at about 1.25 s and the banner’s own script removed it within about 85 ms (a measurement, not a setting).',
+        why: 'A cookie that doesn’t last means every page view looks like a new visitor. The banner holds back cookies it does not allow until the visitor consents; how the banner classifies this cookie is set in the site’s banner settings, which we have not seen.',
         ev: [['obs', ORIG + ' (home page)']] },
       { now: ['g1', 'g2', 'g3', 'r'], d: { g1: 0.35, g2: 0.8, g3: 1.25, r: 1.7 }, st: { g1: 'o', g2: 'w', g3: 'x', r: 'x' },
         sub: { g1: 'Loaded and running.', g2: 'Ad consent: denied. The ID is not attached.', g3: 'Sent WITHOUT the visitor ID.', r: 'Nothing from this visit.' },
         ed: { e2: 'o', e5: 'x', e6: 'g', e7: 'g' },
         tok: [{ id: 'a', sp: 1, r: ['e2', 'e5'], end: 'bad' }, { id: 'b', sp: 1, r: ['e6', 'e7'], end: 'ghost', at: 0.95 }],
-        big: 'Google’s tag runs. Ad consent is denied, so it sends only an anonymous ping, with no visitor ID.',
+        big: 'Same visitor, same page: Google’s tag obeys the consent switch, so no ID goes to Google.',
         why: 'The tag is set up to pass the ID. With consent denied, Google’s consent rules hold it back.',
         ev: [['obs', ORIG]] },
       { now: ['c1'], d: { c1: 0.9 }, st: { c1: 'o' }, sub: { c1: '1,714 IDs sent now.' }, ed: { e8: 'o' },
@@ -904,12 +902,12 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
         ev: [['exp', EXPT], ['est', '13 and 66 matched people on the two audiences with a match rate']] }
     ]
   };
-  var FUN = [
-    { n: '13,313', u: 'page views in the last 30 days', v: 13313, k: 'data', kt: 'From Factors’ data', w: 'Factors’ tag records every page view, whether or not the visitor accepts cookies.' },
-    { n: '11,372', u: 'different visitor IDs in the last 30 days', v: 11372, k: 'data', kt: 'From Factors’ data', w: 'Counted from Factors’ data. In a clean-browser test on the home page, the banner script removed the visitor-ID cookie about 85 ms after it was set.' },
-    { n: '1,714', u: 'IDs uploaded now', v: 1714, k: 'data', kt: 'From Factors’ data', w: 'Only people from the target accounts are uploaded. A person in two audiences counts twice.' },
-    { n: '85–155', u: 'people Google can match (Estimate)', est: 1, lo: 85, hi: 155, lo2: 13, hi2: 66, k: 'est', kt: 'Estimate', w: 'Google’s 5–9% match rate × 1,714, as if everyone were in one audience. Per audience, the two that report a match rate are about 13 and 66.' },
-    { n: '0', u: 'number Google Ads shows', zero: 1, k: 'docs', kt: 'Google’s docs', w: 'Google shows a number only from 100 matched people. Below that it shows 0, which is a reporting floor, not “nobody matched”.' }
+  var CARDS = [
+    { n: '13,313', l: 'page views in the last 30 days', w: 'Factors’ tag records every page view, whether or not the visitor accepts cookies.', k: 'data', kt: 'From Factors’ data' },
+    { n: '11,372', l: 'different visitor IDs in the last 30 days', w: 'All visitors, not only people from the target accounts.', k: 'data', kt: 'From Factors’ data' },
+    { n: '1,714', l: 'IDs uploaded now', w: 'Only people from the target accounts are uploaded. A person in two audiences counts twice.', k: 'data', kt: 'From Factors’ data' },
+    { n: '85–155', l: 'people Google could match if all were in one audience', w: 'Google’s 5–9% match rate × 1,714. Per audience, the two that report a match rate are about 13 and 66.', k: 'est', kt: 'Estimate' },
+    { n: '0', l: 'number Google Ads shows', w: 'Google shows a number only from 100 matched people. Below that it shows 0, a reporting floor, not “nobody matched”.', k: 'docs', kt: 'Google’s docs', zero: 1 }
   ];
 
   /* ------------------------------------------------------------------ state */
@@ -1095,11 +1093,9 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
     var why = q('[data-jn="why"]'); why.textContent = '';
     why.appendChild(h('b', '', 'Why: ')); why.appendChild(document.createTextNode(s.why));
     var evs = q('[data-jn="evs"]'); evs.textContent = '';
-    s.ev.forEach(function (x) {
-      var c = h('span', 'jn-ev jn-ev-' + x[0]);
-      c.appendChild(h('b', '', EVK[x[0]] + ':')); c.appendChild(document.createTextNode(' ' + x[1]));
-      evs.appendChild(c);
-    });
+    var et = h('span', 'jn-evt');
+    s.ev.forEach(function (x, i) { if (i) { et.appendChild(document.createTextNode(' · ')); } et.appendChild(h('b', '', EVK[x[0]] + ':')); et.appendChild(document.createTextNode(' ' + x[1])); });
+    why.appendChild(document.createTextNode(' ')); why.appendChild(et);
   }
   function renderControls() {
     var play = q('[data-jn="play"]'), lab = q('.jn-bl', play), use = q('use', play);
@@ -1177,41 +1173,26 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
       g.appendChild(d);
     }
   }
-  function pct(v) { return (Math.log(v) / Math.LN10 - 1) / (Math.log(20000) / Math.LN10 - 1) * 100; }
-  function buildFunnel() {
+  function buildCards() {
     var f = q('[data-jn="fun"]');
-    f.style.setProperty('--jn-g2', pct(100) + '%'); f.style.setProperty('--jn-g3', pct(1000) + '%');
-    f.style.setProperty('--jn-g4', pct(10000) + '%'); f.style.setProperty('--jn-g5', '100%');
-    var ax = h('div', 'jn-axis'), ticks = [[10, '10'], [100, '100'], [1000, '1,000'], [10000, '10,000']];
-    ax.setAttribute('aria-hidden', 'true');
-    ticks.forEach(function (t) { var s = h('span', t[0] === 100 ? 'jn-ax-f' : '', t[1]); s.style.left = pct(t[0]) + '%'; ax.appendChild(s); });
-    f.appendChild(ax);
-    FUN.forEach(function (r, i) {
-      var row = h('div', 'jn-fr'), lab = h('div', 'jn-fl'), tr = h('div', 'jn-ft' + (r.est ? ' jn-ft2' : '')), b, b2, w = h('p', 'jn-fw'), ev;
-      row.style.setProperty('--jn-fd', (i * 0.22) + 's');
-      lab.appendChild(h('div', 'jn-fn', r.n)); lab.appendChild(h('div', 'jn-fu', r.u));
-      tr.setAttribute('aria-hidden', 'true');
-      if (r.zero) {
-        var z = h('div', 'jn-zero'); z.appendChild(h('b', '', '0')); z.appendChild(document.createTextNode('← off the left edge of this scale'));
-        tr.appendChild(z);
-      } else if (r.est) {
-        b = h('div', 'jn-fb jn-fb-est'); b.style.left = pct(r.lo) + '%'; b.style.width = (pct(r.hi) - pct(r.lo)) + '%'; tr.appendChild(b);
-        var l1 = h('div', 'jn-flab', '85–155 if all in one list'); l1.style.left = (pct(r.hi) + 1.2) + '%'; l1.style.top = '5px'; tr.appendChild(l1);
-        b2 = h('div', 'jn-fb jn-fb-est jn-fb2'); b2.style.left = pct(r.lo2) + '%'; b2.style.width = (pct(r.hi2) - pct(r.lo2)) + '%'; tr.appendChild(b2);
-        var l2 = h('div', 'jn-flab', '13 and 66 on two audiences'); l2.style.left = (pct(r.hi2) + 1.2) + '%'; l2.style.top = '27px'; tr.appendChild(l2);
-      } else {
-        b = h('div', 'jn-fb'); b.style.width = pct(r.v) + '%'; tr.appendChild(b);
-      }
-      w.appendChild(document.createTextNode(r.w));
-      ev = h('span', 'jn-ev jn-ev-' + r.k); ev.appendChild(h('b', '', r.kt)); w.appendChild(ev);
-      row.appendChild(lab); row.appendChild(tr); row.appendChild(w); f.appendChild(row);
+    CARDS.forEach(function (c, i) {
+      var d = h('div', 'jn-card' + (c.zero ? ' jn-card-zero' : '') + (c.k === 'est' ? ' jn-card-est' : ''));
+      d.setAttribute('role', 'listitem'); d.style.setProperty('--jn-ci', i);
+      d.appendChild(h('div', 'jn-cn', c.n)); d.appendChild(h('div', 'jn-cl', c.l)); d.appendChild(h('p', 'jn-cw', c.w));
+      var ev = h('span', 'jn-ev jn-ev-' + c.k); ev.appendChild(h('b', '', c.kt)); d.appendChild(ev);
+      f.appendChild(d);
     });
   }
+  var fTimer = 0;
   function funnelGo(replay) {
     var f = q('[data-jn="fun"]');
+    clearTimeout(fTimer);
     if (reduced) { f.classList.remove('jn-armed'); return; }
     f.classList.add('jn-armed');
-    if (replay) { f.classList.remove('jn-go'); void f.offsetWidth; setTimeout(function () { f.classList.add('jn-go'); }, 40); } else { f.classList.add('jn-go'); }
+    if (replay) {
+      f.classList.add('jn-reset'); f.classList.remove('jn-go'); void f.offsetWidth; f.classList.remove('jn-reset');
+      fTimer = setTimeout(function () { f.classList.add('jn-go'); }, 60);
+    } else { f.classList.add('jn-go'); }
   }
 
   /* ------------------------------------------------------------------ layout + events */
@@ -1234,7 +1215,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
     renderControls();
   }
 
-  buildDots(); buildGrid(); buildWires(); buildFunnel();
+  buildDots(); buildGrid(); buildWires(); buildCards();
   root.classList.toggle('jn-rm', reduced);
   setLayout();
   render(false);
@@ -1243,7 +1224,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
     var t = ev.target.closest ? ev.target.closest('button') : null, a;
     if (!t || !root.contains(t)) { return; }
     a = t.getAttribute('data-jn');
-    if (t.hasAttribute('data-jn-scn')) { userTook(); state.scn = t.getAttribute('data-jn-scn'); render(true); return; }
+    if (t.hasAttribute('data-jn-scn')) { userTook(); state.scn = t.getAttribute('data-jn-scn'); state.step = 1; pause(); render(true); return; }
     if (t.hasAttribute('data-jn-step')) { nav(parseInt(t.getAttribute('data-jn-step'), 10)); return; }
     if (a === 'play') { toggle(); }
     else if (a === 'back') { if (state.step > 1) { nav(state.step - 1); } }
@@ -1273,10 +1254,15 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
 
   /* auto-play once when the diagram scrolls into view; the funnel bars grow when they scroll into view */
   if ('IntersectionObserver' in window) {
+    var viewTimer = 0;
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (en) {
         var need = Math.min(280, en.boundingClientRect.height * 0.5);
-        if (en.isIntersecting && en.intersectionRect.height >= need && !state.autoDone) { state.autoDone = true; io.disconnect(); if (!reduced) { play(); } }
+        var vis = en.isIntersecting && en.intersectionRect.height >= need;
+        if (state.autoDone) { return; }
+        if (vis) {
+          if (!viewTimer) { viewTimer = setTimeout(function () { viewTimer = 0; if (!state.autoDone) { state.autoDone = true; io.disconnect(); if (!reduced) { play(); } } }, 800); }
+        } else if (viewTimer) { clearTimeout(viewTimer); viewTimer = 0; }
       });
     }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 1] });
     io.observe(stage);
@@ -1346,7 +1332,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
     <div class="tablewrap" tabindex="0" role="region" aria-label="Table of the 11 audiences"><table id="atable"></table></div>
     <p class="small muted">“AWAITING_GOOGLE_JOB_COMPLETION” is not stuck. Google already reports all of those upload jobs as SUCCESS; our store can lag by up to a day. The sync runs once a day (about 02:15–02:55 UTC) and Google’s numbers are re-read about once a day. Audiences 1–6 are the older ones; Audiences 7–11 were created 5–6 Oct. One person can be in several audiences: 1,714 is a count of memberships.</p>
   </details>
-  <p class="hood"><b>Under the hood</b><span class="tag">DB</span>Rows read from production on 15 Oct 2026 at about 12:10 UTC: 7 audiences hold people, with 1,714 uploaded memberships (one person can be in several audiences). <span class="tag">API</span>Match rates and sizes read live. <span class="tag">DB</span><span class="tag">API</span>Estimated matched = uploaded now × Google match rate: 268 × 5% ≈ 13 and 738 × 9% ≈ 66. Google never says which people matched. Even all 1,714 memberships at 5–9% would give roughly 85–155 matched, still far below 500 (illustration, simple multiplication).</p>
+  <p class="hood"><b>Under the hood</b><span class="tag">DB</span>Rows read from production on 15 Oct 2026 at about 12:10 UTC: 7 audiences hold people, with 1,714 uploaded memberships (one person can be in several audiences). <span class="tag">API</span>Match rates and sizes read live. <span class="tag">DB</span><span class="tag">API</span>Estimated matched = uploaded now × Google match rate: 268 × 5% ≈ 13 and 738 × 9% ≈ 66. Google never says which people matched. Even all 1,714 memberships at 5–9% would give about 85 to 155 matched, still far below 500 (illustration, simple multiplication).</p>
 </section>
 
 <!-- ============ 4. FLEET ============ -->
@@ -1419,7 +1405,7 @@ footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);
     <summary><span class="lv-n">1</span><span class="lv-t">Merge the small audiences into one ID-based audience</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span class="lv-tags"><span class="tg"><i>Who:</i> Factors</span><span class="tg"><i>Effort:</i> Low</span><span class="tg"><i>Impact:</i> could reach Google’s line, not guaranteed</span></span></summary>
     <div class="lv-body">
-      <p>Google applies its 100 rule to each list on its own. Today the people are spread over 7 lists that hold 1,714 uploaded memberships in total (one person can be in several lists; the overlap is unknown). At today’s 5–9% match rate, one merged list would hold roughly 85–155 matched people: right at the line. It is cheap to try and not guaranteed.</p>
+      <p>Google applies its 100 rule to each list on its own. Today the people are spread over 7 lists that hold 1,714 uploaded memberships in total (one person can be in several lists; the overlap is unknown). At today’s 5–9% match rate, one merged list would hold about 85 to 155 matched people: right at the line. It is cheap to try and not guaranteed.</p>
       <p><span class="pill est">Illustration</span> 1,714 × 5% ≈ 86 and 1,714 × 9% ≈ 154.</p>
       <p class="hood"><b>Under the hood</b><span class="tag">DB</span><span class="tag">API</span>uploaded memberships and match rates as read on 15 Oct 2026.</p>
     </div>
@@ -1589,7 +1575,7 @@ var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'
 /* ---------- theme ---------- */
 var root=document.documentElement, tbtn=$('#themeBtn');
 function effective(){var t=root.getAttribute('data-theme');if(t)return t;return (window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'}
-function paintBtn(){tbtn.setAttribute('aria-pressed',String(effective()==='dark'))}
+function paintBtn(){var d=effective()==='dark';$('.lbl',tbtn).textContent='Theme: '+(d?'Dark':'Light');tbtn.setAttribute('aria-label','Theme: '+(d?'Dark':'Light')+'. Switch to '+(d?'light':'dark'))}
 tbtn.addEventListener('click',function(){var n=effective()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('gas-theme',n)}catch(e){}paintBtn()});
 try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',paintBtn)}catch(e){}
 paintBtn();
