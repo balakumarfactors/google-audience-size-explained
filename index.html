@@ -1,0 +1,1776 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="light dark">
+<title>Google Audience Sync: why Google Ads shows 0 and Factors shows “Under 500”</title>
+<script>try{var __t=localStorage.getItem('gas-theme');if(__t==='light'||__t==='dark')document.documentElement.setAttribute('data-theme',__t)}catch(e){}</script>
+<style>
+:root{
+  --bg:#F8FAFC;--raised:#FFFFFF;--sunken:#F1F5F9;--text:#1E293B;--dim:#475569;--border:#E2E8F0;
+  --ctrl:#64748B;--primary:#2563EB;--on-primary:#FFFFFF;--up:#0F766E;--down:#B91C1C;--info:#0369A1;
+  --warn:#B45309;--scan:#0E7490;
+  --up-t:#0B5F58;--warn-t:#92400E;--pri-t:#1D4ED8;--info-t:#075985;--down-t:#991B1B;
+  --c-up:#2563EB;--c-match:#C2410C;--c-neutral:#7C8CA3;--ref:#334155;
+  --navbg:rgba(248,250,252,.94);--focus:#1D4ED8;--shadow:0 1px 2px rgba(15,23,42,.06);
+  --ok-bg:rgba(15,118,110,.12);--bad-bg:rgba(185,28,28,.10);--warn-bg:rgba(180,83,9,.12);
+  --info-bg:rgba(3,105,161,.10);--pri-bg:rgba(37,99,235,.10);
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1220;--raised:#131C2B;--sunken:#0F1826;--text:#E2E8F0;--dim:#94A3B8;--border:#243044;
+    --ctrl:#7B8BA3;--primary:#60A5FA;--on-primary:#0B1220;--up:#2DD4BF;--down:#F87171;--info:#38BDF8;
+    --warn:#FBBF24;--scan:#22D3EE;
+    --up-t:#2DD4BF;--warn-t:#FBBF24;--pri-t:#60A5FA;--info-t:#38BDF8;--down-t:#F87171;
+    --c-up:#4C8FEF;--c-match:#EA580C;--c-neutral:#64748B;--ref:#CBD5E1;
+    --navbg:rgba(11,18,32,.94);--focus:#93C5FD;--shadow:0 1px 2px rgba(0,0,0,.4);
+    --ok-bg:rgba(45,212,191,.14);--bad-bg:rgba(248,113,113,.14);--warn-bg:rgba(251,191,36,.14);
+    --info-bg:rgba(56,189,248,.14);--pri-bg:rgba(96,165,250,.16);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1220;--raised:#131C2B;--sunken:#0F1826;--text:#E2E8F0;--dim:#94A3B8;--border:#243044;
+  --ctrl:#7B8BA3;--primary:#60A5FA;--on-primary:#0B1220;--up:#2DD4BF;--down:#F87171;--info:#38BDF8;
+  --warn:#FBBF24;--scan:#22D3EE;
+  --up-t:#2DD4BF;--warn-t:#FBBF24;--pri-t:#60A5FA;--info-t:#38BDF8;--down-t:#F87171;
+  --c-up:#4C8FEF;--c-match:#EA580C;--c-neutral:#64748B;--ref:#CBD5E1;
+  --navbg:rgba(11,18,32,.94);--focus:#93C5FD;--shadow:0 1px 2px rgba(0,0,0,.4);
+  --ok-bg:rgba(45,212,191,.14);--bad-bg:rgba(248,113,113,.14);--warn-bg:rgba(251,191,36,.14);
+  --info-bg:rgba(56,189,248,.14);--pri-bg:rgba(96,165,250,.16);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:64px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;font-size:17px}
+.wrap{max-width:980px;margin:0 auto;padding:28px 16px 88px}
+@media(min-width:700px){.wrap{padding:40px 20px 96px}}
+a{color:var(--primary)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:8px;background:var(--raised);color:var(--text);padding:10px 14px;border-radius:8px;z-index:100;border:1px solid var(--ctrl)}
+.skip:focus{left:8px}
+h1{font-size:clamp(30px,5.4vw,44px);line-height:1.14;margin:8px 0 12px;letter-spacing:-.02em}
+h2{font-size:clamp(24px,3.6vw,29px);line-height:1.25;margin:68px 0 16px;letter-spacing:-.01em;padding-bottom:10px;border-bottom:1px solid var(--border)}
+h3{font-size:19px;line-height:1.3;margin:26px 0 8px}
+p{margin:12px 0}
+.small{font-size:15px}.muted{color:var(--dim)}
+.lead{font-size:18px;color:var(--text)}
+
+/* journey fragment integration */
+section#journey{margin-top:68px}
+#journey .jn-h2{padding-bottom:10px;border-bottom:1px solid var(--border)}
+#journey .jn-sub,#journey .jn-note,#journey .jn-untested ul,#journey .jn-tbl th,#journey .jn-tbl td{font-size:16px}
+#journey .jn-tbl thead th{font-size:13.5px}
+#journey .jn-fw{font-size:15.5px}
+#journey .jn-fu,#journey .jn-ns{font-size:14px}
+#journey:not(.jn-narrow) .jn-why{font-size:16px}
+#journey:not(.jn-narrow) .jn-ev,#journey:not(.jn-narrow) .jn-kick{font-size:14px}
+#journey.jn-scn-acc .jn-mtx{height:40px}
+#journey .jn-mtx .jn-mg{white-space:normal;right:0;line-height:1.25}
+
+/* top nav */
+.topnav{position:sticky;top:0;z-index:60;background:var(--navbg);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.topnav .in{max-width:980px;margin:0 auto;height:50px;display:flex;align-items:center;gap:8px;padding:0 10px}
+.topnav nav{flex:1 1 auto;min-width:0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.topnav nav::-webkit-scrollbar{display:none}
+.topnav nav a{flex:0 0 auto;padding:7px 10px;border-radius:8px;font-size:15px;color:var(--dim);text-decoration:none;white-space:nowrap}
+.topnav nav a:hover{background:var(--sunken);color:var(--text)}
+.topnav nav a[aria-current="true"]{background:var(--pri-bg);color:var(--text);font-weight:600}
+.themebtn{flex:0 0 auto;display:inline-flex;gap:7px;align-items:center;min-height:38px;padding:0 12px;border:1px solid var(--ctrl);border-radius:999px;background:var(--raised);color:var(--text);font:600 14px var(--sans);cursor:pointer}
+.themebtn svg{width:16px;height:16px}
+.themebtn[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+
+/* hero + answer */
+.kicker{margin:0;color:var(--dim);font-size:15px}
+.sub{color:var(--dim);margin:0 0 8px;font-size:19px}
+.datanote{font:14px var(--mono);color:var(--dim);margin:0}
+.answer{font-size:clamp(21px,3.5vw,28px);line-height:1.32;font-weight:700;letter-spacing:-.01em;margin:0 0 20px;padding:20px 22px;background:var(--raised);border:1px solid var(--border);border-left:6px solid var(--primary);border-radius:12px;box-shadow:var(--shadow)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin:16px 0}
+.kpi{background:var(--raised);border:1px solid var(--border);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow)}
+.kpi .label{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);line-height:1.35}
+.kpi .val{font:600 clamp(24px,3.2vw,29px)/1.15 var(--mono);margin-top:8px}
+.kpi .kn{font-size:15px;color:var(--dim);margin-top:6px;line-height:1.4;overflow-wrap:anywhere}
+.nb{white-space:nowrap}
+.plain{margin:18px 0 8px;padding:0;list-style:none;display:grid;gap:12px}
+.plain li{padding:2px 0 2px 18px;border-left:4px solid var(--border)}
+.plain b{display:block}
+
+/* shared bits */
+.card{background:var(--raised);border:1px solid var(--border);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow);margin:16px 0}
+.note{border-left:4px solid var(--info);background:var(--sunken);border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0}
+.note.warn{border-left-color:var(--warn)}.note.good{border-left-color:var(--up)}.note.bad{border-left-color:var(--down)}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13.5px;font-weight:600;letter-spacing:.02em;vertical-align:middle}
+.pill.ok{background:var(--ok-bg);color:var(--up-t)}.pill.warn{background:var(--warn-bg);color:var(--warn-t)}
+.pill.bad{background:var(--bad-bg);color:var(--down-t)}.pill.info{background:var(--info-bg);color:var(--info-t)}
+.pill.pri{background:var(--pri-bg);color:var(--pri-t)}
+.pill.est{border:1px dashed var(--warn);color:var(--warn-t);background:transparent;text-transform:none;letter-spacing:0}
+.hood{margin:16px 0 0;padding-top:12px;border-top:1px dashed var(--ctrl);font-size:15px;color:var(--dim);line-height:1.55}
+.hood b{color:var(--text);font-weight:600;margin-right:8px}
+.tag{display:inline-block;font:600 12.5px/1.5 var(--mono);padding:0 7px;margin:0 5px 0 0;border:1px solid var(--ctrl);border-radius:5px;color:var(--dim);background:var(--sunken);vertical-align:1px}
+code,.mono{font-family:var(--mono);font-size:.9em}
+code{background:var(--sunken);padding:1px 6px;border-radius:5px}
+.btn{min-height:44px;padding:0 18px;border:1px solid var(--ctrl);border-radius:10px;background:var(--raised);color:var(--text);font:600 15.5px var(--sans);cursor:pointer}
+.btn[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--raised);margin:14px 0}
+table:not(.jn-tbl){border-collapse:collapse;width:100%;font-size:15.5px;min-width:520px}
+table:not(.jn-tbl) th{text-align:left;padding:11px 14px;background:var(--sunken);color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap}
+table:not(.jn-tbl) td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+table:not(.jn-tbl) tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-family:var(--mono);font-size:14.5px}
+td.st{font-family:var(--mono);font-size:13px;overflow-wrap:anywhere;min-width:150px}
+details.more{margin:14px 0}
+details.more>summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center;padding:0 2px}
+
+/* three screens */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.chip{min-height:44px;padding:0 16px;border:1px solid var(--ctrl);border-radius:999px;background:var(--raised);color:var(--text);font:600 15.5px var(--sans);cursor:pointer}
+.chip.is-empty{border-style:dashed}
+.chip[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.two{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start}
+@media(max-width:860px){.two{grid-template-columns:1fr}}
+.apicard{margin:0}
+dl.api{margin:10px 0 0;background:var(--sunken);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font:14.5px/1.55 var(--mono)}
+dl.api .r{display:grid;grid-template-columns:minmax(0,max-content) 1fr;gap:2px 16px;padding:4px 0}
+@media(max-width:560px){dl.api .r{grid-template-columns:1fr;gap:0}dl.api dd{padding-left:12px}}
+dl.api dt{color:var(--dim)}dl.api dd{margin:0;overflow-wrap:anywhere}
+dl.api dd.hl{font-weight:700;color:var(--text);background:var(--warn-bg);border-radius:4px;padding:0 6px;justify-self:start}
+.na{color:var(--dim);font-style:italic}
+.screens{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto auto;gap:16px;margin:20px 0}
+@media(max-width:900px){.screens{grid-template-columns:1fr;grid-template-rows:none}}
+.screen{margin:0;display:grid;grid-row:span 2;grid-template-rows:subgrid;row-gap:10px}
+@media(max-width:900px){.screen{display:flex;flex-direction:column;grid-row:auto;gap:10px}}
+.mock{border:1px solid var(--ctrl);border-radius:10px;background:var(--raised);overflow:hidden;min-height:196px;display:flex;flex-direction:column}
+.mock-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 8px;padding:8px 12px;background:var(--sunken);border-bottom:1px solid var(--border);font-size:14px;color:var(--dim)}
+.mock-body{padding:14px;flex:1}
+.mk-label{font-size:14px;color:var(--dim)}
+.mk-big{font:700 52px/1.05 var(--mono);margin:4px 0 8px}
+.mk-rows{margin:0;display:grid;gap:8px}.mk-rows>div{display:grid;gap:2px}
+.mk-rows dt{font-size:14px;color:var(--dim)}.mk-rows dd{margin:0;font-weight:700;font-size:17px;overflow-wrap:anywhere}
+.working{margin:10px 0 0;font:14.5px/1.5 var(--mono);color:var(--dim)}
+.tipbox{margin-top:10px;padding:8px 10px;border:1px solid var(--ctrl);border-radius:8px;background:var(--sunken);font-size:14px;line-height:1.45}
+.tipbox b{display:block;font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+.sheet{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.2fr) minmax(0,1.1fr);font:13.5px var(--mono)}
+.sheet div{padding:8px 10px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);overflow-wrap:anywhere}
+.sheet .h{background:var(--sunken);color:var(--dim);font-weight:600;font-size:12.5px}
+.sheet .hl{font-weight:700;background:var(--info-bg)}
+.sheet .span2{grid-column:2/4;color:var(--dim);font-style:italic}
+figcaption{font-size:16px;line-height:1.45}
+figcaption strong{display:block}
+
+/* chart: 11 audiences */
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin:12px 0;font-size:15px;color:var(--dim)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.sw{display:inline-block;width:16px;height:12px;border-radius:3px}
+.sw.up{background:var(--c-up)}.sw.m{background:var(--c-match)}
+.sw.l1{width:0;height:16px;border-left:3px dashed var(--ref);border-radius:0}
+.sw.l5{width:0;height:16px;border-left:2px dotted var(--ref);border-radius:0}
+.hchart{--lab:96px;--val:92px;margin:10px 0 4px}
+.hrows{position:relative;margin-top:34px;padding-bottom:30px}
+.hlist{list-style:none;margin:0;padding:0}
+.hrow{display:grid;grid-template-columns:var(--lab) minmax(0,1fr) var(--val);gap:0 10px;align-items:center;width:100%;min-height:50px;padding:4px 0;margin:2px 0;border:0;border-radius:8px;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;position:relative}
+.hrow:hover,.hrow[aria-pressed="true"]{background:var(--sunken)}
+.hlab{font-size:15px;font-weight:600;padding-left:6px}
+.htrack{position:relative;min-height:40px;display:block}
+.hbar{position:absolute;left:0;top:6px;height:15px;min-width:3px;border-radius:0 4px 4px 0;background:var(--c-up)}
+.hbar.m{top:24px;height:11px;background:var(--c-match)}
+.hempty{position:absolute;left:6px;top:50%;transform:translateY(-50%);z-index:3;font-size:14px;line-height:1.3;color:var(--dim);background:var(--bg);padding:1px 6px;border-radius:4px}
+.hrow:hover .hempty,.hrow[aria-pressed="true"] .hempty{background:var(--sunken)}
+.hrow.empty .htrack{grid-column:2/4}.hrow.empty .hval{display:none}
+.hval{font:600 15px/1.2 var(--mono);text-align:right;padding-right:4px}
+.hval small{display:block;font:600 13px/1.3 var(--mono);color:var(--c-match)}
+.hrefs{position:absolute;top:0;bottom:30px;left:calc(var(--lab) + 10px);right:calc(var(--val) + 10px);pointer-events:none;z-index:2}
+.href{position:absolute;top:0;bottom:0;border-left:3px dashed var(--ref)}
+.href.r500{border-left:2px dotted var(--ref)}
+.href i{position:absolute;top:-30px;left:0;transform:translateX(-50%);font:600 13px/1 var(--mono);font-style:normal;background:var(--raised);border:1px solid var(--ref);border-radius:6px;padding:4px 7px;white-space:nowrap}
+.haxis{position:absolute;bottom:0;left:calc(var(--lab) + 10px);right:calc(var(--val) + 10px);height:24px;font:13px var(--mono);color:var(--dim)}
+.haxis span{position:absolute;top:2px;transform:translateX(-50%)}
+.haxis span:first-child{transform:none}.haxis span:last-child{transform:translateX(-100%)}
+.readout{margin:8px 0;padding:12px 16px;background:var(--sunken);border-radius:10px;font-size:16px;min-height:56px}
+@media(max-width:600px){
+  .hchart{--lab:-10px;--val:78px}
+  .hrow{grid-template-columns:minmax(0,1fr) var(--val);row-gap:0}
+  .hlab{grid-column:1/-1;padding:4px 6px 0}
+  .hrow.empty .htrack{grid-column:1/-1}
+}
+
+/* fleet */
+.frows{list-style:none;margin:12px 0;padding:0;display:grid;gap:10px}
+.frow{display:grid;grid-template-columns:82px minmax(0,1fr) 44px;gap:4px 12px;align-items:center}
+.fband{font:600 14.5px var(--mono)}
+.ftrack{height:22px;background:var(--sunken);border-radius:4px;overflow:hidden}
+.fbar{display:block;height:100%;background:var(--c-neutral);border-radius:0 4px 4px 0}
+.frow.cust .fbar{background:var(--c-up)}
+.fcount{font:600 15px var(--mono);text-align:right}
+.fnote{grid-column:2/4;font-size:14.5px;color:var(--dim);margin-top:-2px}
+.fnote b{color:var(--text)}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:14px 0}
+.mini{background:var(--sunken);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.mini b{display:block;font:700 28px/1.15 var(--mono)}
+.mini span{font-size:15px;color:var(--dim)}
+.cmp{list-style:none;margin:10px 0;padding:0;display:grid;gap:10px}
+.cmp li{display:grid;grid-template-columns:minmax(120px,170px) minmax(0,1fr) 84px;gap:6px 12px;align-items:center;font-size:15.5px}
+.cmp .tr{height:16px;background:var(--sunken);border-radius:4px;overflow:hidden}.cmp .tr i{display:block;height:100%;background:var(--c-up);border-radius:0 4px 4px 0}
+.cmp .n{font:600 14.5px var(--mono);text-align:right}
+@media(max-width:560px){.cmp li{grid-template-columns:1fr 84px}.cmp .tr{grid-column:1/3;order:3}}
+
+/* calculator */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:22px;align-items:start}
+@media(max-width:820px){.calc{grid-template-columns:1fr}}
+.ctrl{margin:0 0 20px}
+.ctrl>label{display:block;font-weight:700;margin-bottom:6px}
+.ctl-row{display:flex;gap:14px;align-items:center}
+input[type=range]{flex:1 1 auto;min-width:0;accent-color:var(--primary);height:34px;cursor:pointer}
+.numin{flex:0 0 auto;width:7.6em;font:600 16px var(--mono);padding:8px 10px;border:1px solid var(--ctrl);border-radius:8px;background:var(--raised);color:var(--text)}
+.presets{display:grid;gap:10px}
+.presets .btn{text-align:left;padding:8px 14px;line-height:1.35}
+.out .line{display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--border)}
+.out .k{color:var(--dim);font-size:16px}
+.out .v{font:700 24px var(--mono);text-align:right}
+.out .v.big{font-size:38px}
+.out .work{grid-column:1/-1;font:14.5px var(--mono);color:var(--dim)}
+.status{margin:14px 0 6px;padding:12px 14px;border-radius:10px;font-weight:600;line-height:1.4}
+.status.ok{background:var(--ok-bg);color:var(--up-t)}.status.low{background:var(--warn-bg);color:var(--warn-t)}
+.meter{position:relative;height:20px;background:var(--sunken);border:1px solid var(--border);border-radius:10px;margin:44px 0 36px}
+.meter .fill{position:absolute;left:0;top:0;bottom:0;background:var(--c-match);border-radius:10px 0 0 10px;min-width:3px}
+.meter .mk{position:absolute;top:-8px;bottom:-8px;border-left:3px dashed var(--ref)}
+.meter .mk.m5{border-left-style:dotted;border-left-width:2px}
+.meter .mk span{position:absolute;top:-26px;left:0;transform:translateX(-50%);font:600 13px/1 var(--mono);white-space:nowrap;background:var(--raised);border:1px solid var(--ref);border-radius:6px;padding:4px 6px}
+.meter .cap{position:absolute;top:26px;left:0;font:13px var(--mono);color:var(--dim);white-space:nowrap}
+.need{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+@media(max-width:520px){.need{grid-template-columns:1fr}}
+
+/* levers */
+details.lever{background:var(--raised);border:1px solid var(--border);border-radius:12px;margin:12px 0;box-shadow:var(--shadow)}
+details.lever>summary{list-style:none;cursor:pointer;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px 14px;align-items:start}
+details.lever>summary::-webkit-details-marker{display:none}
+.lv-n{width:32px;height:32px;border-radius:50%;background:var(--pri-bg);color:var(--pri-t);display:grid;place-items:center;font:700 15px var(--mono)}
+.lv-t{font-weight:700;font-size:18px;line-height:1.35}
+.lv-tags{grid-column:2/-1;display:flex;flex-wrap:wrap;gap:8px}
+.chev{width:22px;height:22px;transition:transform .2s;color:var(--dim);margin-top:4px}
+details[open]>summary .chev{transform:rotate(90deg)}
+.lv-body{padding:0 18px 16px 64px}
+@media(max-width:600px){.lv-body{padding-left:18px}}
+.lv-body ul{margin:8px 0 8px 20px;padding:0}.lv-body li{margin:6px 0}
+.tg{display:inline-block;padding:2px 10px;border-radius:8px;font-size:14px;background:var(--sunken);border:1px solid var(--border);color:var(--text);line-height:1.4}
+.tg i{font-style:normal;color:var(--dim)}
+
+/* empty audiences card */
+.ruler{position:relative;margin:58px 10px 118px}
+.rbar{display:flex;height:38px;border-radius:8px;overflow:hidden;border:1px solid var(--ctrl)}
+.rseg{display:grid;place-items:center;font:600 14.5px var(--sans);color:var(--text);white-space:nowrap;overflow:hidden}
+.rseg .rng{font-weight:500;color:var(--dim)}
+.rseg.cool{background:var(--info-bg)}.rseg.warm{background:var(--warn-bg)}.rseg.hot{background:var(--bad-bg)}
+.rseg.none{background:var(--sunken)}
+.rmark{position:absolute;border-left:3px solid var(--ref)}
+.rmark.hot{left:85.714%;top:-16px;height:54px;border-left-style:dashed}
+.rmark.today{left:42.857%;top:-8px;height:100px}
+.rmark .lb{position:absolute;white-space:nowrap;font:600 14.5px/1.25 var(--sans);background:var(--raised);border:1px solid var(--ref);border-radius:8px;padding:4px 9px}
+.rmark.hot .lb{bottom:100%;right:-3px;margin-bottom:4px}
+.rmark.today .lb{top:100%;left:0;transform:translateX(-50%);margin-top:4px}
+.rticks{position:absolute;left:0;right:0;top:42px;height:22px;font:13px var(--mono);color:var(--dim)}
+.rticks span{position:absolute;transform:translateX(-50%);background:var(--raised);padding:0 4px}
+.rticks span:last-child{transform:translateX(-100%)}
+@media(max-width:560px){.rseg .rng{display:none}}
+.tl{list-style:none;margin:14px 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.tl li{border-top:4px solid var(--ctrl);padding-top:8px}
+.tl b{display:block;font:700 15px var(--mono)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:14px 0}
+
+/* how sure */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.cols{grid-template-columns:1fr}}
+.cols .card{margin:0}
+.cols ul{margin:8px 0 0 4px;padding:0;list-style:none}.cols li{margin:10px 0;padding-left:26px;position:relative}
+.cols li::before{content:"";position:absolute;left:0;top:7px;width:16px;height:16px;border-radius:50%}
+.cols .yes li::before{background:var(--ok-bg);border:2px solid var(--up)}
+.cols .no li::before{background:var(--warn-bg);border:2px dashed var(--warn)}
+blockquote{margin:12px 0;padding:14px 18px;border-left:4px solid var(--primary);background:var(--sunken);border-radius:0 10px 10px 0;font-size:18px}
+.srclist{list-style:none;margin:8px 0;padding:0;display:grid;gap:8px}
+.srclist a{font:14.5px var(--mono);overflow-wrap:anywhere}
+details.gl{background:var(--raised);border:1px solid var(--border);border-radius:12px;margin:14px 0;padding:0 18px}
+details.gl>summary{cursor:pointer;font-weight:700;min-height:52px;display:flex;align-items:center}
+details.gl dl{margin:0 0 14px}details.gl dt{font-weight:700;margin-top:12px}details.gl dd{margin:2px 0 0;color:var(--dim)}
+footer.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);color:var(--dim);font-size:15px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#answer">Skip to the answer</a>
+<header class="topnav"><div class="in">
+  <nav aria-label="Sections">
+    <a href="#journey">How it works</a>
+    <a href="#answer">Answer</a>
+    <a href="#screens">Screens</a>
+    <a href="#chart">Audiences</a>
+    <a href="#fleet">Compare</a>
+    <a href="#calc">Calculator</a>
+    <a href="#actions">What to do</a>
+    <a href="#empty">Empty lists</a>
+    <a href="#sure">How sure</a>
+  </nav>
+  <button type="button" id="themeBtn" class="themebtn" aria-pressed="false">
+    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 12.2A7 7 0 0 1 7.8 3.5a7 7 0 1 0 8.7 8.7z" fill="currentColor"/></svg><span class="lbl">Dark mode</span>
+  </button>
+</div></header>
+<noscript><div class="wrap"><p class="note warn">The interactive parts of this page need JavaScript. The text and tables still read without it.</p></div></noscript>
+
+<main class="wrap" id="top">
+
+<header>
+  <p class="kicker">Google Audience Sync · one customer investigation · 15 Oct 2026</p>
+  <h1>Why Google Ads shows 0 and Factors shows “Under 500”</h1>
+  <p class="sub">The short answer, the evidence, and what can actually be done.</p>
+  <p class="datanote">Data read 15 Oct 2026, 12:10–12:13 UTC</p>
+</header>
+
+<!-- ============ 1. THE ANSWER ============ -->
+<section id="answer" aria-labelledby="h-answer">
+  <h2 id="h-answer" style="margin-top:36px">The answer</h2>
+  <p class="answer">Yes. Google’s API does tell us “under 500” — as a size bucket, not as a number. The number it returns is 0.</p>
+  <div class="kpis">
+    <div class="kpi"><div class="label">Number from the API</div><div class="val">0</div><div class="kn">sizeForSearch and sizeForDisplay, all 11 audiences</div></div>
+    <div class="kpi"><div class="label">Bucket from the API</div><div class="val">Under 500</div><div class="kn">LESS_THAN_FIVE_HUNDRED</div></div>
+    <div class="kpi"><div class="label">Google’s own match rate</div><div class="val">3–9%</div><div class="kn">typical customer ≈ 27%</div></div>
+    <div class="kpi"><div class="label">Matched people per audience <span class="pill est">Estimate</span></div><div class="val">about <span class="nb">13–66</span></div><div class="kn">Google’s floor is 100</div></div>
+  </div>
+  <ul class="plain">
+    <li><b>One fact, shown two ways.</b> For each audience, Google’s API sends a number (0) and a size bucket (Under 500). Google Ads shows 0, as reported to us. Factors and our status sheet show the bucket.</li>
+    <li><b>Why the number is 0.</b> Google shows a number only once a list has 100 members. Below that it shows 0. The “500” in “Under 500” is only the top of the lowest bucket, not a minimum. Our estimate is about 13–66 matched people per audience, under the 100 line. A 0 does not mean nobody matched.</li>
+    <li><b>Why the number is small.</b> Few visitor IDs reach Google: on this site the cookie banner denies ad consent by default and removes the Factors cookie. And four of the eleven audiences are empty right now. They are built on the “Hot” level, which needs 60 points, and the highest score any account has today is 30.</li>
+  </ul>
+  <p class="hood"><b>Under the hood</b><span class="tag">API</span>Every one of the 11 audiences returns sizeForSearch "0", sizeForDisplay "0" and both size ranges LESS_THAN_FIVE_HUNDRED. Read live on 15 Oct 2026 at 12:13 UTC (API v23). <span class="tag">DB</span>Our stored copy equals the live API field for field. All 678 upload jobs to Google for these audiences finished SUCCESS, with an error count of 0. <span class="tag">DOCS</span>The 100-member rule is Google’s own (see “What Google’s documentation says”). <span class="tag">REPORTED</span>The 0 on the Google Ads screen is what this account reports; we could not see that screen.</p>
+  <details class="more"><summary>What the evidence tags mean</summary>
+    <p class="small"><span class="tag">API</span>live Google Ads API read, 15 Oct 2026 12:13 UTC · <span class="tag">DB</span>read-only production data read, about 12:10 UTC · <span class="tag">CODE</span>read from the product source · <span class="tag">FIELD</span>browser test of this site, 15 Oct 2026 · <span class="tag">SNAP</span>internal status sheet snapshot, 10 Sep 2026 · <span class="tag">DOCS</span>Google documentation · <span class="tag">FLEET</span>about 150 live audience syncs across all accounts · <span class="tag">REPORTED</span>said to us, not seen by us.</p>
+  </details>
+</section>
+
+<!-- ============ HOW IT WORKS (journey fragment, inlined) ============ -->
+<style>
+/* Journey fragment. Every class, id and custom property is jn- prefixed. Colours come only from the host tokens (with fallbacks). */
+.jn-root{
+  --jn-bg:var(--bg,#f6f7f9);--jn-raised:var(--raised,#ffffff);--jn-sunken:var(--sunken,#eceff3);
+  --jn-text:var(--text,#161a22);--jn-dim:var(--dim,#566070);--jn-border:var(--border,#cfd6df);
+  --jn-primary:var(--primary,#4338ca);--jn-up:var(--up,#15803d);--jn-down:var(--down,#b91c1c);
+  --jn-info:var(--info,#1d4ed8);--jn-warn:var(--warn,#a15c07);--jn-scan:var(--scan,#0e7490);
+  position:relative;margin:0;padding:0;color:var(--jn-text);
+  font:400 15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%;
+}
+.jn-root *,.jn-root *::before,.jn-root *::after{box-sizing:border-box}
+.jn-root h2,.jn-root h3,.jn-root p,.jn-root ul,.jn-root table,.jn-root aside{margin:0;padding:0}
+.jn-root button{font:inherit;color:inherit;cursor:pointer;margin:0}
+.jn-root svg{display:block}
+.jn-root :focus-visible{outline:3px solid var(--jn-primary);outline-offset:2px;border-radius:6px}
+.jn-sr{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.jn-defs{position:absolute;width:0;height:0;overflow:hidden}
+
+/* ---- heading + scenario switch ---- */
+.jn-h2{font-size:clamp(23px,3.4vw,32px);line-height:1.2;font-weight:750;letter-spacing:-.015em}
+.jn-lede{margin-top:8px;max-width:68ch;font-size:clamp(16px,1.8vw,18px);line-height:1.5;color:var(--jn-dim)}
+.jn-switch{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.jn-sw{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:12px 14px;min-height:58px;border:2px solid var(--jn-border);border-radius:12px;background:var(--jn-raised);color:var(--jn-text)}
+.jn-sw::before{content:"";flex:none;width:18px;height:18px;margin-top:2px;border-radius:50%;border:2px solid var(--jn-dim);background:var(--jn-raised)}
+.jn-sw[aria-pressed="true"]{border-color:var(--jn-primary);box-shadow:inset 0 0 0 1px var(--jn-primary)}
+.jn-sw[aria-pressed="true"]::before{border-color:var(--jn-primary);background:radial-gradient(circle,var(--jn-primary) 0 42%,var(--jn-raised) 48%)}
+.jn-sw b{display:block;font-size:15.5px;line-height:1.3;font-weight:700}
+.jn-sw small{display:block;margin-top:2px;font-size:13.5px;line-height:1.35;color:var(--jn-dim)}
+.jn-sw:hover{background:var(--jn-sunken)}
+
+/* ---- stage ---- */
+.jn-player{margin-top:16px}
+.jn-stage{position:relative;padding:16px 18px 18px 26px;border:1px solid var(--jn-border);border-radius:16px;background:var(--jn-sunken)}
+.jn-stage:focus-visible{outline:3px solid var(--jn-primary);outline-offset:3px;border-radius:16px}
+.jn-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:44px;row-gap:16px}
+.jn-wires{position:absolute;left:0;top:0;z-index:1;pointer-events:none;overflow:visible}
+
+.jn-node{position:relative;isolation:isolate;display:flex;align-items:flex-start;gap:10px;min-width:0;padding:10px 12px;border:2px solid var(--jn-border);border-style:dashed;border-radius:12px;background:var(--jn-raised);color:var(--jn-text);
+  transition:border-color .4s ease var(--jn-d,0s),box-shadow .4s ease var(--jn-d,0s)}
+.jn-node::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:10px;background:var(--jn-tint,transparent);opacity:.12;transition:background-color .4s ease var(--jn-d,0s)}
+.jn-ic{flex:none;width:22px;height:22px;margin-top:0;color:var(--jn-dim)}
+.jn-nb{min-width:0;flex:1}
+.jn-nt{font-size:15px;line-height:1.3;font-weight:700}
+.jn-ns{margin-top:2px;font-size:13.5px;line-height:1.4;color:var(--jn-dim);overflow-wrap:anywhere}
+.jn-s-n{border-style:solid;border-color:var(--jn-info);--jn-tint:var(--jn-info)}
+.jn-s-n>.jn-ic,.jn-s-n>.jn-vl>.jn-ic{color:var(--jn-info)}
+.jn-s-o{border-style:solid;border-color:var(--jn-up);--jn-tint:var(--jn-up)}
+.jn-s-o>.jn-ic{color:var(--jn-up)}
+.jn-s-x{border-style:solid;border-color:var(--jn-down);--jn-tint:var(--jn-down)}
+.jn-s-x>.jn-ic{color:var(--jn-down)}
+.jn-s-w{border-style:solid;border-color:var(--jn-warn);--jn-tint:var(--jn-warn)}
+.jn-s-w>.jn-ic{color:var(--jn-warn)}
+.jn-s-e{border-style:dashed;border-color:var(--jn-up);--jn-tint:var(--jn-up)}
+.jn-s-e>.jn-ic{color:var(--jn-up)}
+.jn-s-n .jn-ns,.jn-s-o .jn-ns,.jn-s-x .jn-ns,.jn-s-w .jn-ns,.jn-s-e .jn-ns{color:var(--jn-text)}
+.jn-now{box-shadow:0 0 0 3px var(--jn-raised),0 0 0 5px var(--jn-primary)}
+
+/* visitor + banner strip */
+.jn-visit{grid-column:1/-1;grid-row:1;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:12px 14px}
+.jn-vl{display:flex;gap:10px;align-items:flex-start;flex:1 1 260px;min-width:0}
+.jn-vl .jn-ic{width:28px;height:28px;color:var(--jn-info)}
+.jn-ban{flex:2 1 400px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:8px 12px;border:1.5px solid var(--jn-border);border-radius:10px;background:var(--jn-sunken);font-size:13.5px;line-height:1.3}
+.jn-ban b{font-weight:750}
+.jn-tg{display:inline-flex;align-items:center;gap:6px}
+.jn-tgp{display:inline-block;min-width:44px;text-align:center;padding:2px 10px;border-radius:999px;border:1.5px solid var(--jn-dim);font-weight:750;font-size:12.5px;line-height:1.35}
+.jn-ad-on .jn-tgp{background:var(--jn-up);border-color:var(--jn-up);color:var(--jn-raised)}
+.jn-bb{display:inline-block;padding:4px 12px;border-radius:8px;border:1.5px solid var(--jn-border);background:var(--jn-raised);font-weight:650}
+.jn-press .jn-bb{background:var(--jn-primary);border-color:var(--jn-primary);color:var(--jn-raised)}
+.jn-bchip{display:inline-block;visibility:hidden;opacity:0;padding:3px 10px;border:1.5px solid var(--jn-down);border-radius:999px;background:var(--jn-raised);font-weight:650;transition:opacity .4s ease}
+.jn-chip-on .jn-bchip{visibility:visible;opacity:1}
+
+/* lane headers: pills that sit on the connector */
+.jn-lh{display:flex;justify-content:center;align-items:center;min-width:0}
+.jn-lh span{padding:3px 12px;border:1.5px solid var(--jn-border);border-radius:999px;background:var(--jn-raised);font-size:13px;font-weight:750;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
+.jn-lh1{grid-column:1;grid-row:2}.jn-lh2{grid-column:2;grid-row:2}
+.jn-f1{grid-column:1;grid-row:3}.jn-g1{grid-column:2;grid-row:3}
+.jn-f2{grid-column:1;grid-row:4}.jn-g2{grid-column:2;grid-row:4}
+.jn-f3{grid-column:1;grid-row:5}.jn-g3{grid-column:2;grid-row:5}.jn-r{grid-column:3;grid-row:5}
+.jn-c1{grid-column:1;grid-row:6}.jn-m{grid-column:2/span 2;grid-row:6}
+.jn-s{grid-column:1/-1;grid-row:7}
+.jn-band{display:none}
+
+.jn-legend{grid-column:3;grid-row:2/span 3;align-self:start;padding:12px 14px;border:1.5px dashed var(--jn-border);border-radius:12px;background:var(--jn-raised);font-size:13.5px}
+.jn-lgh{margin-bottom:8px;font-weight:750;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--jn-dim)}
+.jn-legend ul{list-style:none;display:grid;gap:7px}
+.jn-legend li{display:flex;gap:9px;align-items:center;line-height:1.3}
+.jn-lk{position:relative;flex:none;width:18px;height:18px;border-radius:50%;display:inline-block}
+.jn-lk-ok{background:var(--jn-up)}
+.jn-lk-bad{background:var(--jn-down)}
+.jn-lk-bad::before,.jn-lk-bad::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:2.2px;margin:-1.1px 0 0 -5px;background:var(--jn-raised);border-radius:2px}
+.jn-lk-bad::before{transform:rotate(45deg)}.jn-lk-bad::after{transform:rotate(-45deg)}
+.jn-lk-gh{border:2px dashed var(--jn-dim);background:var(--jn-raised)}
+.jn-lk-ex{border-radius:5px;border:2px dashed var(--jn-up)}
+
+/* wires */
+.jn-w{fill:none;stroke:var(--jn-dim);stroke-width:2;stroke-dasharray:5 6;stroke-linecap:round;stroke-linejoin:round;opacity:.55;transition:stroke .4s ease,opacity .4s ease}
+.jn-ah{fill:var(--jn-dim);opacity:.55;transition:fill .4s ease,opacity .4s ease}
+.jn-w.jn-ws-o{stroke:var(--jn-up);stroke-dasharray:none;stroke-width:2.8;opacity:1}
+.jn-w.jn-ws-x{stroke:var(--jn-down);stroke-dasharray:6 5;stroke-width:2.8;opacity:1}
+.jn-w.jn-ws-g{stroke:var(--jn-dim);stroke-dasharray:2 6;stroke-width:2.6;opacity:.95}
+.jn-w.jn-ws-e{stroke:var(--jn-up);stroke-dasharray:7 5;stroke-width:2.6;opacity:1}
+.jn-ah.jn-ws-o,.jn-ah.jn-ws-e{fill:var(--jn-up);opacity:1}
+.jn-ah.jn-ws-x{fill:var(--jn-down);opacity:1}
+.jn-ah.jn-ws-g{fill:var(--jn-dim);opacity:.95}
+
+/* the travelling ID */
+.jn-tok{position:absolute;left:0;top:0;width:0;height:0;z-index:4;pointer-events:none;opacity:0;transition:opacity .3s ease;will-change:transform}
+.jn-tok.jn-on{opacity:1}
+.jn-tokb{position:absolute;left:0;top:0;transform:translate(-50%,-50%);min-width:20px;height:20px;border-radius:10px;background:var(--jn-primary);border:2.5px solid var(--jn-raised);box-shadow:0 1px 6px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font:700 12px/1 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--jn-raised);white-space:nowrap}
+.jn-tok.jn-t-ok .jn-tokb{background:var(--jn-up)}
+.jn-tok.jn-t-bad .jn-tokb{background:var(--jn-down);animation:jn-pop .5s ease}
+.jn-tok.jn-t-ghost .jn-tokb{background:var(--jn-raised);border:2.5px dashed var(--jn-dim);box-shadow:none}
+.jn-tok.jn-t-pop .jn-tokb{animation:jn-pop .5s ease}
+.jn-tok.jn-t-bad:not(.jn-has-txt) .jn-tokb::before,.jn-tok.jn-t-bad:not(.jn-has-txt) .jn-tokb::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:2.4px;margin:-1.2px 0 0 -5px;background:var(--jn-raised);border-radius:2px}
+.jn-tok.jn-t-bad:not(.jn-has-txt) .jn-tokb::before{transform:rotate(45deg)}
+.jn-tok.jn-t-bad:not(.jn-has-txt) .jn-tokb::after{transform:rotate(-45deg)}
+.jn-tok.jn-t-ok:not(.jn-has-txt) .jn-tokb::after{content:"";position:absolute;left:50%;top:50%;width:5px;height:9px;margin:-6px 0 0 -2px;border:solid var(--jn-raised);border-width:0 2.4px 2.4px 0;transform:rotate(45deg)}
+.jn-tok.jn-has-txt .jn-tokb{height:26px;border-radius:13px;padding:0 11px}
+.jn-scn-acc .jn-tokb{border-style:dashed}
+@keyframes jn-pop{0%{transform:translate(-50%,-50%) scale(.6)}60%{transform:translate(-50%,-50%) scale(1.35)}100%{transform:translate(-50%,-50%) scale(1)}}
+
+/* match node: 100 uploaded IDs */
+.jn-mrow{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;margin-top:10px}
+.jn-g100{display:grid;grid-template-columns:repeat(20,8px);gap:3px;flex:none;padding:4px}
+.jn-g100 i{display:block;width:8px;height:8px;border-radius:50%;background:var(--jn-dim);opacity:.4;transition:background-color .35s ease var(--jn-dd,0s),opacity .35s ease var(--jn-dd,0s),box-shadow .35s ease var(--jn-dd,0s)}
+.jn-rev .jn-g100 i{background:transparent;box-shadow:inset 0 0 0 1.5px var(--jn-dim);opacity:.8;animation:jn-scan .7s ease var(--jn-dd,0s) 1}
+.jn-rev .jn-g100 i.jn-df{background:var(--jn-up);box-shadow:none;opacity:1}
+.jn-rev .jn-g100 i.jn-dm{background:transparent;box-shadow:inset 0 0 0 2px var(--jn-up);opacity:1}
+.jn-g100 i.jn-dv{outline:2px solid var(--jn-primary);outline-offset:2px;opacity:1}
+.jn-rev.jn-me-ok .jn-g100 i.jn-dv{background:var(--jn-up);box-shadow:none}
+.jn-rev.jn-me-no .jn-g100 i.jn-dv{background:transparent;box-shadow:inset 0 0 0 2px var(--jn-down)}
+@keyframes jn-scan{0%{box-shadow:0 0 0 0 var(--jn-scan)}50%{box-shadow:0 0 0 4px var(--jn-scan)}100%{}}
+.jn-gleg{list-style:none;display:grid;gap:4px;font-size:13px;line-height:1.3;min-width:0;flex:1 1 150px}
+.jn-gleg li{display:flex;gap:8px;align-items:center}
+.jn-gk{flex:none;display:inline-block;width:10px;height:10px;border-radius:50%}
+.jn-gk-f{background:var(--jn-up)}
+.jn-gk-m{box-shadow:inset 0 0 0 2px var(--jn-up)}
+.jn-gk-n{box-shadow:inset 0 0 0 1.5px var(--jn-dim)}
+.jn-gk-v{outline:2px solid var(--jn-primary);outline-offset:2px;background:var(--jn-dim);opacity:.8;margin:0 2px}
+
+/* what people see */
+.jn-srow{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:stretch;margin-top:10px;opacity:.3;transition:opacity .6s ease .3s}
+.jn-show .jn-srow{opacity:1}
+.jn-scrs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;flex:3 1 380px}
+.jn-scr{display:flex;flex-direction:column;gap:2px;padding:8px 10px;border:1.5px solid var(--jn-border);border-radius:10px;background:var(--jn-sunken);min-width:0}
+.jn-sk{font-size:12.5px;font-weight:750;letter-spacing:.05em;text-transform:uppercase;color:var(--jn-dim)}
+.jn-sv{font-size:clamp(18px,2.2vw,22px);font-weight:750;line-height:1.2;overflow-wrap:anywhere}
+.jn-sn{font-size:12.5px;line-height:1.3;color:var(--jn-dim)}
+.jn-meter{flex:2 1 260px;min-width:0}
+.jn-mlab{font-size:13px;line-height:1.3;font-weight:650}
+.jn-mfl{position:relative;height:18px;margin-top:6px;font-size:12.5px;line-height:18px;color:var(--jn-dim)}
+.jn-mfl span{position:absolute;right:calc(100% - var(--jn-fl,83.33%));white-space:nowrap}
+.jn-mtrack{position:relative;height:16px;border-radius:8px;background:var(--jn-sunken);border:1.5px solid var(--jn-border)}
+.jn-mband{position:absolute;top:1px;bottom:1px;left:10.83%;width:44.17%;border-radius:6px;border:2px solid var(--jn-warn);background:repeating-linear-gradient(135deg,var(--jn-warn) 0 4px,transparent 4px 8px)}
+.jn-mfloor{position:absolute;top:-6px;bottom:-6px;left:83.33%;border-left:2.5px dashed var(--jn-text)}
+.jn-mgrow{position:absolute;top:3px;height:6px;left:56%;width:26%;border-top:2.5px dashed var(--jn-up);visibility:hidden}
+.jn-scn-acc.jn-show .jn-mgrow{visibility:visible}
+.jn-mtx{position:relative;height:20px;margin-top:4px;font-size:12.5px;line-height:18px;color:var(--jn-dim)}
+.jn-mtx span{position:absolute;white-space:nowrap}
+.jn-mtx .jn-m0{left:0}
+.jn-mtx .jn-me{left:32.9%;transform:translateX(-50%);color:var(--jn-text);font-weight:650}
+.jn-mtx .jn-mg{left:56%;color:var(--jn-text);font-weight:650;display:none}
+.jn-scn-acc .jn-mtx .jn-mg{display:block}
+.jn-scn-acc .jn-mtx .jn-me{left:20%}
+
+/* ---- dock: controls + caption ---- */
+.jn-dock{margin-top:14px;padding:14px 16px 16px;border:1px solid var(--jn-border);border-radius:16px;background:var(--jn-raised)}
+.jn-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.jn-btns{display:flex;flex-wrap:wrap;gap:8px}
+.jn-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:44px;padding:0 14px;border:2px solid var(--jn-border);border-radius:10px;background:var(--jn-raised);color:var(--jn-text);font-weight:650;font-size:15px;line-height:1}
+.jn-btn:hover{background:var(--jn-sunken)}
+.jn-bi{flex:none;width:16px;height:16px;color:var(--jn-primary)}
+.jn-btn[data-jn="play"]{border-color:var(--jn-primary)}
+.jn-btn[aria-disabled="true"]{opacity:.5;cursor:default}
+.jn-dots{display:flex;gap:6px;align-items:center}
+.jn-dot{display:grid;place-items:center;width:36px;height:36px;padding:0;border-radius:50%;border:2px solid var(--jn-dim);background:var(--jn-raised);color:var(--jn-text);font-weight:750;font-size:14px;line-height:1}
+.jn-dot.jn-past{border-color:var(--jn-up)}
+.jn-dot[aria-current="step"]{background:var(--jn-primary);border-color:var(--jn-primary);color:var(--jn-raised)}
+.jn-cap{margin-top:14px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:10px 28px;align-items:start}
+.jn-kick{font-size:13px;font-weight:750;letter-spacing:.07em;text-transform:uppercase;color:var(--jn-dim)}
+.jn-big{margin-top:4px;font-size:clamp(18px,2vw,22px);line-height:1.35;font-weight:700}
+.jn-why{font-size:15px;line-height:1.5}
+.jn-evs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.jn-ev{display:inline-flex;flex-wrap:wrap;gap:2px 6px;align-items:baseline;padding:4px 11px;border:1.5px solid var(--jn-border);border-radius:14px;font-size:13px;line-height:1.35;background:var(--jn-raised)}
+.jn-ev b{font-weight:750}
+.jn-ev-obs{border-color:var(--jn-primary)}
+.jn-ev-data{border-color:var(--jn-info)}
+.jn-ev-design,.jn-ev-docs{border-color:var(--jn-dim)}
+.jn-ev-est{border-color:var(--jn-warn);border-style:dotted;border-width:2px}
+.jn-ev-exp{border-color:var(--jn-up);border-style:dashed}
+
+/* ---- blocks below ---- */
+.jn-block{margin-top:44px}
+.jn-bh{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px}
+.jn-h3{font-size:clamp(19px,2.4vw,24px);line-height:1.25;font-weight:750;letter-spacing:-.01em}
+.jn-sub{margin-top:6px;max-width:72ch;font-size:15px;color:var(--jn-dim)}
+.jn-fun{margin-top:14px;--jn-lw:210px}
+.jn-axis{position:relative;height:22px;margin-left:var(--jn-lw);font-size:12.5px;line-height:22px;color:var(--jn-dim)}
+.jn-axis span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.jn-axis span.jn-ax-f{color:var(--jn-text);font-weight:750}
+.jn-fr{display:grid;grid-template-columns:var(--jn-lw) minmax(0,1fr);align-items:center;gap:4px 0;padding:12px 0;border-top:1px solid var(--jn-border)}
+.jn-fl{padding-right:14px;min-width:0}
+.jn-fn{font-size:clamp(22px,3vw,28px);font-weight:750;line-height:1.1;font-variant-numeric:tabular-nums}
+.jn-fu{margin-top:2px;font-size:13.5px;line-height:1.3;color:var(--jn-dim)}
+.jn-ft{position:relative;height:30px;border-radius:6px;background:
+  linear-gradient(var(--jn-border),var(--jn-border)) 0 0/1px 100% no-repeat,
+  linear-gradient(var(--jn-border),var(--jn-border)) var(--jn-g3) 0/1px 100% no-repeat,
+  linear-gradient(var(--jn-border),var(--jn-border)) var(--jn-g4) 0/1px 100% no-repeat,
+  linear-gradient(var(--jn-border),var(--jn-border)) var(--jn-g5) 0/1px 100% no-repeat,
+  var(--jn-sunken)}
+.jn-ft::after{content:"";position:absolute;left:var(--jn-g2);top:-3px;bottom:-3px;border-left:2.5px dashed var(--jn-text);pointer-events:none}
+.jn-ft2{height:48px}
+.jn-fb{position:absolute;top:5px;bottom:5px;left:0;border-radius:4px;background:var(--jn-primary)}
+.jn-ft2 .jn-fb{top:5px;bottom:auto;height:16px}
+.jn-ft2 .jn-fb2{top:27px;height:12px}
+.jn-fb-est{background:repeating-linear-gradient(135deg,var(--jn-warn) 0 5px,transparent 5px 9px);border:2px solid var(--jn-warn)}
+.jn-flab{position:absolute;font-size:12.5px;line-height:16px;font-weight:650;white-space:nowrap}
+.jn-zero{position:absolute;left:6px;top:0;bottom:0;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:650}
+.jn-zero b{display:inline-block;padding:1px 9px;border-radius:999px;border:2px solid var(--jn-down);font-size:13px}
+.jn-fw{grid-column:2;margin-top:6px;font-size:14.5px;line-height:1.45}
+.jn-fw .jn-ev{margin-left:6px;vertical-align:1px}
+.jn-armed .jn-fb{transform:scaleX(0);transform-origin:left center;transition:transform 1.1s cubic-bezier(.2,.7,.2,1) var(--jn-fd,0s)}
+.jn-armed.jn-go .jn-fb{transform:scaleX(1)}
+.jn-armed .jn-flab,.jn-armed .jn-zero{opacity:0;transition:opacity .5s ease calc(var(--jn-fd,0s) + .9s)}
+.jn-armed.jn-go .jn-flab,.jn-armed.jn-go .jn-zero{opacity:1}
+
+.jn-tbl{width:100%;margin-top:14px;border-collapse:separate;border-spacing:0;border:1.5px solid var(--jn-border);border-radius:12px;overflow:hidden;background:var(--jn-raised)}
+.jn-tbl th,.jn-tbl td{padding:12px 14px;text-align:left;vertical-align:top;font-size:15px;line-height:1.45;border-top:1px solid var(--jn-border)}
+.jn-tbl thead th{border-top:0;background:var(--jn-sunken);font-size:13px;font-weight:750;letter-spacing:.05em;text-transform:uppercase;color:var(--jn-dim)}
+.jn-tbl tbody th{font-weight:750;white-space:nowrap}
+.jn-yn{font-weight:750}
+.jn-note{margin-top:12px;padding:10px 14px;border-left:4px solid var(--jn-dim);background:var(--jn-sunken);border-radius:6px;font-size:15px}
+.jn-untested{margin-top:44px;padding:16px 18px;border:2px dashed var(--jn-dim);border-radius:14px;background:var(--jn-raised)}
+.jn-untested ul{margin-top:8px;padding-left:22px;display:grid;gap:4px;font-size:15px}
+
+/* ---- narrow layout (set by script from the section width) ---- */
+.jn-narrow .jn-switch{grid-template-columns:1fr}
+.jn-narrow .jn-stage{padding:14px 14px 16px 24px}
+.jn-narrow .jn-grid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px;row-gap:22px}
+.jn-narrow .jn-legend{grid-column:1/-1;grid-row:1;align-self:stretch}
+.jn-narrow .jn-legend ul{grid-template-columns:1fr 1fr;gap:6px 12px}
+.jn-narrow .jn-visit{grid-row:2}
+.jn-narrow .jn-lh1{grid-row:3}.jn-narrow .jn-lh2{grid-row:3}
+.jn-narrow .jn-f1{grid-row:4}.jn-narrow .jn-g1{grid-row:4}
+.jn-narrow .jn-f2{grid-row:5}.jn-narrow .jn-g2{grid-row:5}
+.jn-narrow .jn-f3{grid-row:6}.jn-narrow .jn-g3{grid-row:6}
+.jn-narrow .jn-band{display:flex;grid-column:1/-1;grid-row:7;align-items:center;gap:10px;font-size:13px;font-weight:750;letter-spacing:.07em;text-transform:uppercase;color:var(--jn-dim)}
+.jn-narrow .jn-band::before,.jn-narrow .jn-band::after{content:"";flex:1;border-top:1.5px dashed var(--jn-dim);opacity:.6}
+.jn-narrow .jn-c1{grid-column:1;grid-row:8}
+.jn-narrow .jn-r{grid-column:2;grid-row:8}
+.jn-narrow .jn-m{grid-column:1/-1;grid-row:9;margin-top:10px}
+.jn-narrow .jn-s{grid-row:10}
+.jn-narrow .jn-scrs{grid-template-columns:1fr}
+.jn-narrow .jn-scr{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+.jn-narrow .jn-nt{font-size:14.5px}
+.jn-narrow .jn-dock{position:sticky;bottom:0;z-index:30;padding:12px 12px 14px;box-shadow:0 -10px 24px rgba(0,0,0,.2)}
+.jn-narrow .jn-cap{grid-template-columns:minmax(0,1fr);margin-top:10px;gap:8px}
+.jn-narrow .jn-big{font-size:17px}
+.jn-narrow .jn-why{font-size:14px}
+.jn-narrow .jn-evs{margin-top:6px;gap:6px}
+.jn-narrow .jn-ev{font-size:12.5px;padding:3px 9px}
+.jn-narrow .jn-dot{width:34px;height:34px}
+.jn-narrow .jn-dots{gap:5px}
+.jn-narrow .jn-bl{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.jn-narrow .jn-btn[data-jn="play"] .jn-bl{position:static;width:auto;height:auto;margin:0;overflow:visible;clip:auto}
+.jn-narrow .jn-fun{--jn-lw:0px}
+.jn-narrow .jn-fr{grid-template-columns:minmax(0,1fr)}
+.jn-narrow .jn-fl{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;padding-right:0}
+.jn-narrow .jn-fw{grid-column:1}
+.jn-narrow .jn-tbl thead{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0)}
+.jn-narrow .jn-tbl,.jn-narrow .jn-tbl tbody,.jn-narrow .jn-tbl tr,.jn-narrow .jn-tbl th,.jn-narrow .jn-tbl td{display:block}
+.jn-narrow .jn-tbl tbody th{white-space:normal;font-size:16px;background:var(--jn-sunken)}
+.jn-narrow .jn-tbl td::before{content:attr(data-l);display:block;margin-bottom:2px;font-size:12.5px;font-weight:750;letter-spacing:.05em;text-transform:uppercase;color:var(--jn-dim)}
+.jn-narrow .jn-tbl tbody tr+tr th{border-top:1px solid var(--jn-border)}
+
+.jn-rm *,.jn-rm *::before,.jn-rm *::after{transition:none!important;animation:none!important}
+</style>
+
+<section id="journey" class="jn-root" aria-labelledby="jn-title">
+  <svg class="jn-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="jn-i-ok" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M5.6 10.4l3 3 5.9-6.3" fill="none" style="stroke:var(--jn-raised)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="jn-i-bad" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M6.7 6.7l6.6 6.6M13.3 6.7l-6.6 6.6" fill="none" style="stroke:var(--jn-raised)" stroke-width="2.3" stroke-linecap="round"/></symbol>
+      <symbol id="jn-i-warn" viewBox="0 0 20 20"><path d="M10 2l8.4 15H1.6z" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 7.8v4.2" fill="none" style="stroke:var(--jn-raised)" stroke-width="2.2" stroke-linecap="round"/><circle cx="10" cy="14.6" r="1.3" style="fill:var(--jn-raised)"/></symbol>
+      <symbol id="jn-i-idle" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/></symbol>
+      <symbol id="jn-i-exp" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8.2" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3.2 2.6"/><path d="M5.9 10.4l2.7 2.7 5.2-5.6" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="jn-i-person" viewBox="0 0 20 20"><circle cx="10" cy="6.2" r="3.6" fill="currentColor"/><path d="M3 17.6c.5-3.9 3.2-6.2 7-6.2s6.5 2.3 7 6.2z" fill="currentColor"/></symbol>
+      <symbol id="jn-i-play" viewBox="0 0 16 16"><path d="M4 2.4v11.2l9.2-5.6z" fill="currentColor"/></symbol>
+      <symbol id="jn-i-pause" viewBox="0 0 16 16"><rect x="3.2" y="2.4" width="3.4" height="11.2" rx="1" fill="currentColor"/><rect x="9.4" y="2.4" width="3.4" height="11.2" rx="1" fill="currentColor"/></symbol>
+      <symbol id="jn-i-back" viewBox="0 0 16 16"><rect x="2.4" y="2.4" width="2.2" height="11.2" rx=".8" fill="currentColor"/><path d="M13.4 2.6v10.8L5.8 8z" fill="currentColor"/></symbol>
+      <symbol id="jn-i-next" viewBox="0 0 16 16"><rect x="11.4" y="2.4" width="2.2" height="11.2" rx=".8" fill="currentColor"/><path d="M2.6 2.6v10.8L10.2 8z" fill="currentColor"/></symbol>
+      <symbol id="jn-i-restart" viewBox="0 0 16 16"><path d="M13.2 8.2A5.2 5.2 0 1 1 11.5 4.3" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M13.3 1.9v3.7H9.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="jn-head">
+    <h2 class="jn-h2" id="jn-title">How it works &mdash; and where it drops off</h2>
+    <p class="jn-lede">Each night Factors uploads visitor IDs to a Google Ads audience, and Google can match an ID only if this site&rsquo;s own Google tag sent it earlier.</p>
+    <div class="jn-switch" role="group" aria-label="Choose what the visitor does">
+      <button type="button" class="jn-sw" data-jn-scn="def" aria-pressed="true"><span><b>Visitor ignores the cookie banner</b><small>(what happens by default)</small></span></button>
+      <button type="button" class="jn-sw" data-jn-scn="acc" aria-pressed="false"><span><b>Visitor clicks Accept all</b><small>(expected, not yet tested on this site)</small></span></button>
+    </div>
+  </header>
+
+  <div class="jn-player">
+    <div class="jn-stage" tabindex="0" role="group" aria-roledescription="animated diagram" aria-label="Animated diagram of one visitor ID travelling from the site to Google. Use the left and right arrow keys to change the step.">
+      <svg class="jn-wires" aria-hidden="true" focusable="false"></svg>
+      <div class="jn-grid">
+        <div class="jn-node jn-visit jn-s-i" data-jn-node="visit">
+          <div class="jn-vl">
+            <svg class="jn-ic" aria-hidden="true" focusable="false"><use href="#jn-i-person"></use></svg>
+            <div class="jn-nb"><div class="jn-nt">Visitor opens the site<span class="jn-sr"></span></div><div class="jn-ns">The cookie banner appears. Ad consent is off by default.</div></div>
+          </div>
+          <div class="jn-ban" aria-hidden="true">
+            <b>Cookie banner</b>
+            <span class="jn-tg">Necessary <span class="jn-tgp" style="border-color:var(--jn-dim)">always on</span></span>
+            <span class="jn-tg">Google ad consent <span class="jn-tgp" data-jn="adtxt">OFF</span></span>
+            <span class="jn-bb">Accept all</span>
+            <span class="jn-bchip">Banner script removes the ID cookie</span>
+          </div>
+        </div>
+
+        <div class="jn-lh jn-lh1"><span>Factors tag</span></div>
+        <div class="jn-lh jn-lh2"><span>Google tag</span></div>
+
+        <aside class="jn-legend" aria-label="How to read the diagram">
+          <div class="jn-lgh">How to read this</div>
+          <ul>
+            <li><span class="jn-lk jn-lk-ok" aria-hidden="true"></span>A visitor ID that gets through</li>
+            <li><span class="jn-lk jn-lk-bad" aria-hidden="true"></span>An ID that is blocked, with the reason</li>
+            <li><span class="jn-lk jn-lk-gh" aria-hidden="true"></span>A ping with no ID attached</li>
+            <li><span class="jn-lk jn-lk-ex" aria-hidden="true"></span>Expected, not tested on this site</li>
+          </ul>
+        </aside>
+
+        <div class="jn-node jn-f1 jn-s-i" data-jn-node="f1"><svg class="jn-ic" aria-hidden="true" focusable="false"><use href="#jn-i-idle"></use></svg><div class="jn-nb"><div class="jn-nt">Tag loads<span class="jn-sr"></span></div><div class="jn-ns">Loads with the page.</div></div></div>
+        <div class="jn-node jn-g1 jn-s-i" data-jn-node="g1"><svg class="jn-ic" aria-hidden="true" focusable="false"><use href="#jn-i-idle"></use></svg><div class="jn-nb"><div class="jn-nt">Tag loads<span class="jn-sr"></span></div><div class="jn-ns">Loads with the page.</div></div></div>
+        <div class="jn-node jn-f2 jn-s-i" data-jn-node="f2"><svg class="jn-ic" aria-hidden="true" focusable="false"><use href="#jn-i-idle"></use></svg><div class="jn-nb"><div class="jn-nt">Page view recorded<span class="jn-sr"></span></div><div class="jn-ns">Saves the visit with an ID.</div></div></div>
+        <div class="jn-node jn-g2 jn-s-i" data-jn-node="g2"><svg class="jn-ic" aria-hidden="true" focusable="false"><use href="#jn-i-idle"></use></svg><div class="jn-nb"><div class="jn-nt">Consent check<span class="jn-sr"></span></div><div class="jn-ns">Checks if ad consent is on.</div></div></div>
+        <div class="jn-node jn-f3 jn-s-i" data-jn-node="f3"><svg class="jn-ic" aria-hidden="true" focusable="false"><use href="#jn-i-idle"></use></svg><div class="jn-nb"><div class="jn-nt">Visitor-ID cookie<span class="jn-sr"></span></div><div class="jn-ns">Where the visitor ID is kept.</div></div></div>
+        <div class="jn-node jn-g3 jn-s-i" data-jn-node="g3"><svg class="jn-ic" aria-hidden="true" focusable="false"><use href="#jn-i-idle"></use></svg><div class="jn-nb"><div class="jn-nt">Ping to Google<span class="jn-sr"></span></div><div class="jn-ns">Tells Google about the visit.</div></div></div>
+        <div class="jn-node jn-r jn-s-i" data-jn-node="r"><svg class="jn-ic" aria-hidden="true" focusable="false"><use href="#jn-i-idle"></use></svg><div class="jn-nb"><div class="jn-nt">IDs Google received from the site<span class="jn-sr"></span></div><div class="jn-ns">Filled by the Google tag&rsquo;s pings.</div></div></div>
+
+        <div class="jn-band" aria-hidden="true"><span>Overnight</span></div>
+
+        <div class="jn-node jn-c1 jn-s-i" data-jn-node="c1"><svg class="jn-ic" aria-hidden="true" focusable="false"><use href="#jn-i-idle"></use></svg><div class="jn-nb"><div class="jn-nt">Overnight upload<span class="jn-sr"></span></div><div class="jn-ns">Sends Factors&rsquo; IDs to the audience.</div></div></div>
+
+        <div class="jn-node jn-m jn-s-i" data-jn-node="m">
+          <svg class="jn-ic" aria-hidden="true" focusable="false"><use href="#jn-i-idle"></use></svg>
+          <div class="jn-nb">
+            <div class="jn-nt">Google looks for the uploaded IDs<span class="jn-sr"></span></div>
+            <div class="jn-ns">Compares each one with the IDs it received.</div>
+            <div class="jn-mrow">
+              <div class="jn-g100" aria-hidden="true"></div>
+              <ul class="jn-gleg" aria-hidden="true">
+                <li><i class="jn-gk jn-gk-f"></i>Found (3 of every 100)</li>
+                <li><i class="jn-gk jn-gk-m"></i>Found if the rate is 9 of every 100</li>
+                <li><i class="jn-gk jn-gk-n"></i>Not found</li>
+                <li><i class="jn-gk jn-gk-v"></i>This visitor&rsquo;s ID</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="jn-node jn-s jn-s-i" data-jn-node="s">
+          <svg class="jn-ic" aria-hidden="true" focusable="false"><use href="#jn-i-idle"></use></svg>
+          <div class="jn-nb">
+            <div class="jn-nt">What people see today<span class="jn-sr"></span></div>
+            <div class="jn-ns">One fact, shown three ways.</div>
+            <div class="jn-srow">
+              <div class="jn-scrs">
+                <div class="jn-scr"><span class="jn-sk">Google Ads screen</span><span class="jn-sv">0</span><span class="jn-sn">as reported by the site&rsquo;s team</span></div>
+                <div class="jn-scr"><span class="jn-sk">Google Ads API</span><span class="jn-sv">under 500</span><span class="jn-sn">size range, read 15 Oct 2026</span></div>
+                <div class="jn-scr"><span class="jn-sk">Factors app</span><span class="jn-sv">&lt; 500 matched users</span><span class="jn-sn">as the product shows it</span></div>
+              </div>
+              <div class="jn-meter" aria-hidden="true">
+                <div class="jn-mlab">Matched people per audience, against Google&rsquo;s floor</div>
+                <div class="jn-mfl"><span>Google shows a number from 100</span></div>
+                <div class="jn-mtrack"><div class="jn-mband"></div><div class="jn-mgrow"></div><div class="jn-mfloor"></div></div>
+                <div class="jn-mtx"><span class="jn-m0">0</span><span class="jn-me">13&ndash;66 (Estimate)</span><span class="jn-mg">&rarr; grows with each Accept all (Expected)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="jn-tok" data-jn-tok="a" aria-hidden="true"><div class="jn-tokb"></div></div>
+      <div class="jn-tok" data-jn-tok="b" aria-hidden="true"><div class="jn-tokb"></div></div>
+    </div>
+
+    <div class="jn-dock">
+      <div class="jn-bar">
+        <div class="jn-btns" role="group" aria-label="Animation controls">
+          <button type="button" class="jn-btn" data-jn="play"><svg class="jn-bi" aria-hidden="true" focusable="false"><use href="#jn-i-play"></use></svg><span class="jn-bl">Play</span></button>
+          <button type="button" class="jn-btn" data-jn="back"><svg class="jn-bi" aria-hidden="true" focusable="false"><use href="#jn-i-back"></use></svg><span class="jn-bl">Step back</span></button>
+          <button type="button" class="jn-btn" data-jn="next"><svg class="jn-bi" aria-hidden="true" focusable="false"><use href="#jn-i-next"></use></svg><span class="jn-bl">Step forward</span></button>
+          <button type="button" class="jn-btn" data-jn="restart"><svg class="jn-bi" aria-hidden="true" focusable="false"><use href="#jn-i-restart"></use></svg><span class="jn-bl">Restart</span></button>
+        </div>
+        <div class="jn-dots" role="group" aria-label="Jump to a step"></div>
+      </div>
+      <div class="jn-cap" aria-live="polite" aria-atomic="true">
+        <div class="jn-capL"><div class="jn-kick" data-jn="kick"></div><p class="jn-big" data-jn="big"></p></div>
+        <div class="jn-capR"><p class="jn-why" data-jn="why"></p><div class="jn-evs" data-jn="evs"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="jn-block">
+    <div class="jn-bh">
+      <h3 class="jn-h3">Where the people drop off</h3>
+      <button type="button" class="jn-btn" data-jn="replay"><svg class="jn-bi" aria-hidden="true" focusable="false"><use href="#jn-i-restart"></use></svg><span>Replay</span></button>
+    </div>
+    <p class="jn-sub">Counts for this site. The scale is logarithmic: each gridline to the right is 10 times more, so every row stays visible. The unit changes from row to row, so read each label. The dashed line is Google&rsquo;s floor of 100.</p>
+    <div class="jn-fun" data-jn="fun"></div>
+  </div>
+
+  <div class="jn-block">
+    <h3 class="jn-h3">Why Factors events load but Google&rsquo;s call carries no ID</h3>
+    <p class="jn-sub">Clean-browser test, 15 Oct 2026: three pages, no clicks.</p>
+    <table class="jn-tbl">
+      <thead><tr><th scope="col">Script</th><th scope="col">What it does</th><th scope="col">Depends on Google ad consent?</th><th scope="col">What we saw</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Factors tag</th><td data-l="What it does">Records the page view on Factors&rsquo; side and sets the visitor-ID cookie.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">No.</span> It ran with ad consent off.</td><td data-l="What we saw">Present and working on the 3 pages tested.</td></tr>
+        <tr><th scope="row">Google tag</th><td data-l="What it does">Sends page-view pings to Google. It is set up to attach the visitor ID.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">Yes.</span> With ad consent denied, Google&rsquo;s consent rules make it send an anonymous ping.</td><td data-l="What we saw">Requests carried the consent flags gcs=G100 and npa=1 (ads storage denied) and no visitor ID.</td></tr>
+        <tr><th scope="row">Cookie banner</th><td data-l="What it does">Asks the visitor for consent. It is opt-in: everything except &ldquo;necessary&rdquo; is off until the visitor chooses.</td><td data-l="Depends on Google ad consent?"><span class="jn-yn">It sets the consent state</span> that the Google tag follows.</td><td data-l="What we saw">Its script removed the Factors ID cookie about 85 ms after the cookie was set.</td></tr>
+      </tbody>
+    </table>
+    <p class="jn-note">How each script is treated by the banner is the site owner&rsquo;s decision.</p>
+  </div>
+
+  <aside class="jn-untested" aria-labelledby="jn-untested-h">
+    <h3 class="jn-h3" id="jn-untested-h">What we have not tested</h3>
+    <ul>
+      <li>A visit where Accept all is clicked. That path is Expected, not Observed.</li>
+      <li>The share of visitors who accept.</li>
+      <li>The site&rsquo;s tag-manager setup.</li>
+    </ul>
+  </aside>
+</section>
+
+<script>
+(function () {
+  'use strict';
+  var root = document.getElementById('journey');
+  if (!root || root.getAttribute('data-jn-ready')) { return; }
+  root.setAttribute('data-jn-ready', '1');
+
+  function q(s, c) { return (c || root).querySelector(s); }
+  function qa(s, c) { return Array.prototype.slice.call((c || root).querySelectorAll(s)); }
+  function h(tag, cls, txt) { var e = document.createElement(tag); if (cls) { e.className = cls; } if (txt != null) { e.textContent = txt; } return e; }
+
+  var mqRM = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  var reduced = !!(mqRM && mqRM.matches);
+  var N = 7, STEP_MS = 2500, NARROW_PX = 720;
+
+  var stage = q('.jn-stage'), svg = q('.jn-wires'), grid = q('.jn-grid');
+  var NODES = ['visit', 'f1', 'f2', 'f3', 'g1', 'g2', 'g3', 'r', 'c1', 'm', 's'];
+  var el = {}, defSub = {};
+  NODES.forEach(function (id) { el[id] = q('[data-jn-node="' + id + '"]'); defSub[id] = q('.jn-ns', el[id]).textContent; });
+  var tok = { a: q('[data-jn-tok="a"]'), b: q('[data-jn-tok="b"]') };
+  var ICON = { i: 'idle', o: 'ok', x: 'bad', w: 'warn', e: 'exp', n: 'idle' };
+  var WORD = { i: 'waiting', o: 'done', x: 'blocked', w: 'caution', e: 'expected', n: 'active' };
+  var EVK = { obs: 'Observed', data: 'From data', design: 'By design', est: 'Estimate', exp: 'Expected', docs: 'Google’s docs' };
+  var NAMES = ['The visit', 'Factors’ tag', 'The banner', 'Google’s tag', 'Overnight upload', 'The match', 'What people see'];
+
+  /* edges: [from, to, route (wide|narrow)] */
+  var EDGES = {
+    e1: ['visit', 'f1', 'dv'], e2: ['visit', 'g1', 'dv'], e3: ['f1', 'f2', 'dv'], e4: ['f2', 'f3', 'dv'],
+    e5: ['g1', 'g2', 'dv'], e6: ['g2', 'g3', 'dv'], e7: ['g3', 'r', 'rl|dv'], e8: ['f2', 'c1', 'rail'],
+    e9: ['c1', 'm', 'rl|dvv'], e10: ['r', 'm', 'dv|dvv'], e11: ['m', 's', 'dv']
+  };
+  var EORDER = Object.keys(EDGES);
+
+  /* ------------------------------------------------------------------ story data
+     st: node state (i idle, n active, o done, x blocked, w caution, e expected). Entries carry forward to later steps. */
+  var ORIG = 'Seen in a clean-browser test, 15 Oct 2026';
+  var EXPT = 'Expected, not tested on this site';
+  var DESIGN = 'How the integration is designed. Google’s public docs don’t detail ID matching';
+  var UPLOAD_WHY = 'The upload itself works: all 678 upload jobs to Google finished with no errors.';
+  var UPLOAD_EV = [['data', 'From Factors’ data and Google’s API, read 15 Oct 2026']];
+
+  var steps = {
+    def: [
+      { now: ['visit'], st: { visit: 'n' }, sub: { visit: 'The cookie banner appears. Ad consent is off by default.' }, ui: { ad: 0, press: 0, chip: 0 }, ed: {}, tok: [],
+        big: 'A visitor opens the site. The cookie banner appears with ad consent off.',
+        why: 'This site’s banner is opt-in: everything except “necessary” stays off until the visitor chooses.',
+        ev: [['obs', ORIG]] },
+      { now: ['f1', 'f2', 'f3'], d: { f1: 0.45, f2: 0.85, f3: 1.25 }, st: { f1: 'o', f2: 'o', f3: 'o' },
+        sub: { f1: 'Loaded and running.', f2: 'Saved with a visitor ID.', f3: 'Set in the browser.' }, ed: { e1: 'o', e3: 'o', e4: 'o' },
+        tok: [{ id: 'a', sp: 1, r: ['e1', 'e3', 'e4'], end: 'ok' }],
+        big: 'Factors’ tag loads and records the page view. It also sets a visitor-ID cookie.',
+        why: 'Factors’ tag does not wait for Google ad consent, so the page view is recorded either way.',
+        ev: [['obs', ORIG + ': 3 of 3 pages'], ['data', 'From Factors’ data: 15,426 page views in the last 30 days']] },
+      { now: ['f3'], d: { f3: 0.3 }, st: { f3: 'x' }, sub: { f3: 'Deleted about 85 ms later by the banner’s script.', f2: 'Still saved, with its ID.' }, ui: { chip: 1 }, ed: {},
+        tok: [{ id: 'a', end: 'bad' }],
+        big: 'About 85 ms later, the banner’s script deletes the ID cookie.',
+        why: 'The next page view then looks like a brand-new visitor. In the last 7 days, 95% of this site’s visitors have exactly one event.',
+        ev: [['obs', ORIG], ['data', 'From Factors’ data, last 7 days']] },
+      { now: ['g1', 'g2', 'g3', 'r'], d: { g1: 0.35, g2: 0.8, g3: 1.25, r: 1.7 }, st: { g1: 'o', g2: 'w', g3: 'x', r: 'x' },
+        sub: { g1: 'Loaded and running.', g2: 'Ad consent: denied. The ID is not attached.', g3: 'Sent WITHOUT the visitor ID.', r: 'Nothing from this visit.' },
+        ed: { e2: 'o', e5: 'x', e6: 'g', e7: 'g' },
+        tok: [{ id: 'a', sp: 1, r: ['e2', 'e5'], end: 'bad' }, { id: 'b', sp: 1, r: ['e6', 'e7'], end: 'ghost', at: 0.95 }],
+        big: 'Google’s tag runs. Ad consent is denied, so it sends only an anonymous ping, with no visitor ID.',
+        why: 'The tag is set up to pass the ID. With consent denied, Google’s consent rules hold it back.',
+        ev: [['obs', ORIG]] },
+      { now: ['c1'], d: { c1: 0.9 }, st: { c1: 'o' }, sub: { c1: '1,714 IDs sent now. 5,304 different people sent over time.' }, ed: { e8: 'o' },
+        tok: [{ id: 'a', sp: 1, r: ['e8'], pill: '1,714 IDs', end: 'ok' }, { id: 'b', end: 'fade' }],
+        big: 'Overnight, Factors uploads its visitor IDs to the Google Ads audience.',
+        why: UPLOAD_WHY, ev: UPLOAD_EV },
+      { now: ['m', 'r'], d: { m: 0.9 }, st: { m: 'x' }, sub: { m: 'Found: about 3 to 9 of every 100 uploaded IDs. This visitor’s ID: not found.' }, ed: { e9: 'o', e10: 'g' },
+        tok: [{ id: 'a', r: ['e9'], pill: '1,714 IDs', end: 'fade' }],
+        big: 'Google looks for those IDs among the IDs it received from the site. Most are not found.',
+        why: 'Google can only match an ID the site’s own Google tag sent it. Its own match rate on this account is 3–9%, against about 27% typical.',
+        ev: [['data', 'Match rate: from Google’s API, read 15 Oct 2026'], ['design', DESIGN]] },
+      { now: ['s'], d: { s: 0.6 }, st: { s: 'w' }, sub: {}, ed: { e11: 'o' },
+        tok: [{ id: 'a', sp: 1, r: ['e11'], end: 'fade' }],
+        big: 'The audience stays too small. Google Ads shows 0, the API says “under 500”, and Factors shows “< 500 matched users”.',
+        why: 'Google shows a number only from 100 matched people, and these audiences have an estimated 13–66 each. The 0 is a reporting floor, not “nobody matched”.',
+        ev: [['est', '5–9% match rate × people uploaded, per audience'], ['docs', 'The size shows as zero until a list has 100 members']] }
+    ],
+    acc: [
+      { now: ['visit'], st: { visit: 'n' }, sub: { visit: 'The cookie banner appears. The visitor clicks Accept all.' }, ui: { ad: 1, press: 1, chip: 0 }, ed: {}, tok: [],
+        big: 'A visitor opens the site and clicks Accept all. Ad consent is now on.',
+        why: 'Accepting is what turns Google ad consent on for this visitor.',
+        ev: [['exp', EXPT]] },
+      { now: ['f1', 'f2', 'f3'], d: { f1: 0.45, f2: 0.85, f3: 1.25 }, st: { f1: 'e', f2: 'e', f3: 'e' },
+        sub: { f1: 'Loaded and running.', f2: 'Saved with a visitor ID.', f3: 'Set in the browser.' }, ed: { e1: 'e', e3: 'e', e4: 'e' },
+        tok: [{ id: 'a', sp: 1, r: ['e1', 'e3', 'e4'], end: 'ok' }],
+        big: 'Factors’ tag loads and records the page view. It also sets a visitor-ID cookie.',
+        why: 'Same as the default path: Factors’ tag does not wait for Google ad consent.',
+        ev: [['exp', EXPT], ['obs', 'Default path: ' + ORIG]] },
+      { now: ['f3'], d: { f3: 0.3 }, st: { f3: 'e' }, sub: { f3: 'Stays in the browser. Expected.' }, ed: {},
+        tok: [{ id: 'a', end: 'ok' }],
+        big: 'The ID cookie stays in place.',
+        why: 'Expected: once the visitor accepts, the banner no longer blocks the cookie, so the next page view is the same visitor.',
+        ev: [['exp', EXPT]] },
+      { now: ['g1', 'g2', 'g3', 'r'], d: { g1: 0.35, g2: 0.8, g3: 1.25, r: 1.7 }, st: { g1: 'e', g2: 'e', g3: 'e', r: 'e' },
+        sub: { g1: 'Loaded and running.', g2: 'Ad consent: granted. Expected.', g3: 'Sent WITH the visitor ID. Expected.', r: 'Includes this visitor’s ID. Expected.' },
+        ed: { e2: 'e', e5: 'e', e6: 'e', e7: 'e' },
+        tok: [{ id: 'a', sp: 1, r: ['e2', 'e5', 'e6', 'e7'], end: 'ok' }],
+        big: 'Google’s tag runs. Ad consent is on, so the visitor ID goes to Google with the page view.',
+        why: 'The tag is set up to pass the ID, and consent no longer holds it back. On a different site where consent is granted by default, the visitor ID does reach Google.',
+        ev: [['exp', EXPT], ['obs', 'Seen on a different site where consent is granted by default']] },
+      { now: ['c1'], d: { c1: 0.9 }, st: { c1: 'o' }, sub: { c1: '1,714 IDs sent now. 5,304 different people sent over time.' }, ed: { e8: 'o' },
+        tok: [{ id: 'a', sp: 1, r: ['e8'], pill: '1,714 IDs', end: 'ok' }],
+        big: 'Overnight, Factors uploads its visitor IDs to the Google Ads audience.',
+        why: UPLOAD_WHY, ev: UPLOAD_EV },
+      { now: ['m', 'r'], d: { m: 0.9 }, st: { m: 'e' }, sub: { m: 'This visitor’s ID: found. Expected. Visitors who ignored the banner: still mostly not found.' }, ed: { e9: 'o', e10: 'e' },
+        tok: [{ id: 'a', r: ['e9'], pill: '1,714 IDs', end: 'fade' }, { id: 'b', sp: 1, r: ['e10'], end: 'fade', at: 0.2 }],
+        big: 'Google looks for this visitor’s ID among the IDs it received from the site. It finds it.',
+        why: 'The same ID reached Google earlier through the site’s own tag, so the match works. Visitors who ignore the banner still cannot be found.',
+        ev: [['exp', EXPT], ['design', DESIGN]] },
+      { now: ['s'], d: { s: 0.6 }, st: { s: 'w' }, sub: {}, ed: { e11: 'o' },
+        tok: [{ id: 'a', sp: 1, r: ['e11'], end: 'fade' }],
+        big: 'Each visitor who accepts adds one matchable person. The audience can grow toward Google’s 100-person floor.',
+        why: 'Google shows a number from 100 matched people, and an audience has an estimated 13–66 today. How many visitors accept has not been measured.',
+        ev: [['exp', EXPT], ['est', '13–66 matched people per audience today']] }
+    ]
+  };
+  var FUN = [
+    { n: '15,426', u: 'page views in the last 30 days', v: 15426, k: 'data', kt: 'From Factors’ data', w: 'Factors’ tag records every page view, whether or not the visitor accepts cookies.' },
+    { n: '11,372', u: 'different visitor IDs in the last 30 days', v: 11372, k: 'data', kt: 'From Factors’ data', w: 'The banner deletes the ID cookie about 85 ms after it is set, so most visitors have a single event (95% in the last 7 days).' },
+    { n: '1,714', u: 'IDs uploaded now', v: 1714, k: 'data', kt: 'From Factors’ data', w: 'Only people from the target accounts are uploaded. A person in two audiences counts twice. 5,304 different people were sent over time.' },
+    { n: '85–155', u: 'people Google can match (Estimate)', est: 1, lo: 85, hi: 155, lo2: 13, hi2: 66, k: 'est', kt: 'Estimate', w: 'Google’s 5–9% match rate × 1,714, as if everyone were in one audience. Per audience it is about 13–66.' },
+    { n: '0', u: 'number Google Ads shows', zero: 1, k: 'docs', kt: 'Google’s docs', w: 'Google shows a number only from 100 matched people. Below that it shows 0, which is a reporting floor, not “nobody matched”.' }
+  ];
+
+  /* ------------------------------------------------------------------ state */
+  var state = { step: 1, scn: 'def', playing: false, autoDone: false };
+  var narrow = false, timer = 0, raf = { a: 0, b: 0 }, tmo = [];
+  var EP = {}, wpath = {}, wah = {};
+  var lastSig = '';
+
+  function cur() { return steps[state.scn][state.step - 1]; }
+  function cum(n) {
+    var o = { st: {}, sub: {}, ed: {}, ui: { ad: 0, press: 0, chip: 0 } }, k, i, s;
+    for (i = 0; i < n; i++) {
+      s = steps[state.scn][i];
+      for (k in s.st) { o.st[k] = s.st[k]; }
+      for (k in s.sub) { o.sub[k] = s.sub[k]; }
+      for (k in s.ed) { o.ed[k] = s.ed[k]; }
+      if (s.ui) { for (k in s.ui) { o.ui[k] = s.ui[k]; } }
+    }
+    return o;
+  }
+
+  /* ------------------------------------------------------------------ geometry */
+  function rect(id) {
+    var r = el[id].getBoundingClientRect(), s = stage.getBoundingClientRect();
+    var x = r.left - s.left - stage.clientLeft, y = r.top - s.top - stage.clientTop;
+    return { l: x, t: y, r: x + r.width, b: y + r.height, cx: x + r.width / 2, cy: y + r.height / 2 };
+  }
+  function route(def) {
+    var A = rect(def[0]), B = rect(def[1]), t = def[2].split('|'), x, my, mx;
+    t = t.length > 1 ? (narrow ? t[1] : t[0]) : t[0];
+    if (t === 'dv') {
+      x = (B.l <= A.cx && A.cx <= B.r) ? A.cx : B.cx;
+      return [[x, A.b], [x, B.t]];
+    }
+    if (t === 'dvv') {
+      my = (A.b + B.t) / 2;
+      return [[A.cx, A.b], [A.cx, my], [B.cx, my], [B.cx, B.t]];
+    }
+    if (t === 'rl') {
+      if (Math.abs(A.cy - B.cy) < 2) { return [[A.r, A.cy], [B.l, B.cy]]; }
+      mx = (A.r + B.l) / 2;
+      return [[A.r, A.cy], [mx, A.cy], [mx, B.cy], [B.l, B.cy]];
+    }
+    x = narrow ? 8 : 10; /* rail */
+    return [[A.l, A.cy], [x, A.cy], [x, B.cy], [B.l, B.cy]];
+  }
+  function ptsStr(p) { return p.map(function (a) { return a[0].toFixed(1) + ' ' + a[1].toFixed(1); }).join('L'); }
+  function buildWires() {
+    var NS = 'http://www.w3.org/2000/svg';
+    EORDER.forEach(function (id) {
+      var p = document.createElementNS(NS, 'path'), a = document.createElementNS(NS, 'path');
+      p.setAttribute('class', 'jn-w'); a.setAttribute('class', 'jn-ah');
+      svg.appendChild(p); svg.appendChild(a); wpath[id] = p; wah[id] = a;
+    });
+  }
+  function layoutEdges() {
+    var W = stage.clientWidth, H = stage.clientHeight;
+    svg.setAttribute('width', W); svg.setAttribute('height', H); svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    EORDER.forEach(function (id) {
+      var p = route(EDGES[id]), n = p.length, a = p[n - 2], b = p[n - 1];
+      var dx = b[0] - a[0], dy = b[1] - a[1], L = Math.sqrt(dx * dx + dy * dy) || 1, ux = dx / L, uy = dy / L, px = -uy, py = ux;
+      var s = 9, w = 5.5, bx = b[0] - ux * s, by = b[1] - uy * s;
+      EP[id] = p;
+      wpath[id].setAttribute('d', 'M' + ptsStr(p.slice(0, n - 1).concat([[bx, by]])));
+      wah[id].setAttribute('d', 'M' + b[0].toFixed(1) + ' ' + b[1].toFixed(1) + 'L' + (bx + px * w).toFixed(1) + ' ' + (by + py * w).toFixed(1) + 'L' + (bx - px * w).toFixed(1) + ' ' + (by - py * w).toFixed(1) + 'Z');
+    });
+    lastSig = W + 'x' + H + ':' + narrow;
+  }
+  function routePts(list) { var pts = []; list.forEach(function (id) { pts = pts.concat(EP[id]); }); return pts; }
+  function plen(pts) { var t = 0, i; for (i = 1; i < pts.length; i++) { t += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); } return t; }
+
+  /* ------------------------------------------------------------------ tokens */
+  function place(id, x, y) { tok[id].style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)'; }
+  function tokClass(id, cls, pill, vis) {
+    var t = tok[id];
+    t.classList.remove('jn-t-go', 'jn-t-ok', 'jn-t-bad', 'jn-t-ghost', 'jn-t-pop', 'jn-has-txt');
+    if (cls) { t.classList.add('jn-t-' + cls); }
+    q('.jn-tokb', t).textContent = pill || '';
+    if (pill) { t.classList.add('jn-has-txt'); }
+    t.classList.toggle('jn-on', !!vis);
+  }
+  function tokFinal(n) {
+    var S = { a: { vis: 0 }, b: { vis: 0 } }, k, list, i, e, s, pts, last;
+    for (k = 0; k < n; k++) {
+      list = steps[state.scn][k].tok || [];
+      for (i = 0; i < list.length; i++) {
+        e = list[i]; s = S[e.id];
+        if (e.r && e.r.length) { pts = routePts(e.r); last = pts[pts.length - 1]; s.x = last[0]; s.y = last[1]; s.vis = 1; s.cls = 'go'; s.pill = e.pill || ''; }
+        if (e.end === 'fade') { s.vis = 0; } else if (e.end) { s.vis = (s.x != null) ? 1 : 0; s.cls = e.end; }
+      }
+    }
+    return S;
+  }
+  function applyTok(S) {
+    ['a', 'b'].forEach(function (id) {
+      var s = S[id];
+      if (s.vis && s.x != null) { place(id, s.x, s.y); tokClass(id, s.cls, s.pill, 1); } else { tokClass(id, '', '', 0); }
+    });
+  }
+  function stopAll() {
+    clearTimeout(timer);
+    ['a', 'b'].forEach(function (id) { if (raf[id]) { cancelAnimationFrame(raf[id]); raf[id] = 0; } });
+    tmo.forEach(clearTimeout); tmo = [];
+  }
+  function animTok(id, pts, dur, delay, done) {
+    var segs = [], tot = 0, i, t0 = performance.now() + delay * 1000;
+    for (i = 1; i < pts.length; i++) { var l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); segs.push(l); tot += l; }
+    function at(d) {
+      var j = 0;
+      while (j < segs.length - 1 && d > segs[j]) { d -= segs[j]; j++; }
+      var f = segs[j] ? Math.min(1, d / segs[j]) : 1;
+      return [pts[j][0] + (pts[j + 1][0] - pts[j][0]) * f, pts[j][1] + (pts[j + 1][1] - pts[j][1]) * f];
+    }
+    function frame(now) {
+      var t = (now - t0) / (dur * 1000), e, p;
+      if (t < 0) { raf[id] = requestAnimationFrame(frame); return; }
+      if (t > 1) { t = 1; }
+      e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      p = at(e * tot); place(id, p[0], p[1]); tok[id].classList.add('jn-on');
+      if (t < 1) { raf[id] = requestAnimationFrame(frame); } else { raf[id] = 0; done(); }
+    }
+    raf[id] = requestAnimationFrame(frame);
+  }
+  function finishTok(id, e) {
+    var t = tok[id];
+    if (e.end === 'fade') { t.classList.remove('jn-on'); return; }
+    if (!e.end) { return; }
+    t.classList.remove('jn-t-go', 'jn-t-ok', 'jn-t-bad', 'jn-t-ghost');
+    t.classList.add('jn-t-' + e.end, 'jn-t-pop');
+  }
+  function runTokens(animate) {
+    var n = state.step, before = tokFinal(n - 1), list = cur().tok || [];
+    if (!animate) { applyTok(tokFinal(n)); return; }
+    applyTok(before);
+    list.forEach(function (e) {
+      var id = e.id, delay = e.at || 0, pts, dur;
+      if (e.r && e.r.length) {
+        pts = routePts(e.r);
+        if (!e.sp && before[id].vis && before[id].x != null) { pts = [[before[id].x, before[id].y]].concat(pts); }
+        tokClass(id, 'go', e.pill || '', 0); place(id, pts[0][0], pts[0][1]);
+        dur = Math.max(0.55, Math.min(1.6, plen(pts) / 430));
+        animTok(id, pts, dur, delay, function () { finishTok(id, e); });
+      } else {
+        tmo.push(setTimeout(function () { finishTok(id, e); }, delay * 1000 + 250));
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------ render */
+  function renderNodes(animate) {
+    var c = cum(state.step), s = cur(), d = animate ? (s.d || {}) : {};
+    NODES.forEach(function (id) {
+      var e = el[id], st = c.st[id] || 'i', ic = q(':scope > .jn-ic', e) || q('.jn-vl > .jn-ic', e);
+      ['i', 'n', 'o', 'x', 'w', 'e'].forEach(function (k) { e.classList.remove('jn-s-' + k); });
+      e.classList.add('jn-s-' + st);
+      e.classList.toggle('jn-now', s.now.indexOf(id) > -1);
+      e.style.setProperty('--jn-d', (d[id] || 0) + 's');
+      q('.jn-ns', e).textContent = c.sub[id] != null ? c.sub[id] : defSub[id];
+      q('.jn-sr', e).textContent = ' (' + WORD[st] + ')';
+      if (id !== 'visit' && ic) { q('use', ic).setAttribute('href', '#jn-i-' + ICON[st]); }
+    });
+    var vis = el.visit;
+    vis.classList.toggle('jn-ad-on', !!c.ui.ad);
+    vis.classList.toggle('jn-press', !!c.ui.press);
+    vis.classList.toggle('jn-chip-on', !!c.ui.chip);
+    q('[data-jn="adtxt"]', vis).textContent = c.ui.ad ? 'ON' : 'OFF';
+    var m = el.m;
+    m.classList.toggle('jn-rev', state.step >= 6);
+    m.classList.toggle('jn-me-ok', state.scn === 'acc');
+    m.classList.toggle('jn-me-no', state.scn !== 'acc');
+    el.s.classList.toggle('jn-show', state.step >= 7);
+    root.classList.toggle('jn-show', state.step >= 7);
+    EORDER.forEach(function (id) {
+      var k = c.ed[id] || '';
+      ['o', 'x', 'g', 'e'].forEach(function (z) { wpath[id].classList.remove('jn-ws-' + z); wah[id].classList.remove('jn-ws-' + z); });
+      if (k) { wpath[id].classList.add('jn-ws-' + k); wah[id].classList.add('jn-ws-' + k); }
+    });
+  }
+  function renderCaption() {
+    var s = cur();
+    q('[data-jn="kick"]').textContent = 'Step ' + state.step + ' of ' + N + ' · ' + NAMES[state.step - 1];
+    q('[data-jn="big"]').textContent = s.big;
+    var why = q('[data-jn="why"]'); why.textContent = '';
+    why.appendChild(h('b', '', 'Why: ')); why.appendChild(document.createTextNode(s.why));
+    var evs = q('[data-jn="evs"]'); evs.textContent = '';
+    s.ev.forEach(function (x) {
+      var c = h('span', 'jn-ev jn-ev-' + x[0]);
+      c.appendChild(h('b', '', EVK[x[0]] + ':')); c.appendChild(document.createTextNode(' ' + x[1]));
+      evs.appendChild(c);
+    });
+  }
+  function renderControls() {
+    var play = q('[data-jn="play"]'), lab = q('.jn-bl', play), use = q('use', play);
+    var atEnd = state.step >= N && !state.playing;
+    lab.textContent = state.playing ? 'Pause' : (atEnd ? 'Replay' : 'Play');
+    use.setAttribute('href', state.playing ? '#jn-i-pause' : (atEnd ? '#jn-i-restart' : '#jn-i-play'));
+    play.hidden = reduced;
+    q('[data-jn="back"]').setAttribute('aria-disabled', state.step <= 1 ? 'true' : 'false');
+    q('[data-jn="next"]').setAttribute('aria-disabled', state.step >= N ? 'true' : 'false');
+    qa('.jn-dot').forEach(function (b, i) {
+      var on = (i + 1) === state.step;
+      if (on) { b.setAttribute('aria-current', 'step'); } else { b.removeAttribute('aria-current'); }
+      b.classList.toggle('jn-past', (i + 1) < state.step);
+    });
+    qa('[data-jn-scn]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-jn-scn') === state.scn ? 'true' : 'false'); });
+    root.classList.toggle('jn-scn-acc', state.scn === 'acc');
+    root.setAttribute('data-jn-step', state.step);
+    root.setAttribute('data-jn-scn', state.scn);
+    root.setAttribute('data-jn-playing', state.playing ? '1' : '0');
+  }
+  function render(animate) {
+    var anim = animate && !reduced;
+    stopAll();
+    renderNodes(anim);
+    renderCaption();
+    renderControls();
+    layoutEdges();
+    runTokens(anim);
+    if (state.playing) { schedule(); }
+  }
+
+  /* ------------------------------------------------------------------ playback */
+  function schedule() {
+    clearTimeout(timer);
+    if (!state.playing || reduced) { return; }
+    timer = setTimeout(function () {
+      if (state.step < N) { go(state.step + 1, true); }
+      if (state.step >= N) { state.playing = false; renderControls(); }
+    }, STEP_MS);
+  }
+  function go(n, animate) {
+    n = Math.max(1, Math.min(N, n));
+    state.step = n;
+    render(animate);
+  }
+  function userTook() { state.autoDone = true; }
+  function pause() { state.playing = false; clearTimeout(timer); renderControls(); }
+  function play() {
+    if (reduced) { return; }
+    state.autoDone = true;
+    if (state.step >= N) { state.step = 1; }
+    state.playing = true;
+    render(true);
+  }
+  function toggle() { if (state.playing) { pause(); } else { play(); } }
+  function nav(n) { userTook(); pause(); go(n, true); }
+
+  /* ------------------------------------------------------------------ build dots + 100-ID grid + funnel */
+  function buildDots() {
+    var box = q('.jn-dots'), i, b;
+    for (i = 1; i <= N; i++) {
+      b = h('button', 'jn-dot', String(i)); b.type = 'button'; b.setAttribute('data-jn-step', i);
+      b.setAttribute('aria-label', 'Step ' + i + ' of ' + N + ': ' + NAMES[i - 1]);
+      box.appendChild(b);
+    }
+  }
+  function buildGrid() {
+    var g = q('.jn-g100'), i, d, sure = [6, 27, 63], maybe = [13, 35, 48, 71, 82, 94], me = 44;
+    for (i = 0; i < 100; i++) {
+      d = document.createElement('i');
+      if (sure.indexOf(i) > -1) { d.className = 'jn-df'; }
+      if (maybe.indexOf(i) > -1) { d.className = 'jn-dm'; }
+      if (i === me) { d.className = 'jn-dv'; }
+      d.style.setProperty('--jn-dd', (i * 9) + 'ms');
+      g.appendChild(d);
+    }
+  }
+  function pct(v) { return (Math.log(v) / Math.LN10 - 1) / (Math.log(20000) / Math.LN10 - 1) * 100; }
+  function buildFunnel() {
+    var f = q('[data-jn="fun"]');
+    f.style.setProperty('--jn-g2', pct(100) + '%'); f.style.setProperty('--jn-g3', pct(1000) + '%');
+    f.style.setProperty('--jn-g4', pct(10000) + '%'); f.style.setProperty('--jn-g5', '100%');
+    var ax = h('div', 'jn-axis'), ticks = [[10, '10'], [100, '100'], [1000, '1,000'], [10000, '10,000']];
+    ax.setAttribute('aria-hidden', 'true');
+    ticks.forEach(function (t) { var s = h('span', t[0] === 100 ? 'jn-ax-f' : '', t[1]); s.style.left = pct(t[0]) + '%'; ax.appendChild(s); });
+    f.appendChild(ax);
+    FUN.forEach(function (r, i) {
+      var row = h('div', 'jn-fr'), lab = h('div', 'jn-fl'), tr = h('div', 'jn-ft' + (r.est ? ' jn-ft2' : '')), b, b2, w = h('p', 'jn-fw'), ev;
+      row.style.setProperty('--jn-fd', (i * 0.22) + 's');
+      lab.appendChild(h('div', 'jn-fn', r.n)); lab.appendChild(h('div', 'jn-fu', r.u));
+      tr.setAttribute('aria-hidden', 'true');
+      if (r.zero) {
+        var z = h('div', 'jn-zero'); z.appendChild(h('b', '', '0')); z.appendChild(document.createTextNode('← off the left edge of this scale'));
+        tr.appendChild(z);
+      } else if (r.est) {
+        b = h('div', 'jn-fb jn-fb-est'); b.style.left = pct(r.lo) + '%'; b.style.width = (pct(r.hi) - pct(r.lo)) + '%'; tr.appendChild(b);
+        var l1 = h('div', 'jn-flab', '85–155 if all in one list'); l1.style.left = (pct(r.hi) + 1.2) + '%'; l1.style.top = '5px'; tr.appendChild(l1);
+        b2 = h('div', 'jn-fb jn-fb-est jn-fb2'); b2.style.left = pct(r.lo2) + '%'; b2.style.width = (pct(r.hi2) - pct(r.lo2)) + '%'; tr.appendChild(b2);
+        var l2 = h('div', 'jn-flab', '13–66 per audience'); l2.style.left = (pct(r.hi2) + 1.2) + '%'; l2.style.top = '27px'; tr.appendChild(l2);
+      } else {
+        b = h('div', 'jn-fb'); b.style.width = pct(r.v) + '%'; tr.appendChild(b);
+      }
+      w.appendChild(document.createTextNode(r.w));
+      ev = h('span', 'jn-ev jn-ev-' + r.k); ev.appendChild(h('b', '', r.kt)); w.appendChild(ev);
+      row.appendChild(lab); row.appendChild(tr); row.appendChild(w); f.appendChild(row);
+    });
+  }
+  function funnelGo(replay) {
+    var f = q('[data-jn="fun"]');
+    if (reduced) { f.classList.remove('jn-armed'); return; }
+    f.classList.add('jn-armed');
+    if (replay) { f.classList.remove('jn-go'); void f.offsetWidth; setTimeout(function () { f.classList.add('jn-go'); }, 40); } else { f.classList.add('jn-go'); }
+  }
+
+  /* ------------------------------------------------------------------ layout + events */
+  function setLayout() {
+    var w = root.clientWidth, n = w > 0 && w < NARROW_PX;
+    if (n !== narrow || !root.hasAttribute('data-jn-lay')) { narrow = n; root.classList.toggle('jn-narrow', n); root.setAttribute('data-jn-lay', n ? 'narrow' : 'wide'); return true; }
+    return false;
+  }
+  function relayout(force) {
+    var changed = setLayout();
+    var sig = stage.clientWidth + 'x' + stage.clientHeight + ':' + narrow;
+    if (!force && !changed && sig === lastSig) { return; }
+    layoutEdges();
+    if (!raf.a && !raf.b) { applyTok(tokFinal(state.step)); }
+  }
+  function applyMotionPref() {
+    reduced = !!(mqRM && mqRM.matches);
+    root.classList.toggle('jn-rm', reduced);
+    if (reduced) { pause(); }
+    renderControls();
+  }
+
+  buildDots(); buildGrid(); buildWires(); buildFunnel();
+  root.classList.toggle('jn-rm', reduced);
+  setLayout();
+  render(false);
+
+  root.addEventListener('click', function (ev) {
+    var t = ev.target.closest ? ev.target.closest('button') : null, a;
+    if (!t || !root.contains(t)) { return; }
+    a = t.getAttribute('data-jn');
+    if (t.hasAttribute('data-jn-scn')) { userTook(); state.scn = t.getAttribute('data-jn-scn'); render(true); return; }
+    if (t.hasAttribute('data-jn-step')) { nav(parseInt(t.getAttribute('data-jn-step'), 10)); return; }
+    if (a === 'play') { toggle(); }
+    else if (a === 'back') { if (state.step > 1) { nav(state.step - 1); } }
+    else if (a === 'next') { if (state.step < N) { nav(state.step + 1); } }
+    else if (a === 'restart') { userTook(); state.step = 1; if (reduced) { pause(); go(1, false); } else { state.playing = true; render(true); } }
+    else if (a === 'replay') { funnelGo(true); }
+  });
+  function onKey(ev) {
+    var k = ev.key;
+    if (k === 'ArrowRight' || k === 'ArrowDown') { ev.preventDefault(); if (state.step < N) { nav(state.step + 1); } }
+    else if (k === 'ArrowLeft' || k === 'ArrowUp') { ev.preventDefault(); if (state.step > 1) { nav(state.step - 1); } }
+    else if (k === 'Home') { ev.preventDefault(); nav(1); }
+    else if (k === 'End') { ev.preventDefault(); nav(N); }
+    else if (k === ' ' && ev.target === stage) { ev.preventDefault(); toggle(); }
+  }
+  stage.addEventListener('keydown', onKey);
+  q('.jn-dots').addEventListener('keydown', function (ev) { if (ev.key === 'ArrowRight' || ev.key === 'ArrowLeft') { onKey(ev); var b = q('.jn-dot[aria-current="step"]'); if (b) { b.focus(); } } });
+
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(function () { relayout(false); });
+    ro.observe(root); ro.observe(grid);
+  } else {
+    window.addEventListener('resize', function () { relayout(false); });
+  }
+  if (mqRM) { if (mqRM.addEventListener) { mqRM.addEventListener('change', applyMotionPref); } else if (mqRM.addListener) { mqRM.addListener(applyMotionPref); } }
+  document.addEventListener('visibilitychange', function () { if (document.hidden && state.playing) { pause(); } });
+
+  /* auto-play once when the diagram scrolls into view; the funnel bars grow when they scroll into view */
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        var need = Math.min(280, en.boundingClientRect.height * 0.5);
+        if (en.isIntersecting && en.intersectionRect.height >= need && !state.autoDone) { state.autoDone = true; io.disconnect(); if (!reduced) { play(); } }
+      });
+    }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 1] });
+    io.observe(stage);
+    var fun = q('[data-jn="fun"]');
+    if (!reduced) { fun.classList.add('jn-armed'); }
+    var io2 = new IntersectionObserver(function (es) {
+      es.forEach(function (en) { if (en.isIntersecting && en.intersectionRect.height >= Math.min(200, en.boundingClientRect.height * 0.5)) { io2.disconnect(); funnelGo(false); } });
+    }, { threshold: [0, 0.2, 0.4, 0.6, 1] });
+    io2.observe(fun);
+  }
+})();
+</script>
+
+
+<!-- ============ 2. THREE SCREENS ============ -->
+<section id="screens" aria-labelledby="h-screens">
+  <h2 id="h-screens">One API answer, three screens</h2>
+  <p class="lead">Pick an audience. Google’s API answers in the same way for all eleven. Three places then show that one answer in three different ways.</p>
+  <div class="chips" id="chips" role="group" aria-label="Choose an audience"></div>
+  <div class="two">
+    <div class="card apicard">
+      <h3 style="margin-top:0">What Google’s API returned <span class="pill info" id="apiTitle">Audience 6</span></h3>
+      <dl class="api" id="apiFields"></dl>
+      <details class="more"><summary>More fields (the same for every audience)</summary>
+        <dl class="api"><div class="r"><dt>membershipStatus</dt><dd>"OPEN"</dd></div><div class="r"><dt>membershipLifeSpan</dt><dd>"540" (days)</dd></div><div class="r"><dt>accountUserListStatus</dt><dd>"ENABLED"</dd></div><div class="r"><dt>type</dt><dd>"CRM_BASED"</dd></div><div class="r"><dt>uploadKeyType</dt><dd>"CRM_ID"</dd></div><div class="r"><dt>dataSourceType</dt><dd>"FIRST_PARTY"</dd></div></dl>
+      </details>
+    </div>
+    <div>
+      <div class="note"><b>Same answer, three displays.</b> Google Ads shows 0 (as reported to us). The Factors app builds a label from the bucket. The status sheet has the bucket typed in by hand.</div>
+      <div class="note warn" id="emptyNote"><b>Empty audiences still show a match rate.</b> Google keeps returning its last match rate for an empty audience (for example 8%). An empty audience shows 0 in Google Ads for a plain reason: it is empty.</div>
+    </div>
+  </div>
+  <div class="screens">
+    <figure class="screen">
+      <div class="mock" id="scrGads"></div>
+      <figcaption><strong>Google Ads screen</strong> — shows 0 (as reported to us; we could not see it)</figcaption>
+    </figure>
+    <figure class="screen">
+      <div class="mock" id="scrFapp"></div>
+      <figcaption><strong>Factors app</strong> — shows the label the product builds: <span id="fcap" class="mono"></span></figcaption>
+    </figure>
+    <figure class="screen">
+      <div class="mock" id="scrSheet"></div>
+      <figcaption><strong>Internal status sheet, 10 Sep snapshot</strong> — shows “Under 500” (typed by hand from the stored bucket)</figcaption>
+    </figure>
+  </div>
+  <p class="small muted">The three panels are illustrations built from the real values, not screenshots.</p>
+  <p class="hood"><b>Under the hood</b><span class="tag">API</span>Fields read live, API v23. They are identical for all 11 audiences except the match rate, which is present on 6 and absent on 5. <span class="tag">CODE</span>The Factors label follows the product’s rule: show the number if it is above 0, otherwise the bucket label “< 500 matched users”. It adds “(~N)” only when Google returned a match rate above 0 and people were uploaded, where N = max(1, round(uploaded × rate ÷ 100)). The status badge “Ready” follows Google’s eligibleForSearch. The detail card also has rows for total segment size and eligible member size, which we have not mapped here. <span class="tag">DB</span>Uploaded counts and match rates as stored. We could not open this project in the app (it needs the account’s own login), so the Factors panel is derived from the product code and the stored values. <span class="tag">SNAP</span>The sheet cell says “Under 500”, typed by hand from the stored bucket. It is not a formula or a live feed, and it was about 35 days old when we looked. The symbol form “< 500” exists only in the Factors screen.</p>
+</section>
+
+<!-- ============ 3. THE 11 AUDIENCES ============ -->
+<section id="chart" aria-labelledby="h-chart">
+  <h2 id="h-chart">The 11 audiences against Google’s floor</h2>
+  <p class="lead"><b>Every audience is small.</b> The largest holds 738 uploaded people. At Google’s 9% match rate that is about 66 matched people, below the 100 line. Four audiences are empty.</p>
+  <div class="legend" aria-label="Chart key">
+    <span><i class="sw up"></i>Uploaded now (people)</span>
+    <span><i class="sw m"></i>Estimated matched <span class="pill est">Estimate</span></span>
+    <span><i class="sw l1"></i>100: Google shows a number from here</span>
+    <span><i class="sw l5"></i>500: top of the Under-500 bucket</span>
+  </div>
+  <div class="hchart" id="hchart">
+    <div class="hrows">
+      <ul class="hlist" id="hlist"></ul>
+      <div class="hrefs" aria-hidden="true"><span class="href r100" style="left:12.5%"><i>100</i></span><span class="href r500" style="left:62.5%"><i>500</i></span></div>
+      <div class="haxis" aria-hidden="true"><span style="left:0">0</span><span style="left:25%">200</span><span style="left:50%">400</span><span style="left:75%">600</span><span style="left:100%">800</span></div>
+    </div>
+  </div>
+  <p class="readout" id="readout" role="status" aria-live="polite">Select a row to see its numbers.</p>
+  <p class="small muted">Bars count uploaded people. Google counts matched people, which are fewer. The estimate is shown only for Audiences 4 and 6: the two that hold people and report a Google match rate.</p>
+  <details class="more"><summary>Table: the 11 audiences</summary>
+    <div class="tablewrap" tabindex="0" role="region" aria-label="Table of the 11 audiences"><table id="atable"></table></div>
+    <p class="small muted">“AWAITING_GOOGLE_JOB_COMPLETION” is not stuck. Google already reports all of those upload jobs as SUCCESS; our store can lag by up to a day. The sync runs once a day (about 02:15–02:55 UTC) and Google’s numbers are re-read about once a day. Audiences 1–6 are the older ones; Audiences 7–11 were created 5–7 Oct. One person can be in several audiences: 1,714 is a count of memberships.</p>
+  </details>
+  <p class="hood"><b>Under the hood</b><span class="tag">DB</span>Rows read from production on 15 Oct 2026 at about 12:10 UTC: 7 audiences hold people, with 1,714 uploaded memberships. 5,304 distinct people were ever sent (10,338 person-audience pairs: 1,714 added now, 8,624 removed). <span class="tag">API</span>Match rates and sizes read live. <span class="tag">DB</span><span class="tag">API</span>Estimated matched = uploaded now × Google match rate: 268 × 5% ≈ 13 and 738 × 9% ≈ 66. Google never says which people matched. Even all 1,714 memberships at 5–9% would give roughly 85–155 matched, still far below 500 (illustration, simple multiplication).</p>
+</section>
+
+<!-- ============ 4. FLEET ============ -->
+<section id="fleet" aria-labelledby="h-fleet">
+  <h2 id="h-fleet">How does this account compare?</h2>
+  <p class="lead"><b>This account’s match rate is at the low end.</b> Across about 130 audiences that report a Google match rate, the average is about 27% and the highest is 62%. The six audiences here sit at 3–9%.</p>
+  <h3>Google-reported match rate, audiences across all accounts</h3>
+  <ul class="frows" id="frows"></ul>
+  <p class="small muted">Each bar counts audiences. Blue bars hold this account’s six audiences.</p>
+  <div class="pair">
+    <div class="mini"><b>100</b><span>The smallest non-zero number Google ever returned for the size. Nothing between 1 and 99 ever appeared.</span></div>
+    <div class="mini"><b>143 of 143</b><span>ID-based audiences report that they are not eligible for Display, even ones with 20,000+ members. A Display size of 0 is expected for this kind of list.</span></div>
+  </div>
+  <h3>What bucket Google reported, against the number it returned</h3>
+  <div class="tablewrap" tabindex="0" role="region" aria-label="Bucket reported against numeric size seen"><table>
+    <tr><th>Bucket Google reported</th><th>Numbers seen (search size)</th><th class="num">Audiences</th></tr>
+    <tr><td>Under 500</td><td>0–400 (about 3 in 4 of these are exactly 0)</td><td class="num">81</td></tr>
+    <tr><td>500 to 1,000</td><td>500–900</td><td class="num">11</td></tr>
+    <tr><td>1,000 to 10,000</td><td>1,000–9,800</td><td class="num">43</td></tr>
+    <tr><td>10,000 to 50,000</td><td>10,000–38,000</td><td class="num">8</td></tr>
+    <tr><td>No bucket stored</td><td>—</td><td class="num">12</td></tr>
+  </table></div>
+  <p class="small muted">So the number is not always exactly 0 below 500: Google sometimes returns 100–400 inside the Under-500 bucket. The product source comment says Google hides sizes under about 500, which is roughly right but not exact.</p>
+  <h3>Audiences where Google returned a non-zero number, by people uploaded</h3>
+  <ul class="cmp" id="cmpUploads"></ul>
+  <p class="small muted">This account’s audiences hold 0 to 738 uploaded people today.</p>
+  <p class="hood"><b>Under the hood</b><span class="tag">FLEET</span>Aggregate over about 150 live audience syncs across all accounts; no account is named. The match-rate bands (0%: 1, 1–5%: 15, 6–10%: 9, 11–20%: 22, 21–50%: 75, above 50%: 11), the bucket counts and the number ranges are read from that set. Display size is structurally 0 for ID-based lists: all 143 ID-based audiences report eligibleForDisplay = false.</p>
+</section>
+
+<!-- ============ 5. CALCULATOR ============ -->
+<section id="calc" aria-labelledby="h-calc">
+  <h2 id="h-calc">What would it take?</h2>
+  <p class="lead"><span class="pill est">Illustration</span> Simple multiplication, not a forecast. Move the sliders or pick a preset to see what Google would show for one audience.</p>
+  <div class="card calc">
+    <div>
+      <div class="ctrl">
+        <label for="upNum">People uploaded in one audience</label>
+        <div class="ctl-row"><input id="upRange" type="range" min="100" max="20000" step="50" value="1714" aria-label="People uploaded in one audience (slider)"><input id="upNum" class="numin" type="number" min="100" max="20000" step="1" value="1714" aria-label="People uploaded in one audience (exact number)"></div>
+      </div>
+      <div class="ctrl">
+        <label for="rtNum">Google match rate, %</label>
+        <div class="ctl-row"><input id="rtRange" type="range" min="1" max="60" step="1" value="7" aria-label="Google match rate percent (slider)"><input id="rtNum" class="numin" type="number" min="1" max="60" step="1" value="7" aria-label="Google match rate percent (exact number)"></div>
+      </div>
+      <div class="presets" id="presets" role="group" aria-label="Presets"></div>
+      <p class="small muted" style="margin-top:14px">Today’s 1,714 counts memberships. One person can sit in several audiences, so a merged list could hold fewer people. The overlap is unknown. The “refilled” preset adds back up to about 1,060 distinct visitor IDs from the four empty audiences, before overlap; consent is still the limiter.</p>
+    </div>
+    <div class="out">
+      <div class="line"><span class="k">Expected matched people</span><span class="v" id="cMatched">120</span><span class="work" id="cWork">1,714 × 7% = 120</span></div>
+      <div class="line"><span class="k">Google would show:</span><span class="v big" id="cShown">120</span></div>
+      <div class="line"><span class="k">Size bucket</span><span class="v"><span class="pill pri" id="cBucket">Under 500</span></span></div>
+      <p class="status ok" id="cStatus">At or above Google’s documented minimum of 100 active users</p>
+      <div class="meter" id="meter" role="img" aria-label=""><span class="fill" id="mFill"></span><span class="mk m1" id="mk100"><span>100</span></span><span class="mk m5" id="mk500"><span>500</span></span></div>
+      <div class="need">
+        <div class="mini"><span>People needed for 100 matched, at this rate</span><b id="cNeed100">≈ 1,430</b></div>
+        <div class="mini"><span>People needed for 500 matched, at this rate</span><b id="cNeed500">≈ 7,140</b></div>
+      </div>
+      <p class="sr" id="calcSummary" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+  <p class="hood"><b>Under the hood</b><span class="tag">DOCS</span>Google’s rule: a list size shows as zero until the list has at least 100 members, then it is rounded to the two most significant digits. The bucket is picked from the number Google would show. <span class="tag">FLEET</span>The typical match rate (about 27%) is the average across audiences that report one. <span class="tag">DB</span>1,714 is today’s total of uploaded memberships; 11,372 is the number of distinct visitor IDs this site produced in the last 30 days (all visitors, not only target accounts); about 2,770 adds back up to about 1,060 distinct visitor IDs that the four empty audiences held on 5 Oct (before overlap between audiences; consent is still the limiter).</p>
+</section>
+
+<!-- ============ 6. WHAT CAN BE DONE ============ -->
+<section id="actions" aria-labelledby="h-actions">
+  <h2 id="h-actions">What can be done</h2>
+  <p class="lead">The target is about 100 matched active people in one list. 500 is not the target. Effort and impact below are our judgement, not measurements.</p>
+  <div class="note"><b>From Google’s documentation:</b> a list shows a number from 100 members, and can serve from 100 active matched users in the last 30 days (for lists uploaded after 1 Feb 2024). The two audiences we can estimate hold about 13 and 66 matched people.</div>
+
+  <details class="lever" open>
+    <summary><span class="lv-n">1</span><span class="lv-t">Merge the small audiences into one ID-based audience</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="lv-tags"><span class="tg"><i>Who:</i> Factors</span><span class="tg"><i>Effort:</i> Low</span><span class="tg"><i>Impact:</i> could reach Google’s line, not guaranteed</span></span></summary>
+    <div class="lv-body">
+      <p>Google applies its 100 rule to each list on its own. Today the people are spread over 7 lists that hold 1,714 uploaded memberships in total (one person can be in several lists; the overlap is unknown). At today’s 5–9% match rate, one merged list would hold roughly 85–155 matched people: right at the line. It is cheap to try and not guaranteed.</p>
+      <p><span class="pill est">Illustration</span> 1,714 × 5% ≈ 86 and 1,714 × 9% ≈ 154.</p>
+      <p class="hood"><b>Under the hood</b><span class="tag">DB</span><span class="tag">API</span>uploaded memberships and match rates as read on 15 Oct 2026.</p>
+    </div>
+  </details>
+
+  <details class="lever" open>
+    <summary><span class="lv-n">2</span><span class="lv-t">Let the visitor ID reach Google when someone accepts cookies</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="lv-tags"><span class="tg"><i>Who:</i> the site owner, with Factors guidance</span><span class="tg"><i>Effort:</i> Medium, needs a legal decision</span><span class="tg"><i>Impact:</i> the biggest long-term lever</span></span></summary>
+    <div class="lv-body">
+      <ul>
+        <li>When a visitor accepts, update Google’s consent signal (Consent Mode v2 “update”) so the Google tag may send the user id.</li>
+        <li>Let the Factors visitor-ID cookie survive the cookie banner (classify it as allowed, under the site owner’s own legal policy).</li>
+        <li>Make sure the consent defaults and updates run before the Factors tag and the Google tag.</li>
+      </ul>
+      <p>Effect: the match rate should move from 3–9% toward the typical level (the average across accounts is about 27%). That is an illustration, not a promise. Cookie settings are a decision for the site owner’s legal and compliance team.</p>
+      <p class="hood"><b>Under the hood</b><span class="tag">FIELD</span>what the browser test saw on this site. <span class="tag">FLEET</span>the 27% average.</p>
+    </div>
+  </details>
+
+  <details class="lever">
+    <summary><span class="lv-n">3</span><span class="lv-t">Set the Hot threshold where accounts can reach it, then refill the four audiences</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="lv-tags"><span class="tg"><i>Who:</i> Factors, with this account’s team</span><span class="tg"><i>Effort:</i> Low to medium</span><span class="tg"><i>Impact:</i> refills four empty lists</span></span></summary>
+    <div class="lv-body">
+      <p><span class="pill warn">Likely fix, untested</span> Set the Warm and Hot thresholds to scores that accounts actually reach under the new scoring rules, or go back to percentile-based thresholds. Hot accounts should then reappear after the next scoring run (every 3–5 days), and the four audiences refill at the nightly sync after that.</p>
+      <p>An empty audience can never show a size. The cause is explained in <a href="#empty">Why four audiences are empty</a>.</p>
+    </div>
+  </details>
+
+  <details class="lever">
+    <summary><span class="lv-n">4</span><span class="lv-t">Broaden the audience</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="lv-tags"><span class="tg"><i>Who:</i> this account’s team, with Factors</span><span class="tg"><i>Effort:</i> Medium</span><span class="tg"><i>Impact:</i> works only if it adds enough people</span></span></summary>
+    <div class="lv-body">
+      <p>Add more accounts, or all identified visitors. People needed in ONE list for 100 matched people: about 1,430 at a 7% match rate, and about 370 at the average 27%. For 500 matched: about 7,140 at 7%, and about 1,850 at 27%.</p>
+      <p>This site produced 11,372 distinct visitor IDs in the last 30 days (all visitors, not only target accounts).</p>
+      <p><span class="pill est">Illustration</span> simple multiplication. Try it in the calculator above.</p>
+    </div>
+  </details>
+
+  <details class="lever">
+    <summary><span class="lv-n">5</span><span class="lv-t">Add a contact-based (hashed email) audience next to the ID-based one</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="lv-tags"><span class="tg"><i>Who:</i> Factors can discuss adding it; this account’s team</span><span class="tg"><i>Effort:</i> Higher</span><span class="tg"><i>Impact:</i> unknown, worth discussing</span></span></summary>
+    <div class="lv-body">
+      <p>Google says Workspace and corporate accounts can’t be targeted, so this kind of list matches mainly personal Google accounts.</p>
+      <p>Other lists in this Google Ads account, built from the account’s own hashed emails, report upload match ranges of 91–100% on 65 of the 77 upload jobs that report a range. That is different data and a different method, so we cannot promise the same for target-account contacts. If you can upload your own contact lists, that is worth discussing.</p>
+      <p>Factors uploads IDs only today. Factors can discuss adding contact uploads.</p>
+      <p class="hood"><b>Under the hood</b><span class="tag">API</span><span class="tag">DOCS</span><span class="tag">CODE</span></p>
+    </div>
+  </details>
+
+  <details class="lever">
+    <summary><span class="lv-n">6</span><span class="lv-t">Don’t judge a list by its size while it is small</span><svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="lv-tags"><span class="tg"><i>Who:</i> everyone</span><span class="tg"><i>Effort:</i> none</span><span class="tg"><i>Impact:</i> fewer false alarms</span></span></summary>
+    <div class="lv-body">
+      <p>Use three things instead: the upload job status (all SUCCESS today), Google’s match rate, and whether the list is non-empty.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============ 7. WHY FOUR AUDIENCES ARE EMPTY ============ -->
+<section id="empty" aria-labelledby="h-empty">
+  <h2 id="h-empty">Why four audiences are empty</h2>
+  <p class="lead"><b>A settings effect, not an outage.</b> Audiences 1, 2, 3 and 5 are built on the engagement level “Hot” (Audience 2 on “Hot or Warm”). Hot needs 60 points, and the highest score any account has today is 30. So these segments match no accounts, and the nightly sync removed everyone from the four Google lists.</p>
+  <p>This is specific to this account’s setup, not a platform-wide change.</p>
+  <div class="card">
+    <h3 style="margin-top:0">Illustration of the current setup <span class="pill est">Illustration</span></h3>
+    <p class="small muted" style="margin-top:0">Account score, 0 to 70. Engagement levels use fixed scores: Ice 0–10, Cool 10–30, Warm 30–60, Hot 60 and above.</p>
+    <div class="ruler" id="ruler" role="img" aria-label="Score ruler from 0 to 70. Ice is 0 to 10, Cool is 10 to 30, Warm is 30 to 60, Hot is 60 and above. The highest score any account has today is 30. Hot starts at 60.">
+      <div class="rbar">
+        <span class="rseg none" style="width:14.286%">Ice<span class="rng"> 0–10</span></span>
+        <span class="rseg cool" style="width:28.571%">Cool<span class="rng"> 10–30</span></span>
+        <span class="rseg warm" style="width:42.857%">Warm<span class="rng"> 30–60</span></span>
+        <span class="rseg hot" style="width:14.286%">Hot<span class="rng"> 60+</span></span>
+      </div>
+      <span class="rmark hot"><span class="lb">Hot starts at 60</span></span>
+      <span class="rmark today"><span class="lb">Highest score today: 30</span></span>
+      <div class="rticks"><span style="left:0">0</span><span style="left:14.286%">10</span><span style="left:42.857%">30</span><span style="left:85.714%">60</span><span style="left:100%">70</span></div>
+    </div>
+    <p><b>Score spread today:</b> nearly all scored accounts are at 0 (18,347 of 19,280). 441 accounts are at 10, 267 are at 20, and 1 is at 30, the highest.</p>
+    <details class="more"><summary>All 10 scores that exist today</summary>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Score spread table"><table style="min-width:320px"><tr><th>Score</th><th class="num">Accounts</th></tr>
+        <tr><td>30</td><td class="num">1</td></tr><tr><td>21</td><td class="num">1</td></tr><tr><td>20</td><td class="num">267</td></tr><tr><td>19</td><td class="num">91</td></tr><tr><td>18</td><td class="num">27</td></tr><tr><td>10</td><td class="num">441</td></tr><tr><td>9</td><td class="num">100</td></tr><tr><td>8</td><td class="num">1</td></tr><tr><td>7</td><td class="num">4</td></tr><tr><td>0</td><td class="num">18,347</td></tr></table></div>
+    </details>
+    <div class="facts">
+      <div class="mini"><b>0</b><span>accounts rated Hot today</span></div>
+      <div class="mini"><b>1</b><span>account rated Warm today</span></div>
+      <div class="mini"><b>827</b><span>accounts rated Cool today</span></div>
+      <div class="mini"><b>18,452</b><span>accounts rated Ice today (19,280 accounts have a level)</span></div>
+    </div>
+    <p>Under the new rules, reaching 60 takes at least two high-intent actions inside the scoring window (for example a contact-us style visit plus a pricing visit). The maximum possible total across all rules is 330.</p>
+    <h3>What happened, in order</h3>
+    <ol class="tl">
+      <li><b>2 Oct</b>The account-scoring rules were replaced (12 new capped rules). The level thresholds changed from percentile-based to fixed scores.</li>
+      <li><b>5 Oct</b>The four audiences still held up to about 1,060 distinct visitor IDs.</li>
+      <li><b>7 Oct</b>The first scoring run on the new setup.</li>
+      <li><b>9 Oct</b>The big drop in the four lists.</li>
+      <li><b>12–14 Oct</b>The rest were removed.</li>
+    </ol>
+    <div class="note good"><b>What did not change.</b> The other 7 audiences do not use engagement level and are populated normally (7 to 1,232 accounts each). No segment was edited or deleted. The sync is healthy (no errors) and the scoring job ran on 15 Oct.</div>
+    <div class="note warn"><b>Likely fix (untested).</b> Set the Warm and Hot thresholds to scores that accounts actually reach under the new rules, or go back to percentile-based thresholds. Hot accounts should then reappear after the next scoring run (every 3–5 days), and the audiences refill at the nightly sync after that.</div>
+    <p class="hood"><b>Under the hood</b><span class="tag">DB</span><span class="tag">CODE</span>Segment definitions, account levels, scores and scoring settings, read from production on 15 Oct 2026; levels were computed on 15 Oct between 03:46 and 03:47 UTC. Before 2 Oct the old uncapped rules produced scores up to about 220,000. The fixed-score thresholds are the active ones; the percentile ones are stored but ignored. On 5 Oct the four audiences held 1,690 audience slots, which is up to about 1,060 distinct visitor IDs because Audience 1 sits entirely inside Audience 2. “Up to” because a few may have been added after 5 Oct and removed later. A check of about 445 other projects showed no platform-wide scoring shift. The data does not record who made the change, so this page does not say. <span class="pill est">Estimate</span> With the four audiences refilled (up to about 1,060 IDs) and merged with today’s 1,714 memberships, one list would hold about 2,770 uploaded IDs, before overlap. At a 7% match rate that is about 194 matched people, and Google would show 190. That is above Google’s floor of 100; consent is still the limiter.</p>
+  </div>
+</section>
+
+<!-- ============ 8. HOW SURE ============ -->
+<section id="sure" aria-labelledby="h-sure">
+  <h2 id="h-sure">How sure are we</h2>
+  <div class="cols">
+    <div class="card yes"><h3 style="margin-top:0">Verified</h3>
+      <ul>
+        <li>Live API values for all 11 audiences.</li>
+        <li>Our stored copy equals the live API.</li>
+        <li>All upload jobs finished SUCCESS.</li>
+        <li>Product behaviour, read from the source code.</li>
+        <li>The sheet’s “Under 500” is a typed label of the stored bucket.</li>
+        <li>On this site, in a clean browser, consent is denied by default.</li>
+        <li>Why four audiences are empty: Hot needs 60 points, and the highest score any account has today is 30.</li>
+      </ul></div>
+    <div class="card no"><h3 style="margin-top:0">Not verified</h3>
+      <ul>
+        <li>What the Google Ads screen shows for this account. We have no access and rely on the report of 0.</li>
+        <li>What the Factors screen shows for this exact project. It needs the account’s own login, so we derived it from the code and stored values.</li>
+        <li>Whether a visitor who clicks “Accept all” really reaches Google on this site.</li>
+        <li>The acceptance rate.</li>
+        <li>The tag-manager setup on this site.</li>
+        <li>That the likely fix refills the four audiences (untested).</li>
+        <li>Which individual people Google matched. The API never says.</li>
+      </ul></div>
+  </div>
+
+  <h3>What Google’s documentation says</h3>
+  <div class="card">
+    <blockquote>“For privacy purposes, the user list size shows as zero until the list has at least 100 members. After that, the size is rounded to the two most significant digits.”<br><span class="small muted">Google Ads API, Customer Match guide</span></blockquote>
+    <ul>
+      <li><b>Serving minimum.</b> Search, Display and YouTube each need at least 100 active users in the last 30 days. Customer lists have the same eligibility. The 100 applies to lists uploaded or refreshed after 1 Feb 2024; older lists still needed 1,000 matched users. Google recommends uploading 5,000+ members for the best chance of enough matches.</li>
+      <li><b>Buckets.</b> LESS_THAN_FIVE_HUNDRED means “under 500 users”. The next is 500 to 1,000, then 1,000 to 10,000, and so on. There is no “under 100” bucket.</li>
+      <li><b>Screen against API.</b> The API guide says a list “could appear smaller than expected” in the Google Ads Audience Manager, because that view shows the number of active users. Google does not document the exact label its screen shows for tiny lists.</li>
+      <li><b>Timing.</b> List population can take up to 24 hours (API guide); the Help Center says matching can take up to 48 hours. These audiences are refreshed daily and the API returns definite values, so timing is not the cause here.</li>
+      <li><b>Matching.</b> Contact lists match hashed email or phone against Google accounts; Workspace and corporate accounts can’t be targeted. For ID-based lists, Google’s public pages describe the ID as advertiser-assigned and do not spell out how it is matched. “The ID must have reached Google through the website’s Google tag” is the design the Factors integration relies on, and what the browser test showed. It is not a documented Google statement.</li>
+    </ul>
+    <p class="hood"><b>Sources</b></p>
+    <ul class="srclist">
+      <li><a href="https://developers.google.com/google-ads/api/reference/rpc/v22/UserList" rel="noopener" target="_blank">https://developers.google.com/google-ads/api/reference/rpc/v22/UserList</a></li>
+      <li><a href="https://developers.google.com/google-ads/api/reference/rpc/v22/UserListSizeRangeEnum.UserListSizeRange" rel="noopener" target="_blank">https://developers.google.com/google-ads/api/reference/rpc/v22/UserListSizeRangeEnum.UserListSizeRange</a></li>
+      <li><a href="https://developers.google.com/google-ads/api/docs/remarketing/audience-segments/customer-match/get-started" rel="noopener" target="_blank">https://developers.google.com/google-ads/api/docs/remarketing/audience-segments/customer-match/get-started</a></li>
+      <li><a href="https://support.google.com/google-ads/answer/2472738" rel="noopener" target="_blank">https://support.google.com/google-ads/answer/2472738</a></li>
+      <li><a href="https://support.google.com/google-ads/answer/7474166" rel="noopener" target="_blank">https://support.google.com/google-ads/answer/7474166</a></li>
+      <li><a href="https://support.google.com/google-ads/answer/7474263" rel="noopener" target="_blank">https://support.google.com/google-ads/answer/7474263</a></li>
+    </ul>
+  </div>
+
+  <details class="gl"><summary>Glossary</summary>
+    <dl>
+      <dt>Audience</dt><dd>A list of people that Factors sends to Google Ads, built from a segment.</dd>
+      <dt>Segment</dt><dd>The rule in Factors that picks which accounts belong in an audience.</dd>
+      <dt>Matched audience size</dt><dd>How many of the uploaded people Google could match to a Google user. Google hides small numbers.</dd>
+      <dt>Size bucket / range</dt><dd>Google’s coarse label for the size: “less than 500”, “500 to 1,000”, “1,000 to 10,000” and so on.</dd>
+      <dt>Match rate</dt><dd>The share of uploaded IDs that Google matched.</dd>
+      <dt>ID-based (CRM_ID) list</dt><dd>We upload a Factors visitor ID, not an email. It matches only if the same ID reached Google from the website.</dd>
+      <dt>Consent banner / Consent Mode</dt><dd>The website’s cookie banner and Google’s consent signals. When consent is denied, Google ad features may not use the visitor’s data.</dd>
+      <dt>Active users</dt><dd>Matched people who were active in the last 30 days. Google’s serving minimum counts these.</dd>
+    </dl>
+  </details>
+
+  <footer class="foot">Prepared 15 Oct 2026 from a live Google Ads API read, a read-only production data read, the product source, a browser test of this site, and Google’s documentation.</footer>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var fmt=function(n){return Number(n).toLocaleString('en-US')};
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+
+/* ---------- theme ---------- */
+var root=document.documentElement, tbtn=$('#themeBtn');
+function effective(){var t=root.getAttribute('data-theme');if(t)return t;return (window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'}
+function paintBtn(){tbtn.setAttribute('aria-pressed',String(effective()==='dark'))}
+tbtn.addEventListener('click',function(){var n=effective()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('gas-theme',n)}catch(e){}paintBtn()});
+try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',paintBtn)}catch(e){}
+paintBtn();
+
+/* ---------- data (single source for chart, table, mocks) ---------- */
+var AUD=[
+ {n:1,st:'ACTIVE',acc:0,up:0,rem:1890,rate:8,snap:488},
+ {n:2,st:'ACTIVE',acc:0,up:0,rem:2245,rate:8,snap:628},
+ {n:3,st:'ACTIVE',acc:0,up:0,rem:446,rate:3,snap:62},
+ {n:4,st:'AWAITING_GOOGLE_JOB_COMPLETION',acc:65,up:268,rem:526,rate:5,snap:278},
+ {n:5,st:'ACTIVE',acc:0,up:0,rem:1380,rate:3,snap:220},
+ {n:6,st:'AWAITING_GOOGLE_JOB_COMPLETION',acc:611,up:738,rem:1988,rate:9,snap:797},
+ {n:7,st:'AWAITING_GOOGLE_JOB_COMPLETION',acc:216,up:49,rem:14,rate:null,snap:null},
+ {n:8,st:'AWAITING_GOOGLE_JOB_COMPLETION',acc:845,up:281,rem:48,rate:null,snap:null},
+ {n:9,st:'ACTIVE',acc:15,up:2,rem:11,rate:null,snap:null},
+ {n:10,st:'AWAITING_GOOGLE_JOB_COMPLETION',acc:1232,up:296,rem:75,rate:null,snap:null},
+ {n:11,st:'ACTIVE',acc:7,up:80,rem:1,rate:null,snap:null}
+];
+var EMPTY_TXT='empty since 9–14 Oct (Hot needs 60 points; the highest score today is 30)';
+var TIP='Google reports a bucketed range until the audience has 500+ matched users.';
+function isEmpty(a){return a.up===0}
+function estN(a){return (a.rate!=null&&a.rate>0&&a.up>0)?Math.max(1,Math.round(a.up*a.rate/100)):null}
+function factorsLabel(a){var e=estN(a);return '< 500 matched users'+(e!=null?' (~'+e+')':'')}
+
+/* ---------- section: three screens ---------- */
+var chips=$('#chips');
+AUD.forEach(function(a){
+  var b=document.createElement('button');b.type='button';b.className='chip'+(isEmpty(a)?' is-empty':'');b.setAttribute('data-n',a.n);
+  b.textContent='Audience '+a.n;b.setAttribute('aria-pressed','false');
+  if(isEmpty(a))b.setAttribute('aria-label','Audience '+a.n+', empty');
+  b.addEventListener('click',function(){selAud(a.n)});chips.appendChild(b);
+});
+function selAud(n){
+  var a=AUD[n-1];
+  $$('.chip').forEach(function(b){b.setAttribute('aria-pressed',String(+b.getAttribute('data-n')===n))});
+  $('#apiTitle').textContent='Audience '+n;
+  function r(k,v,h){return '<div class="r"><dt>'+k+'</dt><dd'+(h?' class="hl"':'')+'>'+v+'</dd></div>'}
+  $('#apiFields').innerHTML=r('sizeForDisplay','"0"',1)+r('sizeForSearch','"0"',1)+r('sizeRangeForDisplay','"LESS_THAN_FIVE_HUNDRED"',1)+r('sizeRangeForSearch','"LESS_THAN_FIVE_HUNDRED"',1)+
+    r('matchRatePercentage',a.rate==null?'<span class="na">(not returned)</span>':String(a.rate))+r('eligibleForSearch','true')+r('eligibleForDisplay','false');
+  $('#scrGads').innerHTML='<div class="mock-bar"><span>Google Ads · Audience manager</span><span class="pill info">Reported</span></div><div class="mock-body"><div class="mk-label">Audience '+n+' · list size</div><div class="mk-big" id="gadsNum">0</div><p class="small muted" style="margin:0">Illustration of the number reported to us.</p></div>';
+  var e=estN(a),work;
+  if(e!=null)work=a.up+' × '+a.rate+'% ≈ '+e+'  (uploaded × Google match rate)';
+  else if(a.up===0)work='No “(~N)” added: no people are uploaded now.';
+  else work='No “(~N)” added: Google returned no match rate.';
+  $('#scrFapp').innerHTML='<div class="mock-bar"><span>Factors · Audience '+n+'</span><span class="pill ok">Ready</span></div><div class="mock-body"><dl class="mk-rows">'+
+    (a.rate!=null?'<div><dt>Match rate</dt><dd>'+a.rate+'%</dd></div>':'')+
+    '<div><dt>Audience size</dt><dd id="fLabel">'+esc(factorsLabel(a))+'</dd></div></dl>'+
+    '<p class="working" id="fWork">'+esc(work)+'</p><div class="tipbox"><b>Tooltip in the app</b>'+esc(TIP)+'</div></div>';
+  $('#fcap').textContent='“'+factorsLabel(a)+'”';
+  var sh='<div class="mock-bar"><span>Status sheet · 10 Sep snapshot</span><span class="pill info">Typed by hand</span></div><div class="mock-body" style="padding:0"><div class="sheet"><div class="h">Audience</div><div class="h">Uploaded</div><div class="h">Size</div>';
+  if(a.snap!=null)sh+='<div>Audience '+n+'</div><div>'+fmt(a.snap)+'</div><div class="hl">Under 500</div>';
+  else sh+='<div>Audience '+n+'</div><div class="span2">not in this snapshot: created 5–7 Oct</div>';
+  sh+='</div>'+(a.snap!=null&&a.snap>=500?'<p class="small muted" style="margin:10px 12px">Uploaded people ('+fmt(a.snap)+') are not matched people. The bucket counts matched people.</p>':'')+'</div>';
+  $('#scrSheet').innerHTML=sh;
+  var en=$('#emptyNote');
+  en.innerHTML=isEmpty(a)?'<b>This audience is empty</b> (its segment matches no accounts), but Google still returns its last match rate ('+a.rate+'%). An empty audience shows 0 in Google Ads for a plain reason: it is empty.':'<b>Empty audiences still show a match rate.</b> Google keeps returning its last match rate for an empty audience (for example 8%). An empty audience shows 0 in Google Ads for a plain reason: it is empty.';
+}
+selAud(6);
+
+/* ---------- section: 11 audiences chart + table ---------- */
+(function(){
+  var MAX=800,h='';
+  function readout(a){
+    var e=estN(a),t;
+    if(isEmpty(a))t='Audience '+a.n+': '+EMPTY_TXT+'. '+fmt(a.rem)+' people were removed over time. Google still reports its last match rate ('+a.rate+'%).';
+    else if(e!=null)t='Audience '+a.n+': '+fmt(a.up)+' uploaded now. Google match rate '+a.rate+'%, so about '+e+' matched ('+a.up+' × '+a.rate+'%, an estimate). Removed all-time: '+fmt(a.rem)+'.';
+    else t='Audience '+a.n+': '+fmt(a.up)+' uploaded now. Google reports no match rate yet, so there is no estimate. Removed all-time: '+fmt(a.rem)+'.';
+    return t;
+  }
+  AUD.forEach(function(a){
+    var e=estN(a),w=a.up/MAX*100,ew=e!=null?e/MAX*100:0;
+    h+='<li><button type="button" class="hrow'+(isEmpty(a)?' empty':'')+'" data-n="'+a.n+'" aria-pressed="false" aria-label="'+esc(readout(a))+'"><span class="hlab">Audience '+a.n+'</span><span class="htrack">'+
+      (a.up>0?'<span class="hbar" style="width:'+w+'%"></span>':'<span class="hempty">'+esc(EMPTY_TXT)+'</span>')+
+      (e!=null?'<span class="hbar m" style="width:'+ew+'%"></span>':'')+'</span><span class="hval">'+fmt(a.up)+(e!=null?'<small>≈'+e+' matched</small>':'')+'</span></button></li>';
+  });
+  $('#hlist').innerHTML=h;
+  $$('#hlist .hrow').forEach(function(b){
+    function go(){var a=AUD[+b.getAttribute('data-n')-1];$$('#hlist .hrow').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});$('#readout').textContent=readout(a)}
+    b.addEventListener('click',go);b.addEventListener('mouseenter',go);b.addEventListener('focus',go);
+  });
+  var t='<tr><th>Audience</th><th>Sync status</th><th class="num">Accounts in segment now</th><th class="num">Uploaded now</th><th class="num">Removed all-time</th><th class="num">Google match rate</th><th class="num">API size (search / display)</th><th>API bucket</th></tr>';
+  AUD.forEach(function(a){
+    t+='<tr><td>Audience '+a.n+(isEmpty(a)?' <span class="pill warn">empty</span>':'')+'</td><td class="st">'+a.st+'</td><td class="num">'+fmt(a.acc)+'</td><td class="num">'+fmt(a.up)+'</td><td class="num">'+fmt(a.rem)+'</td><td class="num">'+(a.rate==null?'not reported':a.rate+'%')+'</td><td class="num">0 / 0</td><td>Under 500</td></tr>';
+  });
+  t+='<tr><td><b>Total</b></td><td></td><td class="num"></td><td class="num"><b>1,714</b></td><td class="num"><b>8,624</b></td><td class="num"></td><td class="num"></td><td></td></tr>';
+  $('#atable').innerHTML=t;
+})();
+
+/* ---------- section: fleet ---------- */
+(function(){
+  var B=[{b:'0%',c:1},{b:'1–5%',c:15,cust:'This account: 3 audiences (3%, 3%, 5%)'},{b:'6–10%',c:9,cust:'This account: 3 audiences (8%, 8%, 9%)'},{b:'11–20%',c:22},{b:'21–50%',c:75,avg:'The average across audiences, about 27%, falls in this band'},{b:'51%+',c:11,max:'The highest is 62%'}];
+  var h='';B.forEach(function(x){
+    h+='<li class="frow'+(x.cust?' cust':'')+'"><span class="fband">'+x.b+'</span><span class="ftrack"><span class="fbar" style="width:'+(x.c/75*100)+'%"></span></span><span class="fcount">'+x.c+'</span>'+
+       ((x.cust||x.avg||x.max)?'<span class="fnote"><b>'+(x.cust||x.avg||x.max)+'</b></span>':'')+'</li>';
+  });
+  $('#frows').innerHTML=h;
+  var U=[{l:'1–99 uploaded',k:0,n:23},{l:'100–499 uploaded',k:8,n:31},{l:'1,000–4,999 uploaded',k:32,n:33}];
+  $('#cmpUploads').innerHTML=U.map(function(u){return '<li><span>'+u.l+'</span><span class="tr"><i style="width:'+(u.k/u.n*100)+'%"></i></span><span class="n">'+u.k+' of '+u.n+'</span></li>'}).join('');
+})();
+
+/* ---------- section: calculator ---------- */
+(function(){
+  var upR=$('#upRange'),upN=$('#upNum'),rtR=$('#rtRange'),rtN=$('#rtNum');
+  var S={up:1714,rate:7};
+  var P=[
+   {t:'Today, merged (1,714 @ 7%)',up:1714,rate:7},
+   {t:'Merged, with the four audiences refilled (about 2,770 @ 7%)',up:2770,rate:7},
+   {t:'Merged at the typical 27%',up:1714,rate:27},
+   {t:'All site visitors in 30 days (11,372) @ 7%',up:11372,rate:7},
+   {t:'All visitors @ 27%',up:11372,rate:27}
+  ];
+  function shows(m){if(m<100)return 0;var d=Math.floor(Math.log10(m))+1,p=Math.pow(10,d-2);return Math.round(m/p)*p}
+  function bucket(v){if(v<500)return 'Under 500';if(v<1000)return '500 to 1,000';if(v<10000)return '1,000 to 10,000';if(v<50000)return '10,000 to 50,000';return 'Over 50,000'}
+  function r10(x){return Math.round(x/10)*10}
+  var pw=$('#presets');
+  P.forEach(function(p,i){var b=document.createElement('button');b.type='button';b.className='btn';b.setAttribute('aria-pressed','false');b.setAttribute('data-i',i);b.textContent=p.t;
+    b.addEventListener('click',function(){S.up=p.up;S.rate=p.rate;sync(true)});pw.appendChild(b)});
+  function clamp(v,lo,hi){return Math.min(hi,Math.max(lo,v))}
+  function paint(){
+    var m=Math.round(S.up*S.rate/100),sh=shows(m),bk=bucket(sh);
+    $('#cMatched').textContent=fmt(m);
+    $('#cWork').textContent=fmt(S.up)+' × '+S.rate+'% = '+fmt(m);
+    $('#cShown').textContent=fmt(sh);
+    $('#cBucket').textContent=bk;
+    var ok=m>=100,st=$('#cStatus');
+    st.textContent=ok?'At or above Google’s documented minimum of 100 active users':'Below Google’s 100 minimum';
+    st.className='status '+(ok?'ok':'low');
+    $('#cNeed100').textContent='≈ '+fmt(r10(100/(S.rate/100)));
+    $('#cNeed500').textContent='≈ '+fmt(r10(500/(S.rate/100)));
+    var max=Math.max(600,m*1.1);
+    $('#mFill').style.width=(m/max*100)+'%';
+    $('#mk100').style.left=(100/max*100)+'%';$('#mk500').style.left=(500/max*100)+'%';
+    $('#meter').setAttribute('aria-label','Expected matched people: '+fmt(m)+'. Google shows a number from 100. The Under-500 bucket ends at 500.');
+    $('#calcSummary').textContent=fmt(S.up)+' people uploaded at a '+S.rate+'% match rate gives about '+fmt(m)+' matched people. Google would show '+fmt(sh)+', in the bucket '+bk+'.';
+    $$('#presets .btn').forEach(function(b){var p=P[+b.getAttribute('data-i')];b.setAttribute('aria-pressed',String(p.up===S.up&&p.rate===S.rate))});
+  }
+  function sync(setNums){
+    if(setNums){upN.value=S.up;rtN.value=S.rate}
+    upR.value=S.up;rtR.value=S.rate;paint();
+  }
+  upR.addEventListener('input',function(){S.up=+upR.value;upN.value=S.up;paint()});
+  rtR.addEventListener('input',function(){S.rate=+rtR.value;rtN.value=S.rate;paint()});
+  upN.addEventListener('input',function(){var v=parseInt(upN.value,10);if(isNaN(v))return;S.up=clamp(v,100,20000);upR.value=S.up;paint()});
+  rtN.addEventListener('input',function(){var v=parseInt(rtN.value,10);if(isNaN(v))return;S.rate=clamp(v,1,60);rtR.value=S.rate;paint()});
+  upN.addEventListener('change',function(){upN.value=S.up});rtN.addEventListener('change',function(){rtN.value=S.rate});
+  sync(true);
+})();
+
+/* ---------- nav: current section ---------- */
+(function(){
+  var links=$$('.topnav nav a'),map={};
+  links.forEach(function(a){var s=$(a.getAttribute('href'));if(s)map[a.getAttribute('href')]=s});
+  if(!('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){links.forEach(function(a){a.removeAttribute('aria-current')});
+      var l=links.filter(function(a){return map[a.getAttribute('href')]===e.target})[0];if(l)l.setAttribute('aria-current','true')}
+  })},{rootMargin:'-30% 0px -60% 0px'});
+  Object.keys(map).forEach(function(k){io.observe(map[k])});
+})();
+})();
+</script>
+</body>
+</html>
